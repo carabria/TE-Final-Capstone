@@ -65,10 +65,10 @@ namespace Capstone.Controllers
             }
 
             // If user has one time password, redirect
-            // if (user.hasOneTimePassword == True)
-            // {
-            // Todo redirect
-            // }
+             if (user.HasOneTimePassword)
+             {
+                return StatusCode(302);
+             }
             // If we found a user and the password hash matches
 
             if (user != null && passwordHasher.VerifyHashMatch(user.PasswordHash, userParam.Password, user.Salt))
@@ -102,12 +102,15 @@ namespace Capstone.Controllers
                 {
                     return Conflict(new { message = "Username already taken. Please choose a different username." });
                 }
+                if(userParam.ConfirmPassword != userParam.Password)
+                {
+                    return Conflict(new { message = "Passwords do not match, please verfiy that passwords match" });
+                }
             }
             catch (DaoException)
             {
                 return StatusCode(500, ErrorMessage);
             }
-
             // create new user
             User newUser;
             try
@@ -148,7 +151,7 @@ namespace Capstone.Controllers
         }
 
         [HttpPut("/changepassword")]
-        public IActionResult changePassword(ResetUser user)
+        public IActionResult changePassword(LoginUser user)
         {
             try
             {

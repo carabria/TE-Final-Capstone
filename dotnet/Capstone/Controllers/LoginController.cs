@@ -3,6 +3,8 @@ using Capstone.DAO;
 using Capstone.Exceptions;
 using Capstone.Models;
 using Capstone.Security;
+using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Capstone.Controllers
 {
@@ -53,7 +55,7 @@ namespace Capstone.Controllers
             User user;
             // Get the user by username
             try
-            { 
+            {
                 user = userDao.GetUserByUsername(userParam.Username);
             }
             catch (DaoException)
@@ -62,7 +64,13 @@ namespace Capstone.Controllers
                 return result;
             }
 
+            // If user has one time password, redirect
+            // if (user.hasOneTimePassword == True)
+            // {
+            // Todo redirect
+            // }
             // If we found a user and the password hash matches
+
             if (user != null && passwordHasher.VerifyHashMatch(user.PasswordHash, userParam.Password, user.Salt))
             {
                 // Create an authentication token
@@ -121,5 +129,28 @@ namespace Capstone.Controllers
 
             return result;
         }
+
+        [Authorize(Roles = "admin")]
+        [HttpPut("/admin/resetpassword/{id}")]
+        public IActionResult resetPassword(int id)
+        {
+            User user = userDao.GetUserById(id);
+            string oneTimePassword;
+            try
+            {
+                oneTimePassword = userDao.GenerateOneTimePassword(user.Username);
+            }
+            catch (DaoException)
+            {
+                return StatusCode(500, "An internal server error occured.");
+            }
+            return Created("/admin/resetpassword", oneTimePassword);
+        }
+
+        //[HttpPut("/changepassword")]
+        //public IActionResult changePassword(string password)
+        //{
+            
+        //}
     }
 }

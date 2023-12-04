@@ -7,6 +7,7 @@
         public string PasswordHash { get; set; }
         public string Salt { get; set; }
         public string Role { get; set; }
+        public bool HasOneTimePassword { get; set; }
     }
 
     /// <summary>
@@ -47,4 +48,15 @@
         public string ConfirmPassword { get; set; }
         public string Role { get; set; }
     }
+
+    /// <summary>
+    /// Model to accept a user that needs a password reset
+    /// </summary>
+    public class ResetUser
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public bool HasOneTimePassword { get; set; }
+    }
+
 }

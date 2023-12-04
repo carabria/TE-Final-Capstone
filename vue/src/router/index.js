@@ -6,6 +6,8 @@ import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/LoginView.vue';
 import LogoutView from '../views/LogoutView.vue';
 import RegisterView from '../views/RegisterView.vue';
+import AdminView from '../views/AdminView.vue'
+import OTPView from '../views/OTPView.vue'
 
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
@@ -46,6 +48,22 @@ const routes = [
     component: RegisterView,
     meta: {
       requiresAuth: false
+    }
+  },
+  {
+    path: "/admin",
+    name: "admin",
+    component: AdminView,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/admin/otp',
+    name: 'otp',
+    component: OTPView,
+    meta: {
+      requiresAuth: true
     }
   }
 ];

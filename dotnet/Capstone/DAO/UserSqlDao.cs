@@ -152,7 +152,7 @@ namespace Capstone.DAO
             IPasswordHasher passwordHasher = new PasswordHasher();
             PasswordHash hash = passwordHasher.ComputeHash(password);
             string sql = "UPDATE users " +
-             "SET (username = @username, password_hash = @password_hash, salt = @salt, has_one_time_password = 0) " +
+             "SET (password_hash = @password_hash, salt = @salt, has_one_time_password = 0) " +
              "WHERE username = @username";
 
             try
@@ -183,7 +183,7 @@ namespace Capstone.DAO
             PasswordHash hash = passwordHasher.ComputeHash(oneTimePassword);
 
             string sql = "UPDATE users " +
-             "SET password_hash = @password_hash, salt = @salt, has_one_time_password = 1 " +
+             "SET password_hash = @password_hash, salt = @salt, has_one_time_password = @onetimepass " +
              "WHERE username = @username";
 
             try
@@ -195,6 +195,9 @@ namespace Capstone.DAO
                     SqlCommand cmd = new SqlCommand(sql, conn);
                     cmd.Parameters.AddWithValue("@password_hash", hash.Password);
                     cmd.Parameters.AddWithValue("@salt", hash.Salt);
+                    cmd.Parameters.AddWithValue("@username", username);
+                    cmd.Parameters.AddWithValue("@onetimepass", true);
+                    cmd.ExecuteNonQuery();
                 }
             }
             catch (SqlException ex)

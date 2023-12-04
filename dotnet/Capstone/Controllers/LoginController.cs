@@ -147,10 +147,18 @@ namespace Capstone.Controllers
             return Created("/admin/resetpassword", oneTimePassword);
         }
 
-        //[HttpPut("/changepassword")]
-        //public IActionResult changePassword(string password)
-        //{
-            
-        //}
+        [HttpPut("/changepassword")]
+        public IActionResult changePassword(ResetUser user)
+        {
+            try
+            {
+                userDao.ChangePassword(user.Username, user.Password);
+            }
+            catch (DaoException)
+            {
+                return StatusCode(500, "An internal server error occured.");
+            }
+            return Created("/", userDao.GetUserByUsername(User.Identity.Name));
+        }
     }
 }

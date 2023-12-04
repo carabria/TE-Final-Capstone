@@ -8,7 +8,7 @@
             <th>User</th>
             <th>Role</th>
           </tr>
-          <tr v-for="(user, i) in getUsers" :key="i">
+          <tr v-for="(user, i) in getUsers(user.name)" :key="i">
             <th>{{ user.name  }}</th>
             <th>{{ user.role  }}</th>
           </tr>
@@ -22,19 +22,20 @@ export default {
   data() {
     return {
       user: {
-        id:0,
-        name:'',
-        hasOneTimePassword:'',
-        role:''
+        name: ''
       },
-      user_list: []
+      user_list: [],
     }
   },
   methods: {
-    getUsers() {
+    getUsers(input) {
       //Todo(anderson): This doesn't work
       //const list =
-      return UserService.users
+      user_list = UserService.users();
+      return user_list.filter(user =>{
+        user.name = input
+
+      })
     },
   },
   components: {

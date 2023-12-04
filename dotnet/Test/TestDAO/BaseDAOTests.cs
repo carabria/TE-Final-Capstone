@@ -16,18 +16,18 @@ namespace Capstone.TestDAO
         [AssemblyInitialize]
         public static void BeforeAllTests(TestContext context)
         {
-            string sql = File.ReadAllText("../database/createTestData.sql");
+            string sql = File.ReadAllText("./database/createTestData.sql");
             using (SqlConnection conn = new SqlConnection(AdminConnectionString))
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();
             }
-            sql = File.ReadAllText("../database/test_data.sql");
+            string sql2 = File.ReadAllText("./database/testData.sql");
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand(sql, conn);
+                SqlCommand cmd = new SqlCommand(sql2, conn);
                 SqlDataReader reader = cmd.ExecuteReader();
             }
         }
@@ -35,7 +35,7 @@ namespace Capstone.TestDAO
         public static void AfterAllTests()
         {
             // drop the temporary database
-            string sql = File.ReadAllText("../database/dropTestData.sql");
+            string sql = File.ReadAllText("./database/dropTestData.sql");
             using (SqlConnection conn = new SqlConnection(AdminConnectionString))
             {
                 conn.Open();

@@ -1,7 +1,7 @@
 using Capstone.DAO;
 using Capstone.Models;
 
-namespace Capstone.TestDAO
+namespace Test.TestDAO
 {
     [TestClass]
     public class UserDaoTests : BaseDaoTests
@@ -57,10 +57,11 @@ namespace Capstone.TestDAO
         }
 
         [TestMethod]
-        public void CreateUserIsNotNullUser()
+        public void CreateUserCreatedUserNotNull()
         {
-            User user = dao.CreateUser("username", "password", "user");
-            Assert.AreEqual("username", user.Username);
+            User newUser = dao.CreateUser("username", "password", "user");
+            User user = dao.GetUserByUsername("username");
+            AssertProperties(newUser, user);
         }
 
         [TestMethod]
@@ -101,6 +102,16 @@ namespace Capstone.TestDAO
             dao.GenerateOneTimePassword("user");
             User user = dao.GetUserByUsername("user");
             Assert.AreNotEqual("LHxP4Xh7bN0", user.Salt);
+        }
+
+        private void AssertProperties(User newUser, User user)
+        {
+            Assert.AreEqual(newUser.UserId, user.UserId);
+            Assert.AreEqual(newUser.Username, user.Username);
+            Assert.AreEqual(newUser.PasswordHash, user.PasswordHash);
+            Assert.AreEqual(newUser.Salt, user.Salt);
+            Assert.AreEqual(newUser.Role, user.Role);
+            Assert.AreEqual(newUser.HasOneTimePassword, user.HasOneTimePassword);
         }
     }
 }

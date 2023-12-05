@@ -6,8 +6,8 @@ namespace Capstone.TestDAO
     [TestClass]
     public class BaseDaoTests
     {
-        private const string AdminConnectionString = "Server=.\\SQLEXPRESS;Database=final_capstone;Trusted_Connection=True;";
-        protected const string connectionString = @"Server=.\\SQLEXPRESS;Database=test_capstone;Trusted_Connection=True;";
+        private const string AdminConnectionString = @"Server=.\SQLEXPRESS;Database=final_capstone;Trusted_Connection=True;";
+        protected const string connectionString = @"Server=.\SQLEXPRESS;Database=test_capstone;Trusted_Connection=True;";
         /// <summary>
         /// The transaction for each test.
         /// </summary>

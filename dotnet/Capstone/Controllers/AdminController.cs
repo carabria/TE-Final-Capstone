@@ -35,7 +35,7 @@ namespace Capstone.Controllers
             {
                 return StatusCode(500, "An internal server error occured.");
             }
-            return Created("/admin/resetpassword", oneTimePassword);
+            return Created("admin/resetpassword", oneTimePassword);
         }
        
         [HttpGet("users")]

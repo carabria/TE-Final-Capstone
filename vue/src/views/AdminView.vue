@@ -3,7 +3,7 @@
         <h2>Admin Tools</h2>
         <ul>
             <li>
-                <a href="#">Rest User Password</a>
+                <router-link v-bind:to="{ name: 'otp' }">OTP Password Reset</router-link>
             </li>
         </ul>
     </div>

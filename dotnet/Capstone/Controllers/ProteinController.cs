@@ -103,7 +103,7 @@ namespace Capstone.Controllers
             return Created($"/proteins/{protein.ProteinId}", protein);
         }
 
-        [HttpPut("/protens/update/{proteinId}")]
+        [HttpPut("/proteins/update/{proteinId}")]
         public ActionResult updateProtein(int proteinId, Protein proteinParam)
         {
             Protein protein = null;

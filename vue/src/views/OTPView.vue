@@ -9,7 +9,11 @@ import UserSearchComponent from '../components/UserSearchComponent.vue';
 
 export default {
     components: { UserSearchComponent },
-    data() {},
+    data() {
+        return {
+            user: {},
+        }
+    },
     methods: {
 
     }

@@ -1,15 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using Capstone.DAO;
 using Capstone.Exceptions;
 using Capstone.Models;
-using Capstone.Security;
-using System;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Capstone.Controllers
 {
     [Route("[Controller]")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserDao userDao;
@@ -32,5 +32,6 @@ namespace Capstone.Controllers
             }
             return Created("/", userDao.GetUserByUsername(User.Identity.Name));
         }
+
     }
 }

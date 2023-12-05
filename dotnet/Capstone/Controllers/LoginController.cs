@@ -132,36 +132,5 @@ namespace Capstone.Controllers
 
             return result;
         }
-
-        [Authorize(Roles = "admin")]
-        [HttpPut("/admin/resetpassword/{id}")]
-        public IActionResult resetPassword(int id)
-        {
-            User user = userDao.GetUserById(id);
-            string oneTimePassword;
-            try
-            {
-                oneTimePassword = userDao.GenerateOneTimePassword(user.Username);
-            }
-            catch (DaoException)
-            {
-                return StatusCode(500, "An internal server error occured.");
-            }
-            return Created("/admin/resetpassword", oneTimePassword);
-        }
-
-        [HttpPut("/changepassword")]
-        public IActionResult changePassword(LoginUser user)
-        {
-            try
-            {
-                userDao.ChangePassword(user.Username, user.Password);
-            }
-            catch (DaoException)
-            {
-                return StatusCode(500, "An internal server error occured.");
-            }
-            return Created("/", userDao.GetUserByUsername(User.Identity.Name));
-        }
     }
 }

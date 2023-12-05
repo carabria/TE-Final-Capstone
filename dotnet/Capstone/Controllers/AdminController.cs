@@ -4,6 +4,8 @@ using Capstone.Exceptions;
 using Capstone.Models;
 using Capstone.Security;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Capstone.Controllers
@@ -20,7 +22,7 @@ namespace Capstone.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpPut("/admin/resetpassword/{id}")]
+        [HttpPut("resetpassword/{id}")]
         public IActionResult resetPassword(int id)
         {
             User user = userDao.GetUserById(id);
@@ -34,6 +36,26 @@ namespace Capstone.Controllers
                 return StatusCode(500, "An internal server error occured.");
             }
             return Created("/admin/resetpassword", oneTimePassword);
+        }
+       
+        [HttpGet("users")]
+        public ActionResult<IList> GetUsers()
+        {
+            IList<ReturnUser> user_list = new List<ReturnUser>();
+
+            foreach (User user in userDao.GetUsers())
+            {
+                ReturnUser retUser = new ReturnUser()
+                {
+                    UserId = user.UserId,
+                    Username = user.Username,
+                    Role = user.Role,
+                };
+                
+                user_list.Add(retUser);
+            }
+
+            return Ok(user_list);
         }
     }
 }

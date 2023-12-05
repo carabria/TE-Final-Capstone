@@ -1,7 +1,7 @@
 using System.Data.SqlClient;
 using System.Transactions;
 
-namespace Capstone.TestDAO
+namespace Test.TestDAO
 {
     [TestClass]
     public class BaseDaoTests

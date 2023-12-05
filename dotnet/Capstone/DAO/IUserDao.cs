@@ -11,5 +11,7 @@ namespace Capstone.DAO
         User CreateUser(string username, string password, string role);
         void ChangePassword(string username, string password);
         string GenerateOneTimePassword(string username);
+
+        //TODO (Neil) delete user method
     }
 }

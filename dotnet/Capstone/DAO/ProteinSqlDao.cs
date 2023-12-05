@@ -211,6 +211,11 @@ namespace Capstone.DAO
 
         public bool DeleteProteinById(int proteinId)
         {
+            Protein protein = GetProteinById(proteinId);
+            if (protein == null)
+            {
+                return false;
+            }
             bool result = false;
             string sql = "DELETE FROM proteins " +
             "WHERE protein_id = @protein_id";

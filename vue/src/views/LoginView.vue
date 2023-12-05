@@ -1,6 +1,6 @@
 <template>
   <div id="login">
-    <form v-on:submit.prevent="login">
+    <form v-on:submit.prevent="login" id="loginForm">
       <h1 >Please Sign In</h1>
       <div role="alert" v-if="invalidCredentials">
         Invalid username and password!
@@ -8,17 +8,17 @@
       <div role="alert" v-if="this.$route.query.registration">
         Thank you for registering, please sign in.
       </div>
-      <div class="form-input-group">
+      <div class="form-input-group" id="login-username">
         <label for="username">Username</label>
         <input type="text" id="username" v-model="user.username" required autofocus />
       </div>
-      <div class="form-input-group">
+      <div class="form-input-group" id="login-password">
         <label for="password">Password</label>
         <input type="password" id="password" v-model="user.password" required />
       </div>
-      <button type="submit">Sign in</button>
+      <button type="submit" id="login-submit">Sign in</button>
       <p>
-      <router-link v-bind:to="{ name: 'register' }">Need an account? Sign up.</router-link></p>
+      <router-link v-bind:to="{ name: 'register' }" id="login-register">Need an account? Sign up.</router-link></p>
     </form>
   </div>
 </template>

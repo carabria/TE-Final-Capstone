@@ -20,7 +20,7 @@ namespace Capstone.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpPut("/admin/resetpassword/{id}")]
+        [HttpPut("/resetpassword/{id}")]
         public IActionResult resetPassword(int id)
         {
             User user = userDao.GetUserById(id);

@@ -48,7 +48,7 @@ input{
 }
 #username{
   margin: auto;
-  width: 85%;
+  width: auto;
   grid-area: username;
 }
 #username-label{
@@ -65,7 +65,7 @@ input{
 }
 #password{
   margin: auto;
-  width: 85%;
+  width: auto;
   grid-area: password;
 }
 #password-label{
@@ -82,10 +82,12 @@ input{
 }
 
 #login-alert-invalid {
+  margin: auto;
   grid-area: login-alert-invalid;
 }
 
 #login-alert-success {
+  margin: auto;
   grid-area: login-alert-success;
 }
 

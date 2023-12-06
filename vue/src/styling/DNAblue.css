@@ -14,8 +14,9 @@ body{
     font-family: "Playfair Display";
     font-weight: 400;
 }
-div{
-    display: contents;
+.spacer{
+  color: rgb(71,95,123);
+  display: inline;
 }
 a{
   color:#fc7667
@@ -23,8 +24,14 @@ a{
 h1{
   font-weight: 400;
 }
-nav{
-  display: grid;
+#nav{
+  width: fit-content;
+  background-color: aliceblue;
+  border-radius: 2.5vh;
+  border-color: rgb(71,95,123);;
+}
+.navItem{
+  display: inline;
 }
 label{
   font-size:x-large;
@@ -72,6 +79,7 @@ input{
   grid-area: password-label;
 }
 #login-submit {
+  border-radius: 2.5vh;
   grid-area: login-submit;
   width: 50%;
   margin: auto;
@@ -82,12 +90,13 @@ input{
 }
 
 #login-alert-invalid {
-  margin: auto;
+  
+  text-align: center;
   grid-area: login-alert-invalid;
 }
 
 #login-alert-success {
-  margin: auto;
+  text-align: center;
   grid-area: login-alert-success;
 }
 
@@ -111,11 +120,13 @@ grid-template-areas:
 "login-register login-register login-register login-register login-register "
 }
 #login{
+  height: fit-content;
+  width: fit-content;
   margin-top: 10vh;
   margin-left: auto;
   margin-right: auto;
   width: 30%;
-  color:  rgb(71,95,123);;
+  color:rgb(71,95,123);
   border-radius: 2.5vh;
   background-color: aliceblue;
   border-color: rgb(71,95,123);
@@ -129,4 +140,47 @@ grid-template-areas:
   align-items: center;
   grid-template-areas:
   "login-form"
+}
+#password_change{
+  height: fit-content;
+  width: fit-content;
+  background-color: aliceblue;
+  color: rgb(71,95,123);
+}
+#password_change_form{
+  display: grid;
+}
+#newPasswrord{
+  grid-area: newPassword;
+}
+#newPassword_Label{
+  grid-area: newPassword_Label;
+}
+#newPassword_Div{
+  display: grid;
+  grid-area: newPassword_Div;
+}
+#oldPasswrord{
+  grid-area: oldPassword;
+}
+#oldPassword_Label{
+  grid-area: oldPassword_Label;
+}
+#oldPassword_Div{
+grid-area: oldPassword_Div;
+}
+#confirmPasswrord{
+  grid-area: confirmPassword;
+}
+#confirmPassword_Label{
+  grid-area: confirmPassword_Label;
+}
+#confirmPassword_Div{
+  grid-area: confirmPassword_Div;
+}
+#user-links{
+  border-radius: 2.5vh;
+  margin: auto;
+  width: fit-content;
+  background-color: aliceblue;
 }

@@ -2,6 +2,7 @@ import { createRouter as createRouter, createWebHistory } from 'vue-router'
 import { useStore } from 'vuex'
 
 // Import components
+import UserView from '../views/UserView.vue';
 import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/LoginView.vue';
 import LogoutView from '../views/LogoutView.vue';
@@ -63,6 +64,14 @@ const routes = [
     path: '/admin/otp',
     name: 'otp',
     component: OTPView,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/user',
+    name: 'user',
+    component: UserView,
     meta: {
       requiresAuth: true
     }

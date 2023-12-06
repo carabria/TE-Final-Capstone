@@ -1,5 +1,7 @@
-
 body{
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
   align-items: center;
   background-image:
     linear-gradient(to bottom, rgba(245, 246, 252, 0.52), rgba(26, 19, 117, 0.233)),
@@ -7,13 +9,13 @@ body{
     width: 100%;
     height: 100vh;
     background-size: cover;
-    color:aliceblue;
+    background-repeat: no-repeat;
+    color:rgba(240, 248, 255, 0.849);
     font-family: "Playfair Display";
     font-weight: 400;
 }
 div{
-  color: aliceblue;
-  display: contents;
+    display: contents;
 }
 a{
   color:#fc7667
@@ -23,16 +25,106 @@ h1{
 }
 nav{
   display: grid;
+}
+label{
+  font-size:x-large;
+}
+input{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: 2.5vh;
+  background-color: aliceblue;
+  border-color: rgb(71,95,123);
+  border-style: solid;
+}
+#login-username {
+  display: grid;
+  grid-area: login-username;
+  grid-row-gap: 16px;
+  grid-template-columns: 1fr;
+  grid-template-areas: 
+  "username-label"
+  "username"
+}
+#username{
+  margin: auto;
+  width: 85%;
+  grid-area: username;
+}
+#username-label{
+  grid-area: username-label;
+}
+#login-password {
+  display: grid;
+  grid-area: login-password;
+  grid-row-gap: 16px;
+  grid-template-columns: 1fr;
+  grid-template-areas: 
+  "password-label"
+  "password"
+}
+#password{
+  margin: auto;
+  width: 85%;
+  grid-area: password;
+}
+#password-label{
+  grid-area: password-label;
+}
+#login-submit {
+  grid-area: login-submit;
+  width: 50%;
+  margin: auto;
+}
 
+#login-prompt {
+  grid-area: login-prompt;
+}
+
+#login-alert-invalid {
+  grid-area: login-alert-invalid;
+}
+
+#login-alert-success {
+  grid-area: login-alert-success;
+}
+
+#login-register {
+  grid-area: login-register;
+}
+#login-form{
+margin: auto;
+grid-area: login-form;
+display: grid;
+column-gap: 5x;
+grid-row-gap: 20px;
+grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+grid-template-areas: 
+"login-prompt login-prompt login-prompt login-prompt login-prompt"
+"login-alert-invalid login-alert-invalid login-alert-invalid login-alert-invalid login-alert-invalid" 
+"login-alert-success login-alert-success login-alert-success login-alert-success login-alert-success"
+"login-username login-username login-username login-username login-username"
+"login-password login-password login-password login-password login-password"
+"login-submit login-submit login-submit login-submit login-submit "
+"login-register login-register login-register login-register login-register "
 }
 #login{
+  margin-top: 10vh;
+  margin-left: auto;
+  margin-right: auto;
+  width: 30%;
+  color:  rgb(71,95,123);;
+  border-radius: 2.5vh;
+  background-color: aliceblue;
+  border-color: rgb(71,95,123);
+  border-style: solid;
+  text-align: center;
+  grid-area: login;
   display: grid;
-  column-gap: 50;
+  column-gap: 50px;
   grid-row-gap: 20px;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr;
   align-items: center;
   grid-template-areas:
-  "loginForm loginForm loginForm"
-  "loginForm loginForm loginForm"
-  "loginForm loginForm loginForm"
+  "login-form"
 }

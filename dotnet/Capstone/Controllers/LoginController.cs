@@ -65,7 +65,7 @@ namespace Capstone.Controllers
             }
 
             // If user has one time password, log in with that
-             if (user !=null && userParam.OneTimePassword != null && user.OneTimePasswordHash != "" && passwordHasher.VerifyHashMatch(user.OneTimePasswordHash, userParam.OneTimePassword, user.OneTimePasswordSalt))
+             if (user !=null && userParam.OneTimePassword != null && passwordHasher.VerifyHashMatch(user.OneTimePasswordHash, userParam.OneTimePassword, user.OneTimePasswordSalt))
              {
                 // Create an authentication token
                 string token = tokenGenerator.GenerateToken(user.UserId, user.Username, user.Role);

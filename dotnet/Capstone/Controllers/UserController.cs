@@ -24,7 +24,7 @@ namespace Capstone.Controllers
         }
 
         [HttpPut("changepassword")]
-        public IActionResult changePassword(LoginUser user)
+        public IActionResult changePassword(RecoverUser user)
         {
             User currentUser = userDao.GetFullUserByUsername(user.Username);
             IPasswordHasher passwordHasher = new PasswordHasher();

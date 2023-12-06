@@ -4,6 +4,7 @@ using Capstone.DAO;
 using Capstone.Exceptions;
 using Capstone.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Web;
 
 namespace Capstone.Controllers
 {
@@ -12,11 +13,12 @@ namespace Capstone.Controllers
     [Authorize]
     public class ProteinsController : ControllerBase
     {
-        private readonly IProteinDao dao;
-
-        public ProteinsController(IProteinDao dao)
+        private readonly IUserDao userDao;
+        private readonly IProteinDao proteinDao;
+        public ProteinsController(IProteinDao proteinDao, IUserDao userDao)
         {
-            this.dao = dao;
+            this.userDao = userDao;
+            this.proteinDao = proteinDao;
         }
 
         [HttpGet]
@@ -25,7 +27,7 @@ namespace Capstone.Controllers
             IList<Protein> proteins = new List<Protein>();
             try
             {
-                foreach (Protein protein in dao.GetProteins())
+                foreach (Protein protein in proteinDao.GetProteins())
                 {
                     proteins.Add(protein);
                 }
@@ -37,13 +39,13 @@ namespace Capstone.Controllers
             return Ok(proteins);
         }
 
-        [HttpGet("/proteins/proteinId={id}")]
+        [HttpGet("proteinId={id}")]
         public ActionResult getProteinById(int id)
         {
             Protein protein = new Protein();
             try
             {
-                protein = dao.GetProteinById(id);
+                protein = proteinDao.GetProteinById(id);
             }
             catch (DaoException)
             {
@@ -52,13 +54,13 @@ namespace Capstone.Controllers
             return Ok(protein);
         }
 
-        [HttpGet("/proteins/proteinName={name}")]
+        [HttpGet("proteinName={name}")]
         public ActionResult<IList<Protein>> getProteinsBySequenceName(string name)
         {
             IList<Protein> proteins = new List<Protein>();
             try
             {
-                foreach (Protein protein in dao.GetProteinsBySequenceName(name))
+                foreach (Protein protein in proteinDao.GetProteinsBySequenceName(name))
                 {
                     proteins.Add(protein);
                 }
@@ -70,13 +72,13 @@ namespace Capstone.Controllers
             return Ok(proteins);
         }
 
-        [HttpGet("/proteins/user={id}")]
+        [HttpGet("user={id}")]
         public ActionResult<IList<Protein>> getProteinsByUserId(int id)
         {
             IList<Protein> proteins = new List<Protein>();
             try
             {
-                foreach (Protein protein in dao.GetProteinsByUserId(id))
+                foreach (Protein protein in proteinDao.GetProteinsByUserId(id))
                 {
                     proteins.Add(protein);
                 }
@@ -88,13 +90,14 @@ namespace Capstone.Controllers
             return Ok(proteins);
         }
 
-        [HttpPost("/proteins/create")]
+        [HttpPost]
         public ActionResult createProtein(RegisterProtein proteinParam)
         {
+            ReturnUser user = userDao.GetUserByUsername(User.Identity.Name);
             Protein protein = null;
             try
             {
-                protein = dao.CreateProtein(proteinParam.SequenceName, proteinParam.ProteinSequence, proteinParam.Description, proteinParam.UserId);
+                protein = proteinDao.CreateProtein(proteinParam.SequenceName, proteinParam.ProteinSequence, proteinParam.Description, user.UserId);
             }
             catch (DaoException)
             {
@@ -103,13 +106,14 @@ namespace Capstone.Controllers
             return Created($"/proteins/{protein.ProteinId}", protein);
         }
 
-        [HttpPut("/proteins/update/{proteinId}")]
+        [HttpPut]
         public ActionResult updateProtein(int proteinId, Protein proteinParam)
         {
+            ReturnUser user = userDao.GetUserByUsername(User.Identity.Name);
             Protein protein = null;
             try
             {
-                protein = dao.UpdateProtein(proteinParam.ProteinId, proteinParam.SequenceName, proteinParam.ProteinSequence, proteinParam.Description, proteinParam.FormatType, proteinParam.UserId);
+                protein = proteinDao.UpdateProtein(proteinParam.ProteinId, proteinParam.SequenceName, proteinParam.ProteinSequence, proteinParam.Description, user.UserId);
             }
             catch (DaoException)
             {
@@ -118,13 +122,13 @@ namespace Capstone.Controllers
             return Ok(protein);
         }
 
-        [HttpDelete("/proteins/delete/{id}")]
+        [HttpDelete("delete/{id}")]
         public ActionResult deleteProtein(int id)
         {
             bool result = false;
             try
             {
-                result = dao.DeleteProteinById(id);
+                result = proteinDao.DeleteProteinById(id);
             }
             catch (DaoException)
             {

@@ -43,7 +43,7 @@ namespace Capstone.Controllers
         {
             IList<ReturnUser> user_list = new List<ReturnUser>();
 
-            foreach (User user in userDao.GetUsers())
+            foreach (ReturnUser user in userDao.GetUsers())
             {
                 ReturnUser retUser = new ReturnUser()
                 {

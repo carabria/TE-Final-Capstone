@@ -9,7 +9,8 @@ CREATE TABLE users (
 	password_hash varchar(200) NOT NULL,
 	salt varchar(200) NOT NULL,
 	user_role varchar(50) NOT NULL,
-	has_one_time_password bit NOT NULL
+	one_time_password_hash varchar(200),
+	one_time_password_salt varchar (200),
 	CONSTRAINT PK_user PRIMARY KEY (user_id)
 )
 
@@ -25,8 +26,8 @@ CREATE TABLE proteins (
 )
 
 --populate default data
-INSERT INTO users (username, password_hash, salt, user_role, has_one_time_password) VALUES ('user','Jg45HuwT7PZkfuKTz6IB90CtWY4=','LHxP4Xh7bN0=','user', 0);
-INSERT INTO users (username, password_hash, salt, user_role, has_one_time_password) VALUES ('admin','YhyGVQ+Ch69n4JMBncM4lNF/i9s=', 'Ar/aB2thQTI=','admin',0);
+INSERT INTO users (username, password_hash, salt, user_role) VALUES ('user','Jg45HuwT7PZkfuKTz6IB90CtWY4=','LHxP4Xh7bN0=','user');
+INSERT INTO users (username, password_hash, salt, user_role) VALUES ('admin','YhyGVQ+Ch69n4JMBncM4lNF/i9s=', 'Ar/aB2thQTI=','admin');
 
 INSERT INTO proteins (sequence_name, protein_sequence, description, format_type, user_id) 
 VALUES ('Insulin', 'MALWMRLLPLLALLALWGPDPAAAFVNQHLCGSHLVEALYLVCGERGFFYTPKTRREAEDLQASALSLSSSTSTWPEGLDATARAPPALVVTANIGQAGGSSSRQFRQRALGTSDSPVLFIHCPGAAGTAQGLEYRGRRVTTELVWEEVDSSPQPQGSESLPAQPPAQPAPQPEPQQAREPSPEVSCCGLWPRRPQRSQN', 'This is an insulin protein!', 1, 1);

@@ -5,9 +5,10 @@ namespace Capstone.DAO
 {
     public interface IUserDao
     {
-        IList<User> GetUsers();
+        IList<ReturnUser> GetUsers();
         User GetUserById(int id);
-        User GetUserByUsername(string username);
+        ReturnUser GetUserByUsername(string username);
+        User GetFullUserByUsername(string username);
         User CreateUser(string username, string password, string role);
         void ChangePassword(string username, string password);
         string GenerateOneTimePassword(string username);

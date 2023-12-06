@@ -64,7 +64,7 @@ namespace Capstone.Controllers
                 return result;
             }
 
-            // If user has one time password, redirect
+            // If user has one time password, log in with that
              if (user !=null && userParam.OneTimePassword != null && user.OneTimePasswordHash != "" && passwordHasher.VerifyHashMatch(user.OneTimePasswordHash, userParam.OneTimePassword, user.OneTimePasswordSalt))
              {
                 // Create an authentication token
@@ -74,7 +74,7 @@ namespace Capstone.Controllers
                 LoginResponse retUser = new LoginResponse() { User = new ReturnUser() { UserId = user.UserId, Username = user.Username, Role = user.Role }, Token = token };
 
                 // Switch to 205 Reset Content
-                result = StatusCode(205, retUser);
+                return StatusCode(205, retUser);
             }
             // If we found a user and the password hash matches
 

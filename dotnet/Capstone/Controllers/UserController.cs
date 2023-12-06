@@ -28,11 +28,7 @@ namespace Capstone.Controllers
         {
             User currentUser = userDao.GetFullUserByUsername(user.Username);
             IPasswordHasher passwordHasher = new PasswordHasher();
-            if (passwordHasher.VerifyHashMatch(currentUser.PasswordHash, user.Password, currentUser.Salt))
-            {
-                return Conflict(new { message = "New password cannot be the same as old password." });
-            }
-            if (passwordHasher.VerifyHashMatch(currentUser.OneTimePasswordHash, user.OneTimePassword, currentUser.OneTimePasswordSalt)) {
+            if (passwordHasher.VerifyHashMatch(currentUser.PasswordHash, user.Password, currentUser.Salt) || passwordHasher.VerifyHashMatch(currentUser.OneTimePasswordHash, user.OneTimePassword, currentUser.OneTimePasswordSalt)) {
                 try
                 {
                     userDao.ChangePassword(user.Username, user.Password);

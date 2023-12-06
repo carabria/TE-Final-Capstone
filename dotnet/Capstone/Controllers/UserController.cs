@@ -19,11 +19,13 @@ namespace Capstone.Controllers
             this.userDao = userDao;
         }
 
+        //Note(anderson): Logic error, this should check the old user password
         [HttpPut("/changepassword")]
         public IActionResult changePassword(LoginUser user)
         {
             try
             {
+                
                 userDao.ChangePassword(user.Username, user.Password);
             }
             catch (DaoException)

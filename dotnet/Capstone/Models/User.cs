@@ -38,7 +38,7 @@ namespace Capstone.Models
     public class LoginUser
     {
         public string Username { get; set; }
-        public string Password { get; set; }
+        public string? Password { get; set; } = null;
         public string? OneTimePassword { get; set; } = null;
     }
 
@@ -51,5 +51,13 @@ namespace Capstone.Models
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
         public string Role { get; set; }
+    }
+
+    public class RecoverUser
+    {
+        public string Username { get; set; }
+        public string? Password { get; set; } = null;
+        public string NewPassword { get; set; }
+        public string? OneTimePassword { get; set; } = null;
     }
 }

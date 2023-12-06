@@ -14,6 +14,10 @@
         <label id="confirmPassword_Label" for="confirmPassword">Confirm Password</label>
         <input type="password" id="confirmPassword" v-model="confirmPassword" />
       </div>
+      <div id="otPassword_div">
+        <label id="otPassword_Label" for="otPassword">One Time Password</label>
+        <input type="password" id="otPassword" v-model="oneTimePassword" />
+      </div>
       <button id="password_change_submit" type="submit">Change Password</button>
     </form>
   </div>
@@ -27,7 +31,8 @@ export default {
     return {
       oldPassword: "",
       newPassword: "",
-      confirmPassword: ""
+      confirmPassword: "",
+      otPassword: "",
     };
   },
   methods: {
@@ -39,11 +44,12 @@ export default {
       }
       //Note(anderson): There is a logical error in the backend api that needs to be fixed this won't work
       const login_data = {
-        username: this.$store.state.user,
-        oldpassword: this.oldPassword,
-        password: this.newPassword,
+        username: this.$store.state.user.username,
+        password: this.oldPassword,
+        newPassword: this.newPassword,
+        oneTimePassword: this.oneTimePassword
       };
-      UserService.changePassword(session_token, login_data)
+      UserService.changePassword(login_data)
         .then(response => {
           if (response.status === 200) {
             alert("Password changed successfully");

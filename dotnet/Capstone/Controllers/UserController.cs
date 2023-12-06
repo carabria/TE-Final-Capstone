@@ -23,7 +23,7 @@ namespace Capstone.Controllers
             this.passwordHasher = passwordHasher;
         }
 
-        [HttpPut("/changepassword")]
+        [HttpPut("changepassword")]
         public IActionResult changePassword(LoginUser user)
         {
             User currentUser = userDao.GetFullUserByUsername(user.Username);

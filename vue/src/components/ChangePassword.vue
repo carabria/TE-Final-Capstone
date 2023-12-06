@@ -1,20 +1,20 @@
 <template>
   <div id="password_change">
     <h1>Change Password</h1>
-    <form @submit.prevent="changePassword">
-      <div>
-        <label for="oldPassword">Old Password</label>
+    <form id="password_change_form" @submit.prevent="changePassword">
+      <div id="oldPassword_div">
+        <label id="oldPassword_Label" for="oldPassword">Old Password</label>
         <input type="password" id="oldPassword" v-model="oldPassword" />
       </div>
-      <div>
-        <label for="newPassword">New Password</label>
+      <div id="newPassword_div">
+        <label id="newPassword_label" for="newPassword">New Password</label>
         <input type="password" id="newPassword" v-model="newPassword" />
       </div>
-      <div>
-        <label for="confirmPassword">Confirm Password</label>
+      <div id="confirmPassword_div">
+        <label id="confirmPassword_Label" for="confirmPassword">Confirm Password</label>
         <input type="password" id="confirmPassword" v-model="confirmPassword" />
       </div>
-      <button type="submit">Change Password</button>
+      <button id="password_change_submit" type="submit">Change Password</button>
     </form>
   </div>
 </template>

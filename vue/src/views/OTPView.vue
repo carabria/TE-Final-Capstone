@@ -1,23 +1,13 @@
 <template>
-    <div id="otp">
-        <UserSearchComponent />
-    </div>
+  <OtpComponent />
 </template>
 
 <script>
-import UserSearchComponent from '../components/UserSearchComponent.vue';
-
+import OtpComponent from '../components/OtpComponent.vue';
 export default {
-    components: { UserSearchComponent },
-    data() {
-        return {
-            user: {},
-        }
-    },
-    methods: {
-
-    }
-
+  components: {
+    OtpComponent
+  },
 }
 </script>
 

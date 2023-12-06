@@ -94,7 +94,7 @@ namespace Capstone.Controllers
             Protein protein = null;
             try
             {
-                protein = dao.CreateProtein(proteinParam.SequenceName, proteinParam.ProteinSequence, proteinParam.Description, proteinParam.FormatType, proteinParam.UserId);
+                protein = dao.CreateProtein(proteinParam.SequenceName, proteinParam.ProteinSequence, proteinParam.Description, proteinParam.UserId);
             }
             catch (DaoException)
             {

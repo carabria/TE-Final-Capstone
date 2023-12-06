@@ -28,7 +28,7 @@ namespace Capstone.Controllers
         {
             User currentUser = userDao.GetFullUserByUsername(user.Username);
             IPasswordHasher passwordHasher = new PasswordHasher();
-            if (user.Password != null)
+            if (user.Password != "")
             {
                 if (passwordHasher.VerifyHashMatch(currentUser.PasswordHash, user.Password, currentUser.Salt))
                 {

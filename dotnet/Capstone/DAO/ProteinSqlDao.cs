@@ -178,9 +178,10 @@ namespace Capstone.DAO
             return newProtein;
         }
 
-        public Protein UpdateProtein(int proteinId, string sequenceName, string proteinSequence, string description, int formatType, int userId)
+        public Protein UpdateProtein(int proteinId, string sequenceName, string proteinSequence, string description, int userId)
         {
             Protein updatedProtein = null;
+            int formatType = DetectFormat(proteinSequence);
             string sql = "UPDATE proteins " +
             "SET sequence_name = @sequence_name, protein_sequence = @protein_sequence, description = @description, format_type = @format_type, user_id = @user_id " +
             "WHERE protein_id = @protein_id";

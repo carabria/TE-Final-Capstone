@@ -56,7 +56,7 @@ namespace Capstone.Controllers
             // Get the user by username
             try
             {
-                user = userDao.GetUserByUsername(userParam.Username);
+                user = userDao.GetFullUserByUsername(userParam.Username);
             }
             catch (DaoException)
             {
@@ -65,7 +65,7 @@ namespace Capstone.Controllers
             }
 
             // If user has one time password, redirect
-             if (user.HasOneTimePassword)
+             if (user.OneTimePasswordHash != "")
              {
                 return StatusCode(302);
              }
@@ -97,7 +97,7 @@ namespace Capstone.Controllers
             // is username already taken?
             try
             {
-                User existingUser = userDao.GetUserByUsername(userParam.Username);
+                User existingUser = userDao.GetFullUserByUsername(userParam.Username);
                 if (existingUser != null)
                 {
                     return Conflict(new { message = "Username already taken. Please choose a different username." });

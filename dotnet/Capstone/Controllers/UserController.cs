@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Capstone.DAO;
 using Capstone.Exceptions;
 using Capstone.Models;
+using Capstone.Security;
 using Microsoft.AspNetCore.Authorization;
+using Capstone.Security.Models;
 
 namespace Capstone.Controllers
 {
@@ -13,26 +15,38 @@ namespace Capstone.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserDao userDao;
+        private readonly IPasswordHasher passwordHasher;
 
-        public UserController(IUserDao userDao)
+        public UserController(IUserDao userDao, IPasswordHasher passwordHasher)
         {
             this.userDao = userDao;
+            this.passwordHasher = passwordHasher;
         }
 
-        //Note(anderson): Logic error, this should check the old user password
-        [HttpPut("/changepassword")]
+        [HttpPut("changepassword")]
         public IActionResult changePassword(LoginUser user)
         {
-            try
+            User currentUser = userDao.GetFullUserByUsername(user.Username);
+            IPasswordHasher passwordHasher = new PasswordHasher();
+            if (passwordHasher.VerifyHashMatch(currentUser.PasswordHash, user.Password, currentUser.Salt))
             {
-                
-                userDao.ChangePassword(user.Username, user.Password);
+                return Conflict(new { message = "New password cannot be the same as old password." });
             }
-            catch (DaoException)
+            if (passwordHasher.VerifyHashMatch(currentUser.OneTimePasswordHash, user.OneTimePassword, currentUser.OneTimePasswordSalt)) {
+                try
+                {
+                    userDao.ChangePassword(user.Username, user.Password);
+                }
+                catch (DaoException)
+                {
+                    return StatusCode(500, "An internal server error occured.");
+                }
+                return Ok();
+            }
+            else
             {
-                return StatusCode(500, "An internal server error occured.");
+                return Conflict (new { message = "The one time password does not match." });
             }
-            return Created("/", userDao.GetUserByUsername(User.Identity.Name));
         }
 
     }

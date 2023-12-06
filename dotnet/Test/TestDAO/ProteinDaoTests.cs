@@ -82,7 +82,7 @@ namespace Test.TestDAO
         [TestMethod]
         public void UpdateProteinChangesProtein()
         {
-            Protein newProtein = dao.UpdateProtein(1, "name", "sequence", "description", 2, 2);
+            Protein newProtein = dao.UpdateProtein(1, "name", "sequence", "description", 2);
             Protein protein = dao.GetProteinById(1);
             AssertProperties(newProtein, protein);
         }
@@ -104,7 +104,26 @@ namespace Test.TestDAO
             result = dao.DetectFormat(sequence);
             Assert.AreEqual(1, result);
         }
-        
+
+        [TestMethod]
+        public void DetectFormatDetectsSpacedFormat()
+        {
+            int result = 0;
+            string sequence = "mdamkrglcc vlllcgavfv spsqeiharf rrgarsyqvi crdektqmiy qqhqswlrpv\r\nlrsnrveycw cnsgraqchs vpvkscsepr cfnggtcqqa lyfsdfvcqc pegfagkcce";
+            result = dao.DetectFormat(sequence);
+            Assert.AreEqual(2, result);
+        }
+
+        [TestMethod]
+        public void DetectFormatDetectsNumberedAndSpacedFormat()
+        {
+            int result = 0;
+            string sequence = "1 mqielstcff lcllrfcfsa trryylgave lswdymqsdl gelpvdarfp prvpksfpfn\r\n61 tsvvykktlf veftdhlfni akprppwmgl lgptiqaevy dtvvitlknm ashpvslhav";
+            result = dao.DetectFormat(sequence);
+            Assert.AreEqual(3, result);
+        }
+
+
         private void AssertProperties(Protein newProtein, Protein protein)
         {
             Assert.AreEqual(newProtein.ProteinId, protein.ProteinId);

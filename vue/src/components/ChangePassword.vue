@@ -1,6 +1,6 @@
 <template>
   <div id="password_change">
-    <h1>Change Password</h1>
+    <h1 id="password_change_header">Change Password</h1>
     <form id="password_change_form" @submit.prevent="changePassword">
       <div id="oldPassword_div">
         <label id="oldPassword_Label" for="oldPassword">Old Password</label>

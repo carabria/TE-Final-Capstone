@@ -146,9 +146,23 @@ grid-template-areas:
   width: fit-content;
   background-color: aliceblue;
   color: rgb(71,95,123);
+  grid-template-columns: 1fr;
+  grid-template-areas: 
+  "password_change_header"
+  "password_change_form"
+}
+#password_change_header{
+  grid-area: password_change_header;
 }
 #password_change_form{
+  grid-area: password_change-form;
   display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas: 
+  "oldPassword_Div"
+  "newPassword_Div"
+  "confirmPassword_Div"
+  "password_change_submit"
 }
 #newPasswrord{
   grid-area: newPassword;

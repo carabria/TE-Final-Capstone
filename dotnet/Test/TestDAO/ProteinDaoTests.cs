@@ -66,7 +66,7 @@ namespace Test.TestDAO
         [TestMethod]
         public void CreateProteinAddsProtein()
         {
-            dao.CreateProtein("name", "sequence", "description", 1, 1);
+            dao.CreateProtein("name", "sequence", "description", 1);
             IList<Protein> proteins = dao.GetProteins();
             Assert.AreEqual(2, proteins.Count);
         }
@@ -74,7 +74,7 @@ namespace Test.TestDAO
         [TestMethod]
         public void CreateProteinCreatedProteinNotNull()
         {
-            Protein newProtein = dao.CreateProtein("name", "sequence", "description", 1, 1);
+            Protein newProtein = dao.CreateProtein("name", "sequence", "description", 1);
             IList<Protein> protein = dao.GetProteinsBySequenceName("name");
             AssertProperties(newProtein, protein[0]);
         }
@@ -96,6 +96,15 @@ namespace Test.TestDAO
             Assert.AreEqual(0, proteins.Count);
         }
 
+        [TestMethod]
+        public void DetectFormatDetectsNormalFormat()
+        {
+            int result = 0;
+            string sequence = "MALWMRLLPLLALLALWGPDPAAAFVNQHLCGSHLVEALYLVCGERGFFYTPKTRREAEDLQASALSLSSSTSTWPE\r\nGLDATARAPPALVVTANIGQAGGSSSRQFRQRALGTSDSPVLFIHCPGAAGTAQGLEYRGRRVTTELVWEEVDSSPQ\r\nPQGSESLPAQPPAQPAPQPEPQQAREPSPEVSCCGLWPRRPQRSQN";
+            result = dao.DetectFormat(sequence);
+            Assert.AreEqual(1, result);
+        }
+        
         private void AssertProperties(Protein newProtein, Protein protein)
         {
             Assert.AreEqual(newProtein.ProteinId, protein.ProteinId);

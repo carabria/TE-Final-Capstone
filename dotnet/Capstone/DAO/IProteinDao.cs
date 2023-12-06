@@ -9,7 +9,7 @@ namespace Capstone.DAO
         Protein GetProteinById(int proteinId);
         IList<Protein> GetProteinsBySequenceName(string SequenceName);
         IList<Protein> GetProteinsByUserId(int userId);
-        Protein CreateProtein(string sequenceName, string proteinSequence, string description, int formatType, int userId);
+        Protein CreateProtein(string sequenceName, string proteinSequence, string description, int userId);
         Protein UpdateProtein(int proteinId, string sequenceName, string proteinSequence, string description, int formatType, int userId);
         bool DeleteProteinById(int proteinId);
     }

@@ -9,7 +9,7 @@ namespace Capstone.Models
         public string PasswordHash { get; set; }
         public string Salt { get; set; }
         public string Role { get; set; }
-        public bool HasOneTimePassword { get; set; }
+        public bool HasOneTimePassword { get; set; } = false;
     }
 
     /// <summary>
@@ -38,7 +38,7 @@ namespace Capstone.Models
     {
         public string Username { get; set; }
         public string Password { get; set; }
-        public bool HasOneTimePassword { get; set; }
+        public bool HasOneTimePassword { get; set; } = false;
     }
 
     /// <summary>

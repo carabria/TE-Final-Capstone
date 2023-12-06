@@ -145,10 +145,10 @@ namespace Capstone.DAO
             return proteins;
         }
 
-        public Protein CreateProtein(string sequenceName, string proteinSequence, string description, int formatType, int userId)
+        public Protein CreateProtein(string sequenceName, string proteinSequence, string description, int userId)
         {
             Protein newProtein = null;
-
+            int formatType = DetectFormat(proteinSequence);
             string sql = "INSERT INTO proteins (sequence_name, protein_sequence, description, format_type, user_id) " +
                 "OUTPUT INSERTED.protein_id " +
                 "VALUES (@sequence_name, @protein_sequence, @description, @format_type, @user_id)";
@@ -237,6 +237,23 @@ namespace Capstone.DAO
             return result;
         }
 
+        public int DetectFormat(string sequence)
+        {
+            int result = 0;
+            if (Char.IsDigit(sequence, 0))
+            {
+                result = 3;
+            }
+            else if (sequence.IndexOf(" ") == 10)
+            {
+                result = 2;
+            }
+            else
+            {
+                result = 1;
+            }
+            return result;
+        }
         private Protein MapRowToProtein(SqlDataReader reader)
         {
             Protein protein = new Protein();

@@ -8,6 +8,7 @@ import LogoutView from '../views/LogoutView.vue';
 import RegisterView from '../views/RegisterView.vue';
 import AdminView from '../views/AdminView.vue'
 import OTPView from '../views/OTPView.vue'
+import ChangePasswordView from '../views/ChangePasswordView.vue'
 
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
@@ -62,6 +63,14 @@ const routes = [
     path: '/admin/otp',
     name: 'otp',
     component: OTPView,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/user/changepassword',
+    name: 'changepassword',
+    component: ChangePasswordView,
     meta: {
       requiresAuth: true
     }

@@ -35,6 +35,20 @@ namespace Test.TestDAO
         }
 
         [TestMethod]
+        public void GetFullUserByUsernameHappyPath()
+        {
+            User user = dao.GetFullUserByUsername("user");
+            Assert.AreEqual(1, user.UserId);
+        }
+
+        [TestMethod]
+        public void GetFullUserByUsernameInvalidUsername()
+        {
+            User user = dao.GetFullUserByUsername("invalid");
+            Assert.IsNull(user);
+        }
+
+        [TestMethod]
         public void GetUserByUsernameHappyPath()
         {
             ReturnUser user = dao.GetUserByUsername("user");
@@ -60,48 +74,56 @@ namespace Test.TestDAO
         public void CreateUserCreatedUserNotNull()
         {
             dao.CreateUser("username", "password", "user");
-            ReturnUser user = dao.GetUserByUsername("username");
+            User user = dao.GetFullUserByUsername("username");
             Assert.IsNotNull(user.Username);
         }
 
-        //[TestMethod]
-        //public void ChangePasswordHashChanged()
-        //{
-        //    dao.ChangePassword("user", "newPassword");
-        //    ReturnUser user = dao.GetUserByUsername("user");
-        //    Assert.AreNotEqual("Jg45HuwT7PZkfuKTz6IB90CtWY4", user.PasswordHash);
-        //}
+        [TestMethod]
+        public void ChangePasswordHashChanged()
+        {
+            dao.ChangePassword("user", "newPassword");
+            User user = dao.GetFullUserByUsername("user");
+            Assert.AreNotEqual("Jg45HuwT7PZkfuKTz6IB90CtWY4", user.PasswordHash);
+        }
 
-        //[TestMethod]
-        //public void ChangePasswordSaltChanged()
-        //{
-        //    dao.ChangePassword("user", "newPassword");
-        //    ReturnUser user = dao.GetUserByUsername("user");
-        //    Assert.AreNotEqual("LHxP4Xh7bN0", user.Salt);
-        //}
+        [TestMethod]
+        public void ChangePasswordSaltChanged()
+        {
+            dao.ChangePassword("user", "newpassword");
+            User user = dao.GetFullUserByUsername("user");
+            Assert.AreNotEqual("lhxp4xh7bn0", user.Salt);
+        }
 
-        //[TestMethod]
-        //public void GenerateOneTimePasswordFlaggedTrue()
-        //{
-        //    dao.GenerateOneTimePassword("user");
-        //    ReturnUser user = dao.GetUserByUsername("user");
-        //    Assert.AreEqual(true, user.HasOneTimePassword);
-        //}
+        [TestMethod]
+        public void ChangePasswordOTPHashNull()
+        {
+            dao.ChangePassword("user", "newpassword");
+            User user = dao.GetFullUserByUsername("user");
+            Assert.AreEqual("", user.OneTimePasswordHash);
+        }
 
-        //[TestMethod]
-        //public void GenerateOneTimePasswordHashChanged()
-        //{
-        //    dao.GenerateOneTimePassword("user");
-        //    ReturnUser user = dao.GetUserByUsername("user");
-        //    Assert.AreNotEqual("Jg45HuwT7PZkfuKTz6IB90CtWY4", user.PasswordHash);
-        //}
+        [TestMethod]
+        public void ChangePasswordOTPSaltNull()
+        {
+            dao.ChangePassword("user", "newpassword");
+            User user = dao.GetFullUserByUsername("user");
+            Assert.AreEqual("", user.OneTimePasswordSalt);
+        }
 
-        //[TestMethod]
-        //public void GenerateOneTimePasswordSaltChanged()
-        //{
-        //    dao.GenerateOneTimePassword("user");
-        //    ReturnUser user = dao.GetUserByUsername("user");
-        //    Assert.AreNotEqual("LHxP4Xh7bN0", user.Salt);
-        //}
+        [TestMethod]
+        public void GenerateOneTimePasswordOTPHashChanged()
+        {
+            dao.GenerateOneTimePassword("user");
+            User user = dao.GetFullUserByUsername("user");
+            Assert.AreNotEqual("LHxP4Xh7bN0=", user.OneTimePasswordHash);
+        }
+
+        [TestMethod]
+        public void GenerateOneTimePasswordOTPSaltChanged()
+        {
+            dao.GenerateOneTimePassword("user");
+            User user = dao.GetFullUserByUsername("user");
+            Assert.AreNotEqual("Jg45HuwT7PZkfuKTz6IB90CtWY4", user.Salt);
+        }
     }
 }

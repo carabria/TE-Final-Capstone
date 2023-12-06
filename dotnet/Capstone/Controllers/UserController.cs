@@ -28,22 +28,37 @@ namespace Capstone.Controllers
         {
             User currentUser = userDao.GetFullUserByUsername(user.Username);
             IPasswordHasher passwordHasher = new PasswordHasher();
-            if (passwordHasher.VerifyHashMatch(currentUser.PasswordHash, user.Password, currentUser.Salt) || passwordHasher.VerifyHashMatch(currentUser.OneTimePasswordHash, user.OneTimePassword, currentUser.OneTimePasswordSalt)) {
-                try
-                {
-                    userDao.ChangePassword(user.Username, user.Password);
-                }
-                catch (DaoException)
-                {
-                    return StatusCode(500, "An internal server error occured.");
-                }
-                return Ok();
-            }
-            else
+            if (user.Password != null)
             {
-                return Conflict (new { message = "The one time password does not match." });
+                if (passwordHasher.VerifyHashMatch(currentUser.PasswordHash, user.Password, currentUser.Salt))
+                {
+                    try
+                    {
+                        userDao.ChangePassword(user.Username, user.NewPassword);
+                    }
+                    catch (DaoException)
+                    {
+                        return StatusCode(500, "An internal server error occured.");
+                    }
+                    return Ok();
+                }
             }
+            else if (user.OneTimePassword != null)
+            {
+                if (passwordHasher.VerifyHashMatch(currentUser.OneTimePasswordHash, user.OneTimePassword, currentUser.OneTimePasswordSalt))
+                {
+                    try
+                    {
+                        userDao.ChangePassword(user.Username, user.NewPassword);
+                    }
+                    catch (DaoException)
+                    {
+                        return StatusCode(500, "An internal server error occured.");
+                    }
+                    return Ok();
+                }
+            }
+            return StatusCode(500, "An internal server error occured.");
         }
-
     }
 }

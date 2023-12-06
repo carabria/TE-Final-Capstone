@@ -111,7 +111,7 @@ namespace Capstone.Controllers
                 }
                 if(userParam.ConfirmPassword != userParam.Password)
                 {
-                    return Conflict(new { message = "Passwords do not match, please verfiy that passwords match" });
+                    return Conflict(new { message = "Passwords do not match, please verify that passwords match" });
                 }
             }
             catch (DaoException)

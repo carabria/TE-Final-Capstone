@@ -232,7 +232,7 @@ namespace Capstone.DAO
             }
             catch (SqlException ex)
             {
-                throw new DaoException("SQL exception occured", ex);
+                throw new DaoException("SQL exception occurred", ex);
             }
             result = true;
             return result;

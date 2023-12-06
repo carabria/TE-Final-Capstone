@@ -33,7 +33,7 @@ namespace Capstone.Controllers
             }
             catch (DaoException)
             {
-                return StatusCode(500, "An internal server error occured.");
+                return StatusCode(500, "An internal server error occurred.");
             }
             return Created("admin/resetpassword", oneTimePassword);
         }

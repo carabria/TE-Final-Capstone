@@ -45,7 +45,6 @@ namespace Capstone.Controllers
             }
         }
 
-
         [HttpPost("/login")]
         public IActionResult Authenticate(LoginUser userParam)
         {

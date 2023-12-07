@@ -2,6 +2,7 @@ import { createRouter as createRouter, createWebHistory } from 'vue-router'
 import { useStore } from 'vuex'
 
 // Import components
+import EditHomeView from '../views/EditHomeView.vue'
 import UserView from '../views/UserView.vue';
 import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/LoginView.vue';
@@ -60,6 +61,14 @@ const routes = [
     name: "admin",
     component: AdminView,
     meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/admin/editHome",
+    name: "editHome", 
+    component: EditHomeView,
+    meta:{
       requiresAuth: true
     }
   },

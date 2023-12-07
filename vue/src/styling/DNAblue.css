@@ -203,8 +203,3 @@ grid-area: oldPassword_Div;
   width: fit-content;
   background-color: aliceblue;
 }
-#HomeViewImage{
-  display: block;
-  background-image: url('../img/AminoAcid.jpg');
-  size: 100px;
-}

@@ -2,7 +2,7 @@
   <div class="home">
     <h1 id="company">{{ company }}</h1>
     <p id="app">{{ app }}</p>
-    <img id="HomeViewImage" v-bind:src="'image'"/> 
+    <img id="HomeViewImage"/> 
   </div>
 </template>
 
@@ -28,7 +28,7 @@ image: '',
             if (response.status == 200) {
               this.app = response.data.app;
               this.company = response.data.company;
-              this.image = response.data.image;
+              this.image = 'url('+response.data.image+')';
               }})
           .catch((error) => {
             const response = error.response;
@@ -37,6 +37,7 @@ image: '',
               this.registrationErrorMsg = 'Bad Request: Validation Errors';
             }
       })
+      
 
   },
   },
@@ -45,4 +46,9 @@ image: '',
 }
 </script>
 <style>
+#HomeViewImage{
+  display: block;
+  content: v-bind(image);
+  size: 100px;
+}
 </style>

@@ -108,6 +108,24 @@ namespace Capstone.Controllers
             {
                 return StatusCode(500, ErrorMessage);
             }
+
+            // is email already taken?
+            try
+            {
+                User existingUser = userDao.GetFullUserByEmail(userParam.Email);
+                if (existingUser != null)
+                {
+                    return Conflict(new { message = "Email already taken. Please choose a different Email."});
+                }
+                if (userParam.ConfirmPassword != userParam.Password)
+                {
+                    return Conflict(new { message = "Passwords do not match, please verify that passwords match" });
+                }
+            }
+            catch (DaoException)
+            {
+                return StatusCode(500, ErrorMessage);
+            }
             // create new user
             User newUser;
             try

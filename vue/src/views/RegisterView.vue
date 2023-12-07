@@ -67,8 +67,15 @@ export default {
           })
           .catch((error) => {
             const response = error.response;
+            console.log(response.data.message)
             this.registrationErrors = true;
-            if (response.status === 400) {
+            if (response.data.message === "Username already taken. Please choose a different username.") {
+              this.registrationErrorMsg = response.data.message;
+            }
+            if (response.data.message === "Email already taken. Please choose a different Email.") {
+              this.registrationErrorMsg = response.data.message;
+            }
+            if (response.submit === 400) {
               this.registrationErrorMsg = 'Bad Request: Validation Errors';
             }
           });

@@ -45,6 +45,7 @@ input{
   border-style: solid;
 }
 #login-username {
+  
   display: grid;
   grid-area: login-username;
   grid-row-gap: 16px;
@@ -55,13 +56,16 @@ input{
 }
 #username{
   margin: auto;
-  width: auto;
   grid-area: username;
 }
 #username-label{
+  
   grid-area: username-label;
 }
 #login-password {
+  margin-left: 1px;
+  margin-right: 1px;
+  object-fit: contain;
   display: grid;
   grid-area: login-password;
   grid-row-gap: 16px;
@@ -104,6 +108,7 @@ input{
   grid-area: login-register;
 }
 #login-form{
+
 margin: auto;
 grid-area: login-form;
 display: grid;
@@ -197,4 +202,9 @@ grid-area: oldPassword_Div;
   margin: auto;
   width: fit-content;
   background-color: aliceblue;
+}
+#HomeViewImage{
+  display: block;
+  background-image: url('../img/AminoAcid.jpg');
+  size: 100px;
 }

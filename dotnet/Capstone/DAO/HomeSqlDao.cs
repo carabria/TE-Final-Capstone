@@ -8,6 +8,7 @@ using Capstone.Models;
 using Capstone.Security;
 using Capstone.Security.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Capstone.DAO
 {
@@ -48,12 +49,113 @@ namespace Capstone.DAO
 
             return home;
         }
+        public Home GetViewById(int id)
+        {
+
+            string sql = "SELECT * FROM homeview WHERE view_id = @id";
+            Home home = new Home();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@id",id);
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        home = MapRowToHome(reader);
+
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new DaoException("SQL exception occurred", ex);
+            }
+
+            return home;
+        }
+        public List<Home> GetAllViews()
+        {
+            string sql = "SELECT * FROM homeview";
+            List<Home> homes = new List<Home>();
+            try {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Home home = MapRowToHome(reader);
+                        homes.Add(home);
+                    }
+                }
+                    }
+            catch (SqlException ex)
+            {
+                throw new DaoException("SQL exception occurred", ex);
+            }
+            return homes;
+
+        }
+        public Home PostNewHomeView(Home data)
+        {
+            string sql = "INSERT INTO homeview (header, body, image_source, active) " +
+            "OUTPUT INSERTED.view_id " +
+            "VALUES (@header, @body, @image_source, @active) ";
+            Home newHome = new Home();
+            data = NullPropertyToEmpty(data);
+            try {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@header", data.header);
+                    cmd.Parameters.AddWithValue("@body", data.body);
+                    cmd.Parameters.AddWithValue("@image_source", data.image);
+                    cmd.Parameters.AddWithValue("@active", false);
+                    int newId = Convert.ToInt32(cmd.ExecuteScalar());
+                    newHome = GetViewById(newId);
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new DaoException("SQL exception occurred", ex);
+            }
+            return newHome;
+
+        } 
+        private Home NullPropertyToEmpty(Home home)
+        {
+            if(home.active == null)
+            {
+                home.active = false;
+            }
+            if(home.body == null)
+            {
+                home.body = "empty";
+            }
+            if(home.header == null)
+            {
+                home.header = "empty";
+            }
+            if(home.image == null)
+            {
+                home.image = "src/img/Empty.jpg";
+            }
+            return home;
+        }
         private Home MapRowToHome(SqlDataReader reader)
         {
             Home home = new Home();
             home.viewId = Convert.ToInt32(reader["view_id"]);
-            home.app = Convert.ToString(reader["app"]);
-            home.company = Convert.ToString(reader["company"]);
+            home.body = Convert.ToString(reader["body"]);
+            home.header = Convert.ToString(reader["header"]);
             home.image = Convert.ToString(reader["image_source"]);
             home.active = Convert.ToBoolean(reader["active"]);
             return home;

@@ -2,6 +2,7 @@
 using Capstone.Exceptions;
 using Capstone.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace Capstone.Controllers
 {
@@ -29,6 +30,36 @@ namespace Capstone.Controllers
             }
            
             return Ok(home);
+        }
+        [HttpGet("views")]
+        public ActionResult<List<Home>> AdminHomeViewEditChoose()
+        {
+            IList<Home> homes = new List<Home>();
+            try
+            {
+                homes = homeDao.GetAllViews();
+            }
+            catch (DaoException)
+            {
+                return StatusCode(500, "An internal server error occured.");
+            }
+
+            return Ok(homes);
+        }
+        [HttpPost]
+        public ActionResult<Home> AdminHomeViewEdit(Home home)
+        {
+            Home newHome = new Home();
+            try
+            {
+                newHome = homeDao.PostNewHomeView(home);
+            }
+            catch (DaoException)
+            {
+                return StatusCode(500, "An internal server error occured.");
+            }
+
+            return Ok(newHome);
         }
     }
 }

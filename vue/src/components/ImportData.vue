@@ -54,6 +54,7 @@ export default {
         UserId: 0
 
       };
+      console.log(protein_data);
       ProteinService.createProtein(token, protein_data)
         .then(response => {
           if (response.status === 200) {

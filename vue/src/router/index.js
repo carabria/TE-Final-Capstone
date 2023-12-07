@@ -11,8 +11,11 @@ import RegisterView from '../views/RegisterView.vue';
 import AdminView from '../views/admin/AdminView.vue'
 import OTPView from '../views/admin/OTPView.vue'
 import ChangePasswordView from '../views/user/ChangePasswordView.vue'
+
 import ProteinView from '../views/protein/ProteinView.vue'
+import ProteinListView from '../views/protein/ProteinListView.vue'
 import ProteinImportView from '../views/protein/ProteinImportView.vue'
+import ProteinDetailView from '../views/protein/ProteinDetailView.vue'
 
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
@@ -110,6 +113,23 @@ const routes = [
     path: '/protein',
     name: 'protein',
     component: ProteinView,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/protein/list',
+    name: 'protein_list',
+    component: ProteinListView,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/protein/:id',
+    name: 'protein_detail',
+    component: ProteinDetailView,
+    props: true,
     meta: {
       requiresAuth: true
     }

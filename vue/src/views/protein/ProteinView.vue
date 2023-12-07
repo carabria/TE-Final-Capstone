@@ -3,6 +3,7 @@
     <h2> Protiens </h2>
     <ul>
       <li><router-link v-bind:to="{ name: 'protein_import' }">Import</router-link></li>
+      <li><router-link v-bind:to="{ name: 'protein_list' }">List</router-link></li>
     </ul>
   </div>
 </template>

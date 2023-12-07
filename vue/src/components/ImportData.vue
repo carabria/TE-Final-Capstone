@@ -18,11 +18,9 @@
       <button type="submit">Import Data</button>
     </form>
 
-    <!--- Todo(anderson): Import data from FILE --->
-    <form hidden @submit.prevent="importFile">
+    <form>
       <label for="file">File</label>
-      <input type="file" id="file" v-on:change="handleFileUpload" />
-      <button type="submit">Import Data</button>
+      <input type="file" id="file" v-on:change="importFile"/>
     </form>
 
   </div>
@@ -71,8 +69,21 @@ export default {
         });
 
       this.$router.push("/protein");
-    },
-
+    },  
+    importFile(evt) {
+      const file = evt.target.files[0];
+      if (file.name.includes(".txt")) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          this.protein.name = file.name.replace(".txt", "");
+          this.protein.data = e.target.result;
+        }
+        reader.readAsText(file);
+      }
+      else {
+        alert("Your file must be uploaded in .txt format.");
+      }
+    }
   }
 };
 </script>

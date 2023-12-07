@@ -10,6 +10,6 @@ postView(view) {
     return axios.post('home', view)
   }, 
   putDisplayView(viewId){
-    return axios.put('home/change', viewId)
+    return axios.put('home', viewId)
   }
 }

@@ -31,11 +31,11 @@ namespace Capstone.Controllers
            
             return Ok(home);
         }
-        [HttpPut]
-        public ActionResult ChangeHomeView(int id)
-        {
+        //[HttpPut]
+        //public ActionResult ChangeHomeView(int id)
+        //{
 
-        }
+        //}
         [HttpGet("views")]
         public ActionResult<List<Home>> AdminHomeViewEditChoose()
         {

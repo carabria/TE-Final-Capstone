@@ -6,6 +6,8 @@ namespace Capstone.Models
     {
         public int UserId { get; set; }
         public string Username { get; set; }
+        public string Email { get; set; }
+        public string OrganizationName { get; set; }
         public string PasswordHash { get; set; }
         public string Salt { get; set; }
         public string Role { get; set; }
@@ -33,7 +35,7 @@ namespace Capstone.Models
 
     /// <summary>
     /// Model to accept login parameters
-    /// </summary>
+    /// </summary>  
     public class LoginUser
     {
         public string Username { get; set; }
@@ -47,6 +49,8 @@ namespace Capstone.Models
     public class RegisterUser
     {
         public string Username { get; set; }
+        public string Email { get; set; }
+        public string OrganizationName { get; set; }
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
         public string Role { get; set; }

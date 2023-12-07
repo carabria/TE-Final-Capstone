@@ -65,7 +65,7 @@ namespace Test.TestDAO
         [TestMethod]
         public void CreateUserAddsUser()
         {
-            dao.CreateUser("username", "password", "user");
+            dao.CreateUser("username", "email", "org", "password", "user");
             IList<ReturnUser> users = dao.GetUsers();
             Assert.AreEqual(3, users.Count);
         }
@@ -73,7 +73,7 @@ namespace Test.TestDAO
         [TestMethod]
         public void CreateUserCreatedUserNotNull()
         {
-            dao.CreateUser("username", "password", "user");
+            dao.CreateUser("username", "email", "org", "password", "user");
             User user = dao.GetFullUserByUsername("username");
             Assert.IsNotNull(user.Username);
         }

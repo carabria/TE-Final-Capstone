@@ -71,15 +71,18 @@ namespace Capstone.Controllers
                 string token = tokenGenerator.GenerateToken(user.UserId, user.Username, user.Role);
 
                 // Create a ReturnUser object to return to the client
-                LoginResponse retUser = new LoginResponse() { User = new ReturnUser() { UserId = user.UserId, Username = user.Username, Role = user.Role }, Token = token };
-                
+                LoginResponse retUser = new LoginResponse() { User = new ReturnUser() { UserId = user.UserId, Username = user.Username, Role = user.Role, HasOneTimePassword = user.HasOneTimePassword }, Token = token };
+
                 if (user.HasOneTimePassword)
                 {
-                    Response.Headers.Add("X-OTP", "true");
+                    result = Accepted(retUser);
                 }
 
                 // Switch to 200 OK
-                result = Ok(retUser);
+                else
+                {
+                    result = Ok(retUser);
+                }
             }
             return result;
         }
@@ -116,7 +119,7 @@ namespace Capstone.Controllers
                 User existingUser = userDao.GetFullUserByEmail(userParam.Email);
                 if (existingUser != null)
                 {
-                    return Conflict(new { message = "Email already taken. Please choose a different Email."});
+                    return Conflict(new { message = "Email already taken. Please choose a different Email." });
                 }
                 if (userParam.ConfirmPassword != userParam.Password)
                 {

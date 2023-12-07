@@ -109,6 +109,7 @@ namespace Capstone.DAO
             "OUTPUT INSERTED.view_id " +
             "VALUES (@header, @body, @image_source, @active) ";
             Home newHome = new Home();
+            int newId = 0;
             data = NullPropertyToEmpty(data);
             try {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -119,9 +120,9 @@ namespace Capstone.DAO
                     cmd.Parameters.AddWithValue("@body", data.body);
                     cmd.Parameters.AddWithValue("@image_source", data.image);
                     cmd.Parameters.AddWithValue("@active", false);
-                    int newId = Convert.ToInt32(cmd.ExecuteScalar());
-                    newHome = GetViewById(newId);
+                    newId = Convert.ToInt32(cmd.ExecuteScalar());
                 }
+                    newHome = GetViewById(newId);
             }
             catch (SqlException ex)
             {

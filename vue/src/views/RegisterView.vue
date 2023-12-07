@@ -5,9 +5,17 @@
       <div role="alert" v-if="registrationErrors">
         {{ registrationErrorMsg }}
       </div>
-      <div class="form-input-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" v-model="user.username" required autofocus />
+        <div class="form-input-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" v-model="user.username" required autofocus />
+        </div>
+      <div class ="form-input-group">
+        <label for="email">Email</label>
+        <input type="text" id="email" v-model="user.email" required />
+      </div>
+      <div class ="form-input-group">
+        <label for="organization">Organization/Company Name</label>
+        <input type="text" id="organization" v-model="user.organizationName" required />
       </div>
       <div class="form-input-group">
         <label for="password">Password</label>
@@ -31,6 +39,8 @@ export default {
     return {
       user: {
         username: '',
+        email: '',
+        organizationName: '',
         password: '',
         confirmPassword: '',
         role: 'user',

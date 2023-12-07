@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import OtpComponent from '../components/OtpComponent.vue';
+import OtpComponent from '../../components/OtpComponent.vue';
 export default {
   components: {
     OtpComponent

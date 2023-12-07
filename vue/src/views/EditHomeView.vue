@@ -8,7 +8,17 @@
         <input id="welcome-body" type="text" name="welcome-body">
         <label id="welcome-image-label" for="welcome-image">Image</label>
         <input id="welcome-image" type="file" name="welcome-image">
-        
+        <button v-bind:on-click="submitFunction">Submit</button>
     </form>
 </div>
 </template>
+<script >
+// export default{
+// data() {
+//  return {
+//  Images.selectedFile : null}
+// },
+// methods: {Images_onFileChanged (event) {this.Images.selectedFile = event.target.files[0];
+// }
+// }}
+</script>

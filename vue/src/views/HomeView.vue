@@ -2,7 +2,7 @@
   <div class="home">
     <h1 id="company">{{ company }}</h1>
     <p id="app">{{ app }}</p>
-    <img id="HomeViewImage" v-bind:src="{image}"/> 
+    <img id="HomeViewImage" v-bind:src="'image'"/> 
   </div>
 </template>
 
@@ -44,3 +44,5 @@ image: '',
   },
 }
 </script>
+<style>
+</style>

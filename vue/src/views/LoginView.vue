@@ -47,6 +47,7 @@ export default {
           if (response.status == 200) {
             this.$store.commit("SET_AUTH_TOKEN", response.data.token);
             this.$store.commit("SET_USER", response.data.user);
+            console.log("hello " + response.headers);
             if (response.headers["X-OTP"] === "true") {
               this.$router.push("/user/changepassword");
             }

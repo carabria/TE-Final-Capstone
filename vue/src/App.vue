@@ -7,7 +7,9 @@
       <div class="spacer"> | </div>
       <router-link class="navItem" v-bind:to="{name: 'user'}">User</router-link>
       <div class="spacer"> | </div>
-      <router-link class="navItem" v-if="$store.state.user.role == 'admin'" v-bind:to="{name: 'admin'}">Admin</router-link> 
+      <router-link class="navItem" v-bind:to="{name: 'protein'}">Protein</router-link>
+      <div class="spacer"> | </div>
+      <router-link class="navItem" v-if="$store.state.user.role == 'admin'" v-bind:to="{name: 'admin'}">Admin</router-link>
       <div class="spacer" v-if="$store.state.user.role == 'admin'"> | </div>
       <router-link class="navItem" v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
       <div class="spacer" v-if="$store.state.token != ''"> | </div>

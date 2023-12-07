@@ -2,27 +2,27 @@
   <div class="home">
     <h1 id="company">{{ company }}</h1>
     <p id="app">{{ app }}</p>
-    <img id="HomeViewImage" v-bind:src="'image'"/> 
+    <img id="HomeViewImage" v-bind:src="'image'"/>
   </div>
 </template>
 
 <script>
-import HomeViewService from '../services/HomeViewService'
+import HomeViewService from '../../services/HomeViewService'
 export default {
   created(){
 this.view();
   },
   data(){
     return{
-app:'', 
-company: '', 
-image: '',
+      app:'',
+      company: '',
+      image: '',
     }
 
   },
   methods:{
     view(){
-     return HomeViewService 
+     return HomeViewService
       .getView()
       .then((response) => {
             if (response.status == 200) {

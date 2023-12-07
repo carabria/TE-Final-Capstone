@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import ImportData from '../components/ImportData.vue'
+import ImportData from '../../components/ImportData.vue'
 export default {
     data() {
         return {};

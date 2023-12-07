@@ -2,17 +2,17 @@ import { createRouter as createRouter, createWebHistory } from 'vue-router'
 import { useStore } from 'vuex'
 
 // Import components
-import EditHomeView from '../views/EditHomeView.vue'
-import UserView from '../views/UserView.vue';
-import HomeView from '../views/HomeView.vue';
+import EditHomeView from '../views/home/EditHomeView.vue'
+import UserView from '../views/user/UserView.vue';
+import HomeView from '../views/home/HomeView.vue';
 import LoginView from '../views/LoginView.vue';
 import LogoutView from '../views/LogoutView.vue';
 import RegisterView from '../views/RegisterView.vue';
-import AdminView from '../views/AdminView.vue'
-import OTPView from '../views/OTPView.vue'
-import ChangePasswordView from '../views/ChangePasswordView.vue'
-import ProteinView from '../views/ProteinView.vue'
-import ProteinImportView from '../views/ProteinImportView.vue'
+import AdminView from '../views/admin/AdminView.vue'
+import OTPView from '../views/admin/OTPView.vue'
+import ChangePasswordView from '../views/user/ChangePasswordView.vue'
+import ProteinView from '../views/protein/ProteinView.vue'
+import ProteinImportView from '../views/protein/ProteinImportView.vue'
 
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
@@ -66,7 +66,7 @@ const routes = [
   },
   {
     path: "/admin/editHome",
-    name: "editHome", 
+    name: "editHome",
     component: EditHomeView,
     meta:{
       requiresAuth: true

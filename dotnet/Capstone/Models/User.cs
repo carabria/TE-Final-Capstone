@@ -40,7 +40,6 @@ namespace Capstone.Models
     {
         public string Username { get; set; }
         public string Password { get; set; }
-        public bool HasOneTimePassword { get; set; }
     }
 
     /// <summary>

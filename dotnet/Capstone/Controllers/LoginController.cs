@@ -73,6 +73,10 @@ namespace Capstone.Controllers
 
                 // Create a ReturnUser object to return to the client
                 LoginResponse retUser = new LoginResponse() { User = new ReturnUser() { UserId = user.UserId, Username = user.Username, Role = user.Role }, Token = token };
+                if (user.HasOneTimePassword)
+                {
+                    Response.Headers.Add("X-OTP", "true");
+                }
 
                 // Switch to 200 OK
                 result = Ok(retUser);

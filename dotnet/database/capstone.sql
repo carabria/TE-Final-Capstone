@@ -21,8 +21,7 @@ CREATE TABLE users (
 	password_hash varchar(200) NOT NULL,
 	salt varchar(200) NOT NULL,
 	user_role varchar(50) NOT NULL,
-	one_time_password_hash varchar(200),
-	one_time_password_salt varchar (200),
+	has_one_time_password bit NOT NULL,
 	CONSTRAINT PK_user PRIMARY KEY (user_id)
 )
 CREATE TABLE proteins (

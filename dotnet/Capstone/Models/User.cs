@@ -9,8 +9,7 @@ namespace Capstone.Models
         public string PasswordHash { get; set; }
         public string Salt { get; set; }
         public string Role { get; set; }
-        public string? OneTimePasswordHash { get; set; } = null;
-        public string? OneTimePasswordSalt { get; set; } = null;
+        public bool HasOneTimePassword { get; set; }
     }
 
     /// <summary>
@@ -38,8 +37,8 @@ namespace Capstone.Models
     public class LoginUser
     {
         public string Username { get; set; }
-        public string? Password { get; set; } = null;
-        public string? OneTimePassword { get; set; } = null;
+        public string Password { get; set; }
+        public bool HasOneTimePassword { get; set; }
     }
 
     /// <summary>
@@ -53,11 +52,13 @@ namespace Capstone.Models
         public string Role { get; set; }
     }
 
+    /// <summary>
+    ///  Model for password recovery
+    /// </summary>
     public class RecoverUser
     {
         public string Username { get; set; }
-        public string? Password { get; set; } = null;
-        public string NewPassword { get; set; }
-        public string? OneTimePassword { get; set; } = null;
+        public string Password { get; set; }
+        public string ConfirmPassword { get; set; }
     }
 }

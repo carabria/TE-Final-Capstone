@@ -64,18 +64,6 @@ namespace Capstone.Controllers
                 return result;
             }
 
-            // If user has one time password, log in with that
-             if (user !=null && userParam.OneTimePassword != null && passwordHasher.VerifyHashMatch(user.OneTimePasswordHash, userParam.OneTimePassword, user.OneTimePasswordSalt))
-             {
-                // Create an authentication token
-                string token = tokenGenerator.GenerateToken(user.UserId, user.Username, user.Role);
-
-                // Create a ReturnUser object to return to the client
-                LoginResponse retUser = new LoginResponse() { User = new ReturnUser() { UserId = user.UserId, Username = user.Username, Role = user.Role }, Token = token };
-
-                // Switch to 205 Reset Content
-                return StatusCode(205, retUser);
-            }
             // If we found a user and the password hash matches
 
             if (user != null && userParam.Password != null && passwordHasher.VerifyHashMatch(user.PasswordHash, userParam.Password, user.Salt))
@@ -89,7 +77,6 @@ namespace Capstone.Controllers
                 // Switch to 200 OK
                 result = Ok(retUser);
             }
-
             return result;
         }
 
@@ -109,7 +96,7 @@ namespace Capstone.Controllers
                 {
                     return Conflict(new { message = "Username already taken. Please choose a different username." });
                 }
-                if(userParam.ConfirmPassword != userParam.Password)
+                if (userParam.ConfirmPassword != userParam.Password)
                 {
                     return Conflict(new { message = "Passwords do not match, please verify that passwords match" });
                 }

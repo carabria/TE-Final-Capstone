@@ -54,7 +54,7 @@ namespace Capstone.DAO
         {
             User user = null;
 
-            string sql = "SELECT user_id, username, password_hash, salt, user_role, one_time_password_hash, one_time_password_salt FROM users WHERE user_id = @user_id";
+            string sql = "SELECT user_id, username, password_hash, salt, user_role, has_one_time_password FROM users WHERE user_id = @user_id";
 
             try
             {
@@ -85,7 +85,7 @@ namespace Capstone.DAO
         {
             User user = null;
 
-            string sql = "SELECT user_id, username, user_role, password_hash, salt, one_time_password_hash, one_time_password_salt FROM users WHERE username = @username";
+            string sql = "SELECT user_id, username, user_role, password_hash, salt, has_one_time_password FROM users WHERE username = @username";
 
             try
             {
@@ -147,10 +147,11 @@ namespace Capstone.DAO
             User newUser = new User();
             IPasswordHasher passwordHasher = new PasswordHasher();
             PasswordHash hash = passwordHasher.ComputeHash(password);
+            int hasOneTimePassword = 0;
 
-            string sql = "INSERT INTO users (username, password_hash, salt, user_role) " +
+            string sql = "INSERT INTO users (username, password_hash, salt, user_role, has_one_time_password) " +
                          "OUTPUT INSERTED.user_id " +
-                         "VALUES (@username, @password_hash, @salt, @user_role)";
+                         "VALUES (@username, @password_hash, @salt, @user_role, @has_one_time_password)";
             int newUserId = 0;
             try
             {
@@ -163,6 +164,7 @@ namespace Capstone.DAO
                     cmd.Parameters.AddWithValue("@password_hash", hash.Password);
                     cmd.Parameters.AddWithValue("@salt", hash.Salt);
                     cmd.Parameters.AddWithValue("@user_role", role);
+                    cmd.Parameters.AddWithValue("@has_one_time_password", hasOneTimePassword);
                     newUserId = Convert.ToInt32(cmd.ExecuteScalar());
 
                 }
@@ -179,9 +181,9 @@ namespace Capstone.DAO
         {
             IPasswordHasher passwordHasher = new PasswordHasher();
             PasswordHash hash = passwordHasher.ComputeHash(password);
-
+            bool hasOneTimePassword = false;
             string sql = "UPDATE users " +
-             "SET password_hash = @password_hash, salt = @salt, one_time_password_hash = NULL, one_time_password_salt = NULL " +
+             "SET password_hash = @password_hash, salt = @salt, has_one_time_password = @has_one_time_password " +
              "WHERE username = @username";
 
             try
@@ -194,6 +196,7 @@ namespace Capstone.DAO
                     cmd.Parameters.AddWithValue("@username", username);
                     cmd.Parameters.AddWithValue("@password_hash", hash.Password);
                     cmd.Parameters.AddWithValue("@salt", hash.Salt);
+                    cmd.Parameters.AddWithValue("@has_one_time_password", hasOneTimePassword);
 
                     cmd.ExecuteScalar();
                 }
@@ -205,16 +208,16 @@ namespace Capstone.DAO
         }
 
         public string GenerateOneTimePassword(string username)
-        {
+        {   
             Console.WriteLine(username);
             PasswordGenerator generator = new PasswordGenerator();
             IPasswordHasher passwordHasher = new PasswordHasher();
 
             string oneTimePassword = generator.oneTimeGenerator();
             PasswordHash hash = passwordHasher.ComputeHash(oneTimePassword);
-
+            bool hasOneTimePassword = true;
             string sql = "UPDATE users " +
-             "SET one_time_password_hash = @password_hash, one_time_password_salt = @salt " +
+             "SET password_hash = @password_hash, salt = @salt, has_one_time_password = @has_one_time_password " +
              "WHERE username = @username";
 
             try
@@ -224,9 +227,10 @@ namespace Capstone.DAO
                     conn.Open();
 
                     SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@username", username);
                     cmd.Parameters.AddWithValue("@password_hash", hash.Password);
                     cmd.Parameters.AddWithValue("@salt", hash.Salt);
-                    cmd.Parameters.AddWithValue("@username", username);
+                    cmd.Parameters.AddWithValue("@has_one_time_password", hasOneTimePassword);
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -245,8 +249,7 @@ namespace Capstone.DAO
             user.Role = Convert.ToString(reader["user_role"]);
             user.PasswordHash = Convert.ToString(reader["password_hash"]);
             user.Salt = Convert.ToString(reader["salt"]);
-            user.OneTimePasswordSalt = Convert.ToString(reader["one_time_password_salt"]);
-            user.OneTimePasswordHash = Convert.ToString(reader["one_time_password_hash"]);
+            user.HasOneTimePassword = Convert.ToBoolean(reader["has_one_time_password"]);
             return user;
         }
 

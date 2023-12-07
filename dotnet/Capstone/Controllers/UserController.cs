@@ -15,50 +15,29 @@ namespace Capstone.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserDao userDao;
-        private readonly IPasswordHasher passwordHasher;
 
-        public UserController(IUserDao userDao, IPasswordHasher passwordHasher)
+        public UserController(IUserDao userDao)
         {
             this.userDao = userDao;
-            this.passwordHasher = passwordHasher;
         }
 
         [HttpPut("changepassword")]
-        public IActionResult changePassword(RecoverUser user)
+        public IActionResult ChangePassword(RecoverUser user)
         {
-            User currentUser = userDao.GetFullUserByUsername(user.Username);
-            IPasswordHasher passwordHasher = new PasswordHasher();
-            if (user.Password != "")
+            if (user.Password != user.ConfirmPassword)
             {
-                if (passwordHasher.VerifyHashMatch(currentUser.PasswordHash, user.Password, currentUser.Salt))
-                {
-                    try
-                    {
-                        userDao.ChangePassword(user.Username, user.NewPassword);
-                    }
-                    catch (DaoException)
-                    {
-                        return StatusCode(500, "An internal server error occurred.");
-                    }
-                    return Ok();
-                }
+                return StatusCode(400, "Passwords do not match.");
             }
-            else if (user.OneTimePassword != null)
+            try
             {
-                if (passwordHasher.VerifyHashMatch(currentUser.OneTimePasswordHash, user.OneTimePassword, currentUser.OneTimePasswordSalt))
-                {
-                    try
-                    {
-                        userDao.ChangePassword(user.Username, user.NewPassword);
-                    }
-                    catch (DaoException)
-                    {
-                        return StatusCode(500, "An internal server error occurred.");
-                    }
-                    return Ok();
-                }
+                userDao.ChangePassword(user.Username, user.ConfirmPassword);
             }
-            return StatusCode(500, "An internal server error occurred.");
+            catch (DaoException)
+            {
+                return StatusCode(500, "An internal server error occurred.");
+            }
+            return Ok();
         }
     }
 }
+

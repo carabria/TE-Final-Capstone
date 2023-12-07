@@ -41,10 +41,25 @@ namespace Test.TestDAO
             Assert.AreEqual(1, user.UserId);
         }
 
+
         [TestMethod]
         public void GetFullUserByUsernameInvalidUsername()
         {
             User user = dao.GetFullUserByUsername("invalid");
+            Assert.IsNull(user);
+        }
+
+        [TestMethod]
+        public void GetFullUserByEmailHappyPath()
+        {
+            User user = dao.GetFullUserByEmail("dummy@email.net");
+            Assert.AreEqual(1, user.UserId);
+        }
+
+        [TestMethod]
+        public void GetFullUserByEmailInvalidEmail()
+        {
+            User user = dao.GetFullUserByEmail("notanemail");
             Assert.IsNull(user);
         }
 

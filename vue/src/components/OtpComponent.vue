@@ -83,7 +83,7 @@ export default {
       this.selected_user = {};
     },
 
-    //Todo(anita): Handle error checking
+    //Todo(anderson): Handle error checking
     setOneTimePass() {
       let session_token = this.$store.state.token;
       AdminService.generateOTP(session_token, this.selected_user.userId)
@@ -95,7 +95,7 @@ export default {
         });
     },
 
-    //Todo(anita): Handle error checking
+    //Todo(anderson): Handle error checking
     clearOneTimePass() {
       this.one_time_password = '';
     }

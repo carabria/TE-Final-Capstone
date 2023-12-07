@@ -111,6 +111,35 @@ namespace Capstone.DAO
             return user;
         }
 
+        public User GetFullUserByEmail(string email)
+        {
+            User user = null;
+
+            string sql = "SELECT user_id, username, email, organization_name, user_role, password_hash, salt, has_one_time_password FROM users WHERE email = @email";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@email", email);
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        user = MapRowToUser(reader);
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new DaoException("SQL exception occurred", ex);
+            }
+
+            return user;
+        }
 
         public ReturnUser GetUserByUsername(string username)
         {

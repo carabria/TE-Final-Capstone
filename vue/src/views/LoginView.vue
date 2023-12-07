@@ -40,6 +40,7 @@ export default {
   },
   methods: {
     login() {
+      console.log("login");
       authService
         .login(this.user)
         .then(response => {
@@ -51,6 +52,7 @@ export default {
         })
         .catch(error => {
           const response = error.response;
+          console.log(response)
 
           if (response.status === 401) {
             this.invalidCredentials = true;

@@ -9,8 +9,12 @@
     </form>
 
     <form @submit.prevent="importTextArea">
-      <label for="textArea">Data</label>
-      <textarea id="textArea" v-model="textArea" />
+      <label for="text">Name</label>
+      <input type="text" id="text" v-model="protein.name" />
+      <label for="proteinDescription">Description</label>
+      <input type="text" id="proteinDescription" v-model="protein.description" />
+      <label for="proteinDataBox">Data</label>
+      <textarea id="proteinDataBox" v-model="protein.data" />
       <button type="submit">Import Data</button>
     </form>
 
@@ -25,15 +29,49 @@
 </template>
 
 <script>
+import ProteinService from '../services/ProteinService.js';
 export default {
   data() {
     return {
+      protein: {
+        name: '',
+        description: '',
+        data: '',
+      },
       apiData: '',
-      textArea: '',
+      proteinName: '',
+      proteinDataBox: '',
       file: null,
     };
   },
   methods: {
+    importTextArea() {
+      const token = this.$store.state.token;
+
+      const protein_data = {
+        SequenceName: this.protein.name,
+        ProteinSequence: this.protein.data,
+        Description: this.protein.description,
+        FormatType: 0,
+        UserId: 0
+
+      };
+      ProteinService.createProtein(token, protein_data)
+        .then(response => {
+          if (response.status === 200) {
+            alert("Protein created successfully");
+            this.$router.push("/protein");
+          }
+        })
+        .catch(error => {
+          const response = error.response;
+          if (response.status === 401) {
+            alert("Invalid password");
+          }
+        });
+
+      this.$router.push("/protein");
+    },
 
   }
 };

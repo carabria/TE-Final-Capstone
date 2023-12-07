@@ -9,7 +9,7 @@ namespace Capstone.DAO
         User GetUserById(int id);
         ReturnUser GetUserByUsername(string username);
         User GetFullUserByUsername(string username);
-        User CreateUser(string username, string password, string role);
+        User CreateUser(string username, string email, string organizationName, string password, string role);
         void ChangePassword(string username, string password);
         string GenerateOneTimePassword(string username);
 

@@ -22,7 +22,7 @@ namespace Capstone.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IList<Protein>> getProteins()
+        public ActionResult<IList<Protein>> GetProteins()
         {
             IList<Protein> proteins = new List<Protein>();
             try
@@ -40,7 +40,7 @@ namespace Capstone.Controllers
         }
 
         [HttpGet("proteinId={id}")]
-        public ActionResult getProteinById(int id)
+        public ActionResult GetProteinById(int id)
         {
             Protein protein = new Protein();
             try
@@ -55,7 +55,7 @@ namespace Capstone.Controllers
         }
 
         [HttpGet("proteinName={name}")]
-        public ActionResult<IList<Protein>> getProteinsBySequenceName(string name)
+        public ActionResult<IList<Protein>> GetProteinsBySequenceName(string name)
         {
             IList<Protein> proteins = new List<Protein>();
             try
@@ -73,7 +73,7 @@ namespace Capstone.Controllers
         }
 
         [HttpGet("user={id}")]
-        public ActionResult<IList<Protein>> getProteinsByUserId(int id)
+        public ActionResult<IList<Protein>> GetProteinsByUserId(int id)
         {
             IList<Protein> proteins = new List<Protein>();
             try
@@ -91,7 +91,7 @@ namespace Capstone.Controllers
         }
 
         [HttpPost]
-        public ActionResult createProtein(RegisterProtein proteinParam)
+        public ActionResult CreateProtein(RegisterProtein proteinParam)
         {
             ReturnUser user = userDao.GetUserByUsername(User.Identity.Name);
             Protein protein = null;
@@ -107,7 +107,7 @@ namespace Capstone.Controllers
         }
 
         [HttpPut]
-        public ActionResult updateProtein(int proteinId, Protein proteinParam)
+        public ActionResult UpdateProtein(int proteinId, Protein proteinParam)
         {
             ReturnUser user = userDao.GetUserByUsername(User.Identity.Name);
             Protein protein = null;
@@ -120,10 +120,10 @@ namespace Capstone.Controllers
                 return StatusCode(500, "An internal server error occurred.");
             }
             return Ok(protein);
-        }
+        }   
 
         [HttpDelete("delete/{id}")]
-        public ActionResult deleteProtein(int id)
+        public ActionResult DeleteProtein(int id)
         {
             bool result = false;
             try
@@ -132,7 +132,7 @@ namespace Capstone.Controllers
             }
             catch (DaoException)
             {
-                return StatusCode(500, "An internal server error occurred.");
+                return StatusCode(500, "An internal server error occur  red.");
             }
             if (result == true)
             {

@@ -1,7 +1,7 @@
 <template>
     <div id="otp">
     <h1>One time Password</h1>
-      <table>      
+      <table>
         <thead>
           <tr>
             <th>User Id</th>
@@ -22,7 +22,7 @@
             <td>{{ user.role }}</td>
           </tr>
         </tbody>
-      </table> 
+      </table>
         <div v-show="selected_user">
           <h3>Are you sure you want to select this user?</h3>
           <p>Username: {{ selected_user.username }}</p>
@@ -64,9 +64,8 @@ export default {
     getUsers() {
       let session_token = this.$store.state.token;
       AdminService.listUsers(session_token)
-        .then(response => { 
+        .then(response => {
           this.user_list = response.data;
-          console.log(this.user_list);
         })
         .catch(error => {
           console.log(error);
@@ -77,7 +76,6 @@ export default {
       this.selected_user = user;
     },
     confirmUser() {
-      console.log(this.selected_user);
       this.setOneTimePass();
       this.cancelUserSelection();
     },
@@ -91,7 +89,6 @@ export default {
       AdminService.generateOTP(session_token, this.selected_user.userId)
         .then(response => {
           this.one_time_password = response.data;
-          console.log(this.one_time_password);
         })
         .catch(error => {
           console.log(error);
@@ -101,11 +98,11 @@ export default {
     //Todo(anita): Handle error checking
     clearOneTimePass() {
       this.one_time_password = '';
-    } 
+    }
   },
   computed: {
     filteredList() {
-      let user_filter = this.user_list; 
+      let user_filter = this.user_list;
       const { userId, username, role } = this.search;
 
       if (userId != '') {
@@ -121,7 +118,7 @@ export default {
       }
 
       return user_filter
-   
+
     },
   }
 }
@@ -129,7 +126,7 @@ export default {
 </script>
 
 <style scoped>
-.hide { 
+.hide {
   display: none;
 }
 

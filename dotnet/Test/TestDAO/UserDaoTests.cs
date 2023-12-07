@@ -65,7 +65,7 @@ namespace Test.TestDAO
         [TestMethod]
         public void CreateUserAddsUser()
         {
-            dao.CreateUser("username", "password", "user");
+            dao.CreateUser("username", "email", "org", "password", "user");
             IList<ReturnUser> users = dao.GetUsers();
             Assert.AreEqual(3, users.Count);
         }
@@ -73,7 +73,7 @@ namespace Test.TestDAO
         [TestMethod]
         public void CreateUserCreatedUserNotNull()
         {
-            dao.CreateUser("username", "password", "user");
+            dao.CreateUser("username", "email", "org", "password", "user");
             User user = dao.GetFullUserByUsername("username");
             Assert.IsNotNull(user.Username);
         }
@@ -95,35 +95,34 @@ namespace Test.TestDAO
         }
 
         [TestMethod]
-        public void ChangePasswordOTPHashNull()
+        public void ChangePasswordOTPBoolFalse()
         {
             dao.ChangePassword("user", "newpassword");
             User user = dao.GetFullUserByUsername("user");
-            Assert.AreEqual("", user.OneTimePasswordHash);
+            Assert.AreEqual(false, user.HasOneTimePassword);
         }
 
         [TestMethod]
-        public void ChangePasswordOTPSaltNull()
-        {
-            dao.ChangePassword("user", "newpassword");
-            User user = dao.GetFullUserByUsername("user");
-            Assert.AreEqual("", user.OneTimePasswordSalt);
-        }
-
-        [TestMethod]
-        public void GenerateOneTimePasswordOTPHashChanged()
+        public void GenerateOneTimePasswordOTPBoolTrue()
         {
             dao.GenerateOneTimePassword("user");
             User user = dao.GetFullUserByUsername("user");
-            Assert.AreNotEqual("LHxP4Xh7bN0=", user.OneTimePasswordHash);
+            Assert.AreEqual(true, user.HasOneTimePassword);
         }
-
         [TestMethod]
-        public void GenerateOneTimePasswordOTPSaltChanged()
+        public void GenerateOneTimePasswordHashChanged()
         {
             dao.GenerateOneTimePassword("user");
             User user = dao.GetFullUserByUsername("user");
-            Assert.AreNotEqual("Jg45HuwT7PZkfuKTz6IB90CtWY4", user.Salt);
+            Assert.AreNotEqual("Jg45HuwT7PZkfuKTz6IB90CtWY4=", user.PasswordHash);
+        }
+
+        [TestMethod]
+        public void GenerateOneTimePasswordSaltChanged()
+        {
+            dao.GenerateOneTimePassword("user");
+            User user = dao.GetFullUserByUsername("user");
+            Assert.AreNotEqual("lhxp4xh7bn0", user.Salt);
         }
     }
 }

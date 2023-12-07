@@ -6,11 +6,12 @@ namespace Capstone.Models
     {
         public int UserId { get; set; }
         public string Username { get; set; }
+        public string Email { get; set; }
+        public string OrganizationName { get; set; }
         public string PasswordHash { get; set; }
         public string Salt { get; set; }
         public string Role { get; set; }
-        public string? OneTimePasswordHash { get; set; } = null;
-        public string? OneTimePasswordSalt { get; set; } = null;
+        public bool HasOneTimePassword { get; set; }
     }
 
     /// <summary>
@@ -34,12 +35,12 @@ namespace Capstone.Models
 
     /// <summary>
     /// Model to accept login parameters
-    /// </summary>
+    /// </summary>  
     public class LoginUser
     {
         public string Username { get; set; }
-        public string? Password { get; set; } = null;
-        public string? OneTimePassword { get; set; } = null;
+        public string Password { get; set; }
+        public bool HasOneTimePassword { get; set; }
     }
 
     /// <summary>
@@ -48,16 +49,20 @@ namespace Capstone.Models
     public class RegisterUser
     {
         public string Username { get; set; }
+        public string Email { get; set; }
+        public string OrganizationName { get; set; }
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
         public string Role { get; set; }
     }
 
+    /// <summary>
+    ///  Model for password recovery
+    /// </summary>
     public class RecoverUser
     {
         public string Username { get; set; }
-        public string? Password { get; set; } = null;
-        public string NewPassword { get; set; }
-        public string? OneTimePassword { get; set; } = null;
+        public string Password { get; set; }
+        public string ConfirmPassword { get; set; }
     }
 }

@@ -51,21 +51,21 @@ returns: Ok status code, list of proteins associated with user id
 createProtein (post)
 url: /proteins
 input: registerprotein model (SequenceName, ProteinSequence, Description, FormatType, UserId)
-returns: 500 if there is a Dao error, 201 Created and the new protein if successful
+returns: 201 Created and the new protein if successful
 
 updateProtein (put)
 url: /proteins
 input: proteinId to update, Protein model to send
-returns: 500 if there is a Dao error, 200 Ok an the updated protein if successful
+returns: 200 Ok an the updated protein if successful
 
 deleteProtein (delete)
 url: /proteins/delete/{id}
 input: protein id to delete
-returns: 500 if there is a Dao error, 204 NotFound if the deletion was successful
+returns: 204 NotFound if the deletion was successful
 
 ====== LOGIN CONTROLLER ======
 changePassword (put)
 url: /user/changepassword
 input: recoveruser model (username, password, newpassword, onetimepassword)
-returns: 500 if there is a Dao error, 200 Ok if the update was sucessful
+returns: 200 Ok if the update was sucessful
 

@@ -38,7 +38,7 @@ namespace Capstone.Controllers
                     }
                     catch (DaoException)
                     {
-                        return StatusCode(500, "An internal server error occured.");
+                        return StatusCode(500, "An internal server error occurred.");
                     }
                     return Ok();
                 }
@@ -53,12 +53,12 @@ namespace Capstone.Controllers
                     }
                     catch (DaoException)
                     {
-                        return StatusCode(500, "An internal server error occured.");
+                        return StatusCode(500, "An internal server error occurred.");
                     }
                     return Ok();
                 }
             }
-            return StatusCode(500, "An internal server error occured.");
+            return StatusCode(500, "An internal server error occurred.");
         }
     }
 }

@@ -50,6 +50,7 @@ namespace Capstone.Controllers
                     UserId = user.UserId,
                     Username = user.Username,
                     Role = user.Role,
+                    Email = user.Email
                 };
                 
                 user_list.Add(retUser);

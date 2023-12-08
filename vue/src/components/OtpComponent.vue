@@ -6,12 +6,14 @@
           <tr>
             <th>User Id</th>
             <th>Username</th>
+            <th>Email</th>
             <th>Role</th>
           </tr>
         </thead>
         <tbody>
           <td><input type="text" id="filter_id" v-model="search.userId" placeholder="User ID"></td>
           <td><input type="text" id="filter_name" v-model="search.username" placeholder="Username"></td>
+          <td><input type ="text" id="filter_email" v-model="search.email" placeholder="Email"></td>
           <td><input type="text" id="filter_role" v-model="search.role" placeholder="Role"></td>
         </tbody>
         <tbody v-for="user in filteredList" :key="user.userId"
@@ -19,11 +21,12 @@
           <tr @click="clickLog(user)">
             <td>{{ user.userId }}</td>
             <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
             <td>{{ user.role }}</td>
           </tr>
         </tbody>
       </table>
-        <div v-show="selected_user">
+        <div v-show="has_selected_user">
           <h3>Are you sure you want to select this user?</h3>
           <p>Username: {{ selected_user.username }}</p>
           <button @click="confirmUser">Confirm User</button>
@@ -45,11 +48,13 @@ export default {
       user: {
         userId:Number,
         username: String,
+        email: String,
         role: String,
       },
       search: {
         userId: '',
         username: '',
+        email: '',
         role: '',
       },
       selected_user: {},
@@ -103,16 +108,21 @@ export default {
   computed: {
     filteredList() {
       let user_filter = this.user_list;
-      const { userId, username, role } = this.search;
+      const { userId, username, email, role} = this.search;
 
+      
       if (userId != '') {
         user_filter = user_filter.filter(user => user.userId == userId);
       }
-
+      
       if (username != '') {
         user_filter = user_filter.filter(user =>  user.username.toLowerCase().includes(username.toLowerCase()));
       }
 
+      if (email != '') {
+        user_filter = user_filter.filter(user => user.email == email);
+      }
+      
       if (role != '') {
         user_filter = user_filter.filter(user => user.role.toLowerCase().includes(role.toLowerCase()));
       }

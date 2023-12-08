@@ -24,7 +24,7 @@ namespace Capstone.DAO
         {
             IList<ReturnUser> users = new List<ReturnUser>();
 
-            string sql = "SELECT user_id, username, user_role FROM users";
+            string sql = "SELECT user_id, username, email, user_role FROM users";
 
             try
             {
@@ -290,6 +290,7 @@ namespace Capstone.DAO
             ReturnUser user = new ReturnUser();
             user.UserId = Convert.ToInt32(reader["user_id"]);
             user.Username = Convert.ToString(reader["username"]);
+            user.Email = Convert.ToString(reader["email"]);
             user.Role = Convert.ToString(reader["user_role"]);
             return user;
         }

@@ -102,5 +102,12 @@ namespace Test.TestDAO
             Assert.AreEqual(expected.Name, actual.Name);
             Assert.AreEqual(expected.ViewId, actual.ViewId);
         }
+        [TestMethod]
+        public void DeleteById()
+        {
+            dao.DeleteViewById(1);
+            Home home = dao.GetViewById(1);
+            AssertAll(home, new Home()); ;
+        }
     }
 }

@@ -26,13 +26,8 @@ namespace Test.TestDAO
             ViewId = 0,
             Name = "name"
         };
-<<<<<<< HEAD
             
-            HomeSqlDao dao;
-=======
-
         HomeSqlDao dao;
->>>>>>> 28b17657d2a22385e2d20c253cb83401708cada4
         [TestInitialize]
         public virtual void Init()
         {
@@ -79,15 +74,9 @@ namespace Test.TestDAO
         public void GetViewByIdBadId()
         {
             Home home = dao.GetViewById(543);
-<<<<<<< HEAD
             Assert.IsNull(home.Body);            
         }
          
-=======
-            Assert.IsNull(home.Body);
-        }
-
->>>>>>> 28b17657d2a22385e2d20c253cb83401708cada4
         [TestMethod]
         public void GetAllViewsReturnsAllViews()
         {

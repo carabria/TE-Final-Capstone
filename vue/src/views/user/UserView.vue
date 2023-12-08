@@ -3,10 +3,11 @@
     <h2>Welcome {{ name }}</h2>
     <ul>
       <li><router-link v-bind:to="{ name: 'change_password' }">Change Password</router-link></li>
+      <li><router-link v-bind:to="{ name: 'view_proteins' }">View your proteins</router-link></li>
     </ul>
   </div>
 </template>
-t
+
 
 <script>
 export default {

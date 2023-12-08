@@ -72,13 +72,13 @@ namespace Capstone.Controllers
             return Ok(proteins);
         }
 
-        [HttpGet("user={id}")]
-        public ActionResult<IList<Protein>> GetProteinsByUserId(int id)
+        [HttpGet("user={username}")]
+        public ActionResult<IList<Protein>> GetProteinsByUsername(string username)
         {
             IList<Protein> proteins = new List<Protein>();
             try
             {
-                foreach (Protein protein in proteinDao.GetProteinsByUserId(id))
+                foreach (Protein protein in proteinDao.GetProteinsByUsername(username))
                 {
                     proteins.Add(protein);
                 }

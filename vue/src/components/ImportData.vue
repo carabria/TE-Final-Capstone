@@ -11,7 +11,7 @@
     <form @submit.prevent="importTextArea">
       <label for="text">Name</label>
       <input type="text" id="text" v-model="protein.name" required/>
-      <label for="proteinDescription">Description</label>
+      <label for="proteinDescription">Note</label>
       <input type="text" id="proteinDescription" v-model="protein.description"/>
       <label for="proteinDataBox">Data</label>
       <textarea id="proteinDataBox" v-model="protein.data" required></textarea>

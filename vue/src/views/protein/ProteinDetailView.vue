@@ -39,9 +39,9 @@ export default {
       ProteinService.getProtein(token, protein_id)
         .then(response => {
           console.log(response.data);
-          var new_data = response.data.proteinSequence.replace(/[0-9]/g, '');
+          // var new_data = response.data.proteinSequence.replace(/[0-9]/g, '');
           this.protein = response.data;
-          this.protein.proteinSequence = new_data;
+          // this.protein.proteinSequence = new_data;
         })
         .catch(error => {
           console.log(error);
@@ -95,7 +95,7 @@ body {
   font-family: monospace;
   color: black;
   background-color: white;
-  white-space: pre-line;
+  white-space: break-spaces;
   word-wrap: break-word;
 }
 

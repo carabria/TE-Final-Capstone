@@ -8,7 +8,7 @@
           <thead>
             <tr id="header">
               <th>Name</th>
-              <th>Description</th>
+              <th>Note</th>
             </tr>
           </thead>
           <tbody v-for="p in filteredProteins" :key="p.proteinId">
@@ -105,6 +105,7 @@ table {
   width: 100%;
   border: 1px solid #ddd;
   font-size: 18px;
+  color:black;
 }
 
 table th, table td {

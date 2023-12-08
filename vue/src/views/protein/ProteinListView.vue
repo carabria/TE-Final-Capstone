@@ -1,14 +1,12 @@
 <template>
   <div class="protein-list-view">
-    <h2>Protein List</h2>
-
     <div class="search">
       <input type="text" v-model="search.name" placeholder="Search by name">
       <table class="p-table">
         <thead>
           <tr id="header">
             <th>Name</th>
-            <th>Description</th>
+            <th>Note</th>
           </tr>
         </thead>
         <tbody v-for="p in filteredProteins" :key="p.proteinId">
@@ -100,6 +98,7 @@ table {
   width: 100%;
   border: 1px solid #ddd;
   font-size: 18px;
+  color: black;
 }
 
 table th, table td {

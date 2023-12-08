@@ -145,7 +145,7 @@ namespace Capstone.DAO
         {
             ReturnUser user = null;
 
-            string sql = "SELECT user_id, username, user_role FROM users WHERE username = @username";
+            string sql = "SELECT user_id, username, user_role, email FROM users WHERE username = @username";
 
             try
             {

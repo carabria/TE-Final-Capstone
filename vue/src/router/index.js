@@ -11,6 +11,7 @@ import RegisterView from '../views/RegisterView.vue';
 import AdminView from '../views/admin/AdminView.vue'
 import OTPView from '../views/admin/OTPView.vue'
 import ChangePasswordView from '../views/user/ChangePasswordView.vue'
+import UserProteinsView from '../views/user/UserProteinsView.vue'
 
 import ProteinView from '../views/protein/ProteinView.vue'
 import ProteinListView from '../views/protein/ProteinListView.vue'
@@ -104,6 +105,14 @@ const routes = [
     path: '/user/changepassword',
     name: 'change_password',
     component: ChangePasswordView,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/user/viewproteins',
+    name: 'view_proteins',
+    component: UserProteinsView,
     meta: {
       requiresAuth: true
     }

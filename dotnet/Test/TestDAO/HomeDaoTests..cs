@@ -25,9 +25,15 @@ namespace Test.TestDAO
             Image = "image.png",
             ViewId = 0,
             Name = "name"
+<<<<<<< HEAD
         };
          HomeSqlDao dao;
        
+=======
+        };          
+        HomeSqlDao dao;
+
+>>>>>>> 0ad92fc9bd3ebd2bbae20f8193702e7bfc28eae3
         [TestInitialize]
         public virtual void Init()
         {
@@ -74,10 +80,16 @@ namespace Test.TestDAO
         public void GetViewByIdBadId()
         {
             Home home = dao.GetViewById(543);
+<<<<<<< HEAD
 
             Assert.IsNull(home.Body);            
         }
 
+=======
+            Assert.IsNull(home.Body);            
+        }
+
+>>>>>>> 0ad92fc9bd3ebd2bbae20f8193702e7bfc28eae3
         [TestMethod]
         public void GetAllViewsReturnsAllViews()
         {

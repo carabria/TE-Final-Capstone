@@ -113,12 +113,12 @@ namespace Capstone.DAO
             }
         }
 
-        public IList<Protein> GetProteinsByUserId(int id)
+        public IList<Protein> GetProteinsByUsername(string name)
         {
             IList<Protein> proteins = new List<Protein>();
             string sql = "SELECT protein_id, sequence_name, protein_sequence, description, format_type, username, user_id " +
                 "FROM proteins " +
-                "WHERE user_id = @user_id";
+                "WHERE username = @username";
 
             try
             {
@@ -127,7 +127,7 @@ namespace Capstone.DAO
                     conn.Open();
 
                     SqlCommand cmd = new SqlCommand(sql, conn);
-                    cmd.Parameters.AddWithValue("@user_id", id);
+                    cmd.Parameters.AddWithValue("@username", name);
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     while (reader.Read())

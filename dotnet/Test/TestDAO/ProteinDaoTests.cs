@@ -51,14 +51,14 @@ namespace Test.TestDAO
         [TestMethod]
         public void GetProteinsByUserIdHappyPath()
         {
-            IList<Protein> proteins = dao.GetProteinsByUserId(1);
+            IList<Protein> proteins = dao.GetProteinsByUsername("user");
             Assert.AreEqual(1, proteins.Count);
         }
 
         [TestMethod]
-        public void GetProteinsByUserIdInvalidId()
+        public void GetProteinsByUsernameInvalidName()
         {
-            IList<Protein> proteins = dao.GetProteinsByUserId(100);
+            IList<Protein> proteins = dao.GetProteinsByUsername("hello");
             Assert.AreEqual(0, proteins.Count);
         }
 

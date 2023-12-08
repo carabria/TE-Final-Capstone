@@ -24,6 +24,10 @@ namespace Capstone.Controllers
         [HttpPut("changepassword")]
         public IActionResult ChangePassword(RecoverUser user)
         {
+            if (user.Password == "")
+            {
+                return StatusCode(400, "Password may not be empty.");
+            }
             if (user.Password != user.ConfirmPassword)
             {
                 return StatusCode(400, "Passwords do not match.");

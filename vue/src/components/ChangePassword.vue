@@ -28,6 +28,10 @@ export default {
   methods: {
     changePassword() {
       const session_token = this.$store.state.token;
+      if (this.password == "") {
+        alert("Password may not be empty.");
+        return;
+      }
       if (this.password !== this.confirmPassword) {
         alert("Passwords do not match");
         return;

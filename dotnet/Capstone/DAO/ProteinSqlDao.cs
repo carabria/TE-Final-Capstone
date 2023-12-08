@@ -23,7 +23,7 @@ namespace Capstone.DAO
         {
             IList<Protein> proteins = new List<Protein>();
 
-            string sql = "SELECT protein_id, sequence_name, protein_sequence, description, format_type, user_id FROM proteins";
+            string sql = "SELECT protein_id, sequence_name, protein_sequence, description, format_type, username, user_id FROM proteins";
 
             try
             {
@@ -53,7 +53,7 @@ namespace Capstone.DAO
         {
             Protein protein = null;
 
-            string sql = "SELECT protein_id, sequence_name, protein_sequence, description, format_type, user_id " +
+            string sql = "SELECT protein_id, sequence_name, protein_sequence, description, format_type, username, user_id " +
                 "FROM proteins " +
                 "WHERE protein_id = @protein_id";
             try
@@ -83,7 +83,7 @@ namespace Capstone.DAO
         {
             {
                 IList<Protein> proteins = new List<Protein>();
-                string sql = "SELECT protein_id, sequence_name, protein_sequence, description, format_type, user_id " +
+                string sql = "SELECT protein_id, sequence_name, protein_sequence, description, format_type, username, user_id " +
                     "FROM proteins " +
                     "WHERE sequence_name = @sequence_name";
 
@@ -116,7 +116,7 @@ namespace Capstone.DAO
         public IList<Protein> GetProteinsByUserId(int id)
         {
             IList<Protein> proteins = new List<Protein>();
-            string sql = "SELECT protein_id, sequence_name, protein_sequence, description, format_type, user_id " +
+            string sql = "SELECT protein_id, sequence_name, protein_sequence, description, format_type, username, user_id " +
                 "FROM proteins " +
                 "WHERE user_id = @user_id";
 
@@ -145,13 +145,13 @@ namespace Capstone.DAO
             return proteins;
         }
 
-        public Protein CreateProtein(string sequenceName, string proteinSequence, string description, int userId)
+        public Protein CreateProtein(string sequenceName, string proteinSequence, string description, string username, int userId)
         {
             Protein newProtein = null;
             int formatType = DetectFormat(proteinSequence);
-            string sql = "INSERT INTO proteins (sequence_name, protein_sequence, description, format_type, user_id) " +
+            string sql = "INSERT INTO proteins (sequence_name, protein_sequence, description, format_type, username, user_id) " +
                 "OUTPUT INSERTED.protein_id " +
-                "VALUES (@sequence_name, @protein_sequence, @description, @format_type, @user_id)";
+                "VALUES (@sequence_name, @protein_sequence, @description, @format_type, @username, @user_id)";
             int newProteinId = 0;
             try
             {
@@ -164,6 +164,7 @@ namespace Capstone.DAO
                     cmd.Parameters.AddWithValue("@protein_sequence", proteinSequence);
                     cmd.Parameters.AddWithValue("@description", description);
                     cmd.Parameters.AddWithValue("@format_type", formatType);
+                    cmd.Parameters.AddWithValue("@username", username);
                     cmd.Parameters.AddWithValue("@user_id", userId);
 
                     newProteinId = Convert.ToInt32(cmd.ExecuteScalar());
@@ -183,7 +184,7 @@ namespace Capstone.DAO
             Protein updatedProtein = null;
             int formatType = DetectFormat(proteinSequence);
             string sql = "UPDATE proteins " +
-            "SET sequence_name = @sequence_name, protein_sequence = @protein_sequence, description = @description, format_type = @format_type, user_id = @user_id " +
+            "SET sequence_name = @sequence_name, protein_sequence = @protein_sequence, description = @description, format_type = @format_type, username = (SELECT username FROM users WHERE user_id = @user_id), user_id = @user_id " +
             "WHERE protein_id = @protein_id";
 
             try

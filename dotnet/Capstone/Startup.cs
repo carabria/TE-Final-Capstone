@@ -64,6 +64,7 @@ namespace Capstone
             services.AddSingleton<IPasswordHasher>(ph => new PasswordHasher());
             services.AddTransient<IUserDao>(m => new UserSqlDao(connectionString));
             services.AddTransient<IProteinDao>(m => new ProteinSqlDao(connectionString));
+            services.AddTransient<IUserDao>(m => new UserSqlDao(connectionString));
             services.AddTransient<IHomeDao>(m => new HomeSqlDao(connectionString));
         }
 

@@ -39,7 +39,9 @@ export default {
       ProteinService.getProtein(token, protein_id)
         .then(response => {
           console.log(response.data);
+          var new_data = response.data.proteinSequence.replace(/[0-9]/g, '');
           this.protein = response.data;
+          this.protein.proteinSequence = new_data;
         })
         .catch(error => {
           console.log(error);
@@ -89,7 +91,7 @@ body {
 }
 
 .p-sequence {
-  text-align: left;
+  text-align: center;
   font-family: monospace;
   color: black;
   background-color: white;

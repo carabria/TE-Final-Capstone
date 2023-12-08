@@ -9,5 +9,7 @@ namespace Capstone.DAO
         Home PostNewHomeView(Home data);
         Home GetViewById(int id);
         List<Home> GetAllViews();
+        void UpdateHomeView(int id);
+        bool DeleteViewById(int id);
     }
 }

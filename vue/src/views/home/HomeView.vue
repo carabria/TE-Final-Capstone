@@ -1,8 +1,9 @@
 <template>
   <div class="home">
-    <h1 id="company">{{ company }}</h1>
-    <p id="app">{{ app }}</p>
-    <img id="HomeViewImage"/> 
+    <h1 id="company">{{ header }}</h1>
+    <p id="app">{{ body }}</p>
+    <!-- TODO (Yukon) Do we even want an image on the home screen? -->
+    <!-- <img id="HomeViewImage"/>  -->
   </div>
 </template>
 
@@ -14,8 +15,8 @@ this.view();
   },
   data(){
     return{
-      app:'',
-      company: '',
+      body:'',
+      header: '',
       image: '',
     }
 
@@ -26,9 +27,9 @@ this.view();
       .getView()
       .then((response) => {
             if (response.status == 200) {
-              this.app = response.data.app;
-              this.company = response.data.company;
-              this.image = 'url('+response.data.image+')';
+              this.body = response.data.body;
+              this.header = response.data.header;
+              this.image = response.data.image;
               }})
           .catch((error) => {
             const response = error.response;
@@ -46,9 +47,4 @@ this.view();
 }
 </script>
 <style>
-#HomeViewImage{
-  display: block;
-  content: v-bind(image);
-  size: 100px;
-}
 </style>

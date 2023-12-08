@@ -8,8 +8,11 @@ getAllViews(){
 },
 postView(view) {
     return axios.post('home', view)
-  }, 
-  putDisplayView(viewId){
-    return axios.put('home', viewId)
-  }
+}, 
+putDisplayView(id){
+    return axios.put(`home/${id}`, id)
+},
+deleteView(id){
+    return axios.delete(`home/${id}`)
+},
 }

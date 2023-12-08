@@ -15,11 +15,11 @@ namespace Capstone.Controllers
         {
             this.homeDao = homeDao;
         }
-        
+
         [HttpGet]
         public ActionResult<Home> HomeViewDisplayController()
         {
-            Home home = new Home();           
+            Home home = new Home();
             try
             {
                 home = homeDao.GetView();
@@ -28,14 +28,24 @@ namespace Capstone.Controllers
             {
                 return StatusCode(500, "An internal server error occured.");
             }
-           
+
             return Ok(home);
         }
-        //[HttpPut]
-        //public ActionResult ChangeHomeView(int id)
-        //{
+        [HttpPut("{id}")]
+        public ActionResult ChangeHomeView(int id)
+        {
+            try
+            {
 
-        //}
+                homeDao.UpdateHomeView(id);
+            }
+            catch (DaoException)
+            {
+                return StatusCode(500, "An internal server error occured.");
+            }
+
+            return Ok();
+        }
         [HttpGet("views")]
         public ActionResult<List<Home>> AdminHomeViewEditChoose()
         {
@@ -65,6 +75,24 @@ namespace Capstone.Controllers
             }
 
             return Ok(newHome);
+        }
+        [HttpDelete("{id}")]
+        public ActionResult DeleteView(int id)
+        {
+            bool result = false;
+            try
+            {
+                result = homeDao.DeleteViewById(id);
+            }
+            catch (DaoException)
+            {
+                return StatusCode(500, "An internal server error occur  red.");
+            }
+            if (result == true)
+            {
+                return NoContent();
+            }
+            return NotFound();
         }
     }
 }

@@ -106,9 +106,9 @@ namespace Capstone.DAO
         }
         public Home PostNewHomeView(Home data)
         {
-            string sql = "INSERT INTO homeview (header, body, image_source, active) " +
+            string sql = "INSERT INTO homeview (header, body, image_source, active, name) " +
             "OUTPUT INSERTED.view_id " +
-            "VALUES (@header, @body, @image_source, @active) ";
+            "VALUES (@header, @body, @image_source, @active, @name) ";
             Home newHome = new Home();
             int newId = 0;
             data = NullPropertyToEmpty(data);
@@ -117,10 +117,11 @@ namespace Capstone.DAO
                 {
                     conn.Open();
                     SqlCommand cmd = new SqlCommand(sql, conn);
-                    cmd.Parameters.AddWithValue("@header", data.header);
-                    cmd.Parameters.AddWithValue("@body", data.body);
-                    cmd.Parameters.AddWithValue("@image_source", data.image);
+                    cmd.Parameters.AddWithValue("@header", data.Header);
+                    cmd.Parameters.AddWithValue("@body", data.Body);
+                    cmd.Parameters.AddWithValue("@image_source", data.Image);
                     cmd.Parameters.AddWithValue("@active", false);
+                    cmd.Parameters.AddWithValue("@name", data.Name);
                     newId = Convert.ToInt32(cmd.ExecuteScalar());
                 }
                     newHome = GetViewById(newId);
@@ -132,12 +133,11 @@ namespace Capstone.DAO
             return newHome;
 
         } 
-        public void UpdateHomeView(int newId)
+        public void UpdateHomeView(int id)
         {
             string sql = "UPDATE homeview " +
              "SET active = 0 " +
-             "WHERE active = 1; " +
-             "GO"+
+             "WHERE active = 1 " + 
              "UPDATE homeview " +
              "SET active = 1 " +
              "WHERE view_id = @id ";
@@ -146,7 +146,8 @@ namespace Capstone.DAO
                 {
                     conn.Open();
                     SqlCommand cmd = new SqlCommand(sql, conn);
-                    cmd.Parameters.AddWithValue("@id",newId);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
                 }
             }
             catch (SqlException ex)
@@ -154,34 +155,89 @@ namespace Capstone.DAO
                 throw new DaoException("SQL exception occurred", ex);
             }
         }
+        public int GetNextId()
+        {
+            int nextId = 0;
+            string sql = "SELECT IDENT_CURRENT ('homeview') AS last_id";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        nextId = (1 + Convert.ToInt32(reader["last_id"]));
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new DaoException("SQL exception occurred", ex);
+            }
+            return nextId;
+        }
+        public bool DeleteViewById(int id)
+        {
+            Home home = GetViewById(id);
+            if (home == null)
+            {
+                return false;
+            }
+            bool result = false;
+            string sql = "DELETE FROM homeview " +
+            "WHERE view_id = @view_id";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@view_id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new DaoException("SQL exception occurred", ex);
+            }
+            result = true;
+            return result;
+        }
         private Home NullPropertyToEmpty(Home home)
         {
-            if(home.active == null)
+            if(home.Active == null)
             {
-                home.active = false;
+                home.Active = false;
             }
-            if(home.body == null)
+            if(home.Body == null || home.Body == "")
             {
-                home.body = "empty";
+                home.Body = "empty";
             }
-            if(home.header == null)
+            if(home.Header == null || home.Header == "")
             {
-                home.header = "empty";
+                home.Header = "empty";
             }
-            if(home.image == null)
+            if(home.Image == null || home.Image == "")
             {
-                home.image = "src/img/Empty.jpg";
+                home.Image = "src/img/Empty.jpg";
+            }
+            if(home.Name == null || home.Name == "")
+            {
+                home.Name = GetNextId().ToString();
             }
             return home;
         }
         private Home MapRowToHome(SqlDataReader reader)
         {
             Home home = new Home();
-            home.viewId = Convert.ToInt32(reader["view_id"]);
-            home.body = Convert.ToString(reader["body"]);
-            home.header = Convert.ToString(reader["header"]);
-            home.image = Convert.ToString(reader["image_source"]);
-            home.active = Convert.ToBoolean(reader["active"]);
+            home.ViewId = Convert.ToInt32(reader["view_id"]);
+            home.Body = Convert.ToString(reader["body"]);
+            home.Header = Convert.ToString(reader["header"]);
+            home.Image = Convert.ToString(reader["image_source"]);
+            home.Active = Convert.ToBoolean(reader["active"]);
+            home.Name = Convert.ToString(reader["name"]);
             return home;
         }
     }

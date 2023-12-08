@@ -4,6 +4,7 @@
       <table>
         <thead>
           <tr>
+            <th></th>
             <th>User Id</th>
             <th>Username</th>
             <th>Email</th>
@@ -11,6 +12,7 @@
           </tr>
         </thead>
         <tbody>
+          <td></td>
           <td><input type="text" id="filter_id" v-model="search.userId" placeholder="User ID"></td>
           <td><input type="text" id="filter_name" v-model="search.username" placeholder="Username"></td>
           <td><input type ="text" id="filter_email" v-model="search.email" placeholder="Email"></td>
@@ -19,6 +21,7 @@
         <tbody v-for="user in filteredList" :key="user.userId"
           :class="{'selected': selected_user.userId === user.userId}">
           <tr @click="clickLog(user)">
+            <td><input v-model="checked_user" :id="user.userId" type="radio" :value="user.userId" v-on:click="clickLog(user)"/></td>
             <td>{{ user.userId }}</td>
             <td>{{ user.username }}</td>
             <td>{{ user.email }}</td>
@@ -60,6 +63,7 @@ export default {
       selected_user: {},
       user_list: [],
       one_time_password: '',
+      checked_user: 0,
     }
   },
   created() {
@@ -79,6 +83,7 @@ export default {
     clickLog(user) {
       this.has_selected_user = true;
       this.selected_user = user;
+      this.checked_user = user.userId;
     },
     confirmUser() {
       this.setOneTimePass();

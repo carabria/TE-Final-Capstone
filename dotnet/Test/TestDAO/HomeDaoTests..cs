@@ -27,12 +27,18 @@ namespace Test.TestDAO
             Name = "name"
         };
 <<<<<<< HEAD
+<<<<<<< HEAD
             
             HomeSqlDao dao;
 =======
 
         HomeSqlDao dao;
 >>>>>>> 28b17657d2a22385e2d20c253cb83401708cada4
+=======
+
+        HomeSqlDao dao;
+
+>>>>>>> 3a445c3 (Admin OTP radio button selector adder)
         [TestInitialize]
         public virtual void Init()
         {
@@ -80,6 +86,7 @@ namespace Test.TestDAO
         {
             Home home = dao.GetViewById(543);
 <<<<<<< HEAD
+<<<<<<< HEAD
             Assert.IsNull(home.Body);            
         }
          
@@ -88,6 +95,11 @@ namespace Test.TestDAO
         }
 
 >>>>>>> 28b17657d2a22385e2d20c253cb83401708cada4
+=======
+            Assert.IsNull(home.Body);            
+        }
+         
+>>>>>>> 3a445c3 (Admin OTP radio button selector adder)
         [TestMethod]
         public void GetAllViewsReturnsAllViews()
         {

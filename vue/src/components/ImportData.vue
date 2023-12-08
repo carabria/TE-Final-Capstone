@@ -10,11 +10,11 @@
 
     <form @submit.prevent="importTextArea">
       <label for="text">Name</label>
-      <input type="text" id="text" v-model="protein.name" />
+      <input type="text" id="text" v-model="protein.name" required/>
       <label for="proteinDescription">Description</label>
-      <input type="text" id="proteinDescription" v-model="protein.description" />
+      <input type="text" id="proteinDescription" v-model="protein.description"/>
       <label for="proteinDataBox">Data</label>
-      <textarea id="proteinDataBox" v-model="protein.data" />
+      <textarea id="proteinDataBox" v-model="protein.data" required></textarea>
       <button type="submit">Import Data</button>
     </form>
 

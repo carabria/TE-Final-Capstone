@@ -147,7 +147,7 @@ namespace Capstone.DAO
 
         public Protein CreateProtein(string sequenceName, string proteinSequence, string description, string username, int userId)
         {
-            Protein newProtein = null;
+            Protein newProtein = NullPropertyToEmpty(sequenceName, proteinSequence, description, userId);
             int formatType = DetectFormat(proteinSequence);
             string sql = "INSERT INTO proteins (sequence_name, protein_sequence, description, format_type, username, user_id) " +
                 "OUTPUT INSERTED.protein_id " +
@@ -160,12 +160,12 @@ namespace Capstone.DAO
                     conn.Open();
 
                     SqlCommand cmd = new SqlCommand(sql, conn);
-                    cmd.Parameters.AddWithValue("@sequence_name", sequenceName);
-                    cmd.Parameters.AddWithValue("@protein_sequence", proteinSequence);
-                    cmd.Parameters.AddWithValue("@description", description);
+                    cmd.Parameters.AddWithValue("@sequence_name",newProtein.SequenceName);
+                    cmd.Parameters.AddWithValue("@protein_sequence", newProtein.ProteinSequence);
+                    cmd.Parameters.AddWithValue("@description", newProtein.Description);
                     cmd.Parameters.AddWithValue("@format_type", formatType);
                     cmd.Parameters.AddWithValue("@username", username);
-                    cmd.Parameters.AddWithValue("@user_id", userId);
+                    cmd.Parameters.AddWithValue("@user_id", newProtein.UserId);
 
                     newProteinId = Convert.ToInt32(cmd.ExecuteScalar());
                 }
@@ -175,7 +175,6 @@ namespace Capstone.DAO
             {
                 throw new DaoException("SQL exception occurred", ex);
             }
-
             return newProtein;
         }
 
@@ -242,19 +241,47 @@ namespace Capstone.DAO
         public int DetectFormat(string sequence)
         {
             int result = 0;
-            if (Char.IsDigit(sequence, 0))
+            if (sequence != "")
             {
-                result = 3;
-            }
-            else if (sequence.IndexOf(" ") == 10)
-            {
-                result = 2;
-            }
-            else
-            {
-                result = 1;
+                if (Char.IsDigit(sequence, 0))
+                {
+                    result = 3;
+                }
+                else if (sequence.IndexOf(" ") == 10)
+                {
+                    result = 2;
+                }
+                else
+                {
+                    result = 1;
+                }
             }
             return result;
+        }
+        public Protein NullPropertyToEmpty(string sequenceName, string proteinSequence, string description, int userId)
+        {
+            Protein protein = new Protein();
+            if (description == "" || description == null)
+            {
+                protein.Description = "No Note";
+            }
+            else protein.Description = description;
+            if (proteinSequence == "" || proteinSequence == null)
+            {
+                protein.ProteinSequence = "No Sequence";
+            }
+            else protein.ProteinSequence = proteinSequence;
+            if (sequenceName == "" || sequenceName == null)
+            {
+                protein.SequenceName = "No Name";
+            }
+            else protein.SequenceName = sequenceName;
+            if (userId == 0)
+            {
+                protein.UserId = 2;
+            }
+            else protein.UserId = userId;
+            return protein;
         }
         private Protein MapRowToProtein(SqlDataReader reader)
         {

@@ -49,7 +49,8 @@ CONSTRAINT view_id PRIMARY KEY(view_id)
 --populate default data
 INSERT INTO users (username, email, organization_name, password_hash, salt, user_role, has_one_time_password) VALUES ('user', 'dummy@email.net', 'Center for Charitable Contributions', 'Jg45HuwT7PZkfuKTz6IB90CtWY4=','LHxP4Xh7bN0=','user', 0);
 INSERT INTO users (username, email, organization_name, password_hash, salt, user_role, has_one_time_password) VALUES ('admin','smart@email.com', 'Association For Protein Enrichment','YhyGVQ+Ch69n4JMBncM4lNF/i9s=', 'Ar/aB2thQTI=','admin', 0);
-INSERT INTO users (username, email, organization_name, password_hash, salt, user_role, has_one_time_password) VALUES ('new user', 'user@yahoo.com', 'new startup industries' 'i need password recovery!', 'i need password recovery!', 'user', 0);
+INSERT INTO users (username, email, organization_name, password_hash, salt, user_role, has_one_time_password) VALUES ('new user!', 'user@yahoo.com', 'new startup industries', 'SJwGoscVAqnsELPHPdMhq6tqYEM=', 'I7cqSJ3qfU4=', 'user', 0);
+INSERT INTO users (username, email, organization_name, password_hash, salt, user_role, has_one_time_password) VALUES ('new admin', 'admin@gmail.com', 'administrative experts incorporated', '7aAwUxYHuUaz2iNz3SjHZHaZq88=', 'ydNeoqlGX9I=', 'admin', 0);
 
 
 INSERT INTO homeview (header, body, active, image_source, name) VALUES ('Protein Capture Science', 'Amino Acid Sifter', 1, 'src/img/AminoAcid.jpg', 'Default')

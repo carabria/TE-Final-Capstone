@@ -145,13 +145,13 @@ namespace Capstone.DAO
             return proteins;
         }
 
-        public Protein CreateProtein(string sequenceName, string proteinSequence, string description, int userId)
+        public Protein CreateProtein(string sequenceName, string proteinSequence, string description, string username, int userId)
         {
             Protein newProtein = null;
             int formatType = DetectFormat(proteinSequence);
-            string sql = "INSERT INTO proteins (sequence_name, protein_sequence, description, format_type, user_id) " +
+            string sql = "INSERT INTO proteins (sequence_name, protein_sequence, description, format_type, username, user_id) " +
                 "OUTPUT INSERTED.protein_id " +
-                "VALUES (@sequence_name, @protein_sequence, @description, @format_type, @user_id)";
+                "VALUES (@sequence_name, @protein_sequence, @description, @format_type, @username, @user_id)";
             int newProteinId = 0;
             try
             {
@@ -164,6 +164,7 @@ namespace Capstone.DAO
                     cmd.Parameters.AddWithValue("@protein_sequence", proteinSequence);
                     cmd.Parameters.AddWithValue("@description", description);
                     cmd.Parameters.AddWithValue("@format_type", formatType);
+                    cmd.Parameters.AddWithValue("@username", username);
                     cmd.Parameters.AddWithValue("@user_id", userId);
 
                     newProteinId = Convert.ToInt32(cmd.ExecuteScalar());

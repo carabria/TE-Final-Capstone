@@ -66,7 +66,7 @@ namespace Test.TestDAO
         [TestMethod]
         public void CreateProteinAddsProtein()
         {
-            dao.CreateProtein("name", "sequence", "description", 1);
+            dao.CreateProtein("name", "sequence", "description", "user", 1);
             IList<Protein> proteins = dao.GetProteins();
             Assert.AreEqual(2, proteins.Count);
         }
@@ -74,7 +74,7 @@ namespace Test.TestDAO
         [TestMethod]
         public void CreateProteinCreatedProteinNotNull()
         {
-            Protein newProtein = dao.CreateProtein("name", "sequence", "description", 1);
+            Protein newProtein = dao.CreateProtein("name", "sequence", "description", "user", 1);
             IList<Protein> protein = dao.GetProteinsBySequenceName("name");
             AssertProperties(newProtein, protein[0]);
         }

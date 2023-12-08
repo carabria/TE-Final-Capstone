@@ -19,6 +19,7 @@ CREATE TABLE proteins (
 	protein_sequence varchar(8000) NOT NULL,
 	description varchar(8000) NOT NULL,
 	format_type int NOT NULL,
+	username varchar(200) NOT NULL,
 	user_id int NOT NULL
 	CONSTRAINT PK_protein PRIMARY KEY (protein_id)
 	FOREIGN KEY (user_id) REFERENCES users(user_id)
@@ -40,8 +41,8 @@ INSERT INTO homeview (header, body, active, image_source, name) VALUES ('Protein
 INSERT INTO homeview (header, body, active, image_source, name) VALUES ('HO HO HO', 'Merry Christmas', 0, 'src/img/AminoAcid.jpg', 'Christmas')
 INSERT INTO homeview (header, body, active, image_source, name) VALUES ('Software is a great combination between artistry and engineering', '-Bill Gates', 0, 'src/image/Empty', 'Quote')
 
-INSERT INTO proteins (sequence_name, protein_sequence, description, format_type, user_id) 
-VALUES ('Insulin', 'MALWMRLLPLLALLALWGPDPAAAFVNQHLCGSHLVEALYLVCGERGFFYTPKTRREAEDLQASALSLSSSTSTWPEGLDATARAPPALVVTANIGQAGGSSSRQFRQRALGTSDSPVLFIHCPGAAGTAQGLEYRGRRVTTELVWEEVDSSPQPQGSESLPAQPPAQPAPQPEPQQAREPSPEVSCCGLWPRRPQRSQN', 'This is an insulin protein!', 1, 1);
+INSERT INTO proteins (sequence_name, protein_sequence, description, format_type, username, user_id) 
+VALUES ('Insulin', 'MALWMRLLPLLALLALWGPDPAAAFVNQHLCGSHLVEALYLVCGERGFFYTPKTRREAEDLQASALSLSSSTSTWPEGLDATARAPPALVVTANIGQAGGSSSRQFRQRALGTSDSPVLFIHCPGAAGTAQGLEYRGRRVTTELVWEEVDSSPQPQGSESLPAQPPAQPAPQPEPQQAREPSPEVSCCGLWPRRPQRSQN', 'This is an insulin protein!', 1, 'user', 1);
 
 
 COMMIT;

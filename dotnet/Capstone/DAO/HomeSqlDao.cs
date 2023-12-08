@@ -141,6 +141,10 @@ namespace Capstone.DAO
              "UPDATE homeview " +
              "SET active = 1 " +
              "WHERE view_id = @id ";
+            if (id == -1)
+            {
+                id = GetNextId() -1;
+            }
             try { 
                 using(SqlConnection conn = new SqlConnection(connectionString))
                 {

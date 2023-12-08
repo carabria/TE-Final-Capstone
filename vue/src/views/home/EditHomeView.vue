@@ -9,7 +9,7 @@
             <label id="welcome-image-label" for="welcome-name">Name</label>
         <input id="welcome-name" type="text" name="welcome-name" v-model="home.name">
             <input v-bind:value="'Save'" type="submit"/>
-            <input v-bind:value="'Save and Apply'" type="submit" v-on:click.prevent="saveAndApplyDisplay('apply', home.name)"/>
+            <input v-bind:value="'Save and Apply'" type="submit" v-on:click.prevent="saveAndApplyDisplay('apply')"/>
         </form>
         <form v-on:submit="changeHomeDisplay(selectedView)">
 <select v-on:click="watchIdChange($event)" v-model="selectedView">
@@ -54,19 +54,20 @@ export default {
                     }
                 }).finally(this.getSavedViews)
             },
-        saveAndApplyDisplay(apply, name){
-            this.saveView(apply, name)
-            .then((response)=>{})
+        saveAndApplyDisplay(apply){
+            this.saveView(apply)
+            HomeViewService.putDisplayView(-1)
+            .then(this.home = {})
             .catch((error) => {
                     const response = error.response;
                     this.registrationErrors = true;
                     if (response.status === 400) {
                         this.registrationErrorMsg = 'Bad Request: Validation Errors';
                     }
-                })
-        },
-        changeHomeDisplay(selectedView){
+                })},
+        changeHomeDisplay(save){
             let id = parseInt(this.watchId);
+
             HomeViewService.putDisplayView(id)
             .then((response) => {
                 if(response.status == 200){
@@ -101,15 +102,13 @@ export default {
         addToHomeViews(element){
             this.homeviews.push(element)
         },
-        saveView(applyOrNO, name) {
+        saveView() {
             HomeViewService
                 .postView(this.home)
                 .then((response) => {
                     if (response.status == 200) {
                         this.homeviews.push(response.data);
-                    }
-                    if(applyOrNO == 'apply'){
-                        this.changeHomeDisplay(name)
+                        this.home = {};
                     }
                 })
                 .catch((error) => {

@@ -3,7 +3,6 @@ body{
   width: 100vw;
   height: 100vh;
   align-items: center;
-  /*
   background-image:
     linear-gradient(to bottom, rgba(245, 246, 252, 0.52), rgba(26, 19, 117, 0.233)),
     url('../img/DNAbackdrop.jpg');
@@ -11,10 +10,10 @@ body{
     height: 100vh;
     background-size: cover;
     background-repeat: no-repeat;
+    background-attachment: fixed;
     color:rgba(240, 248, 255, 0.849);
     font-family: "Playfair Display";
     font-weight: 400;
-  */
 }
 .spacer{
   color: rgb(71,95,123);
@@ -34,6 +33,7 @@ h1{
 }
 .navItem{
   display: inline;
+  text-decoration: none;
 }
 label{
   font-size:x-large;
@@ -61,7 +61,6 @@ input{
   grid-area: username;
 }
 #username-label{
-
   grid-area: username-label;
 }
 #login-password {

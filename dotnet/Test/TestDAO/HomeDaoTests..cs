@@ -26,8 +26,8 @@ namespace Test.TestDAO
             ViewId = 0,
             Name = "name"
         };
-            
-            HomeSqlDao dao;
+
+        HomeSqlDao dao;
         [TestInitialize]
         public virtual void Init()
         {
@@ -74,9 +74,9 @@ namespace Test.TestDAO
         public void GetViewByIdBadId()
         {
             Home home = dao.GetViewById(543);
-            Assert.IsNull(home.Body);            
+            Assert.IsNull(home.Body);
         }
-         
+
         [TestMethod]
         public void GetAllViewsReturnsAllViews()
         {
@@ -101,6 +101,13 @@ namespace Test.TestDAO
             Assert.AreEqual(expected.Image, actual.Image);
             Assert.AreEqual(expected.Name, actual.Name);
             Assert.AreEqual(expected.ViewId, actual.ViewId);
+        }
+        [TestMethod]
+        public void DeleteById()
+        {
+            dao.DeleteViewById(1);
+            Home home = dao.GetViewById(1);
+            AssertAll(home, new Home()); ;
         }
     }
 }

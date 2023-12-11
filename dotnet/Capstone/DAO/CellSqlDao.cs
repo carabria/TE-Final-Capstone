@@ -7,11 +7,11 @@ using Capstone.Models;
 namespace Capstone.DAO
 {
     
-    public class CellDao : ICellDao
+    public class CellSqlDao : ICellDao
     {
         private readonly string connectionString;
        
-        public CellDao(string dbConnectionString)
+        public CellSqlDao(string dbConnectionString)
         {
             connectionString = dbConnectionString;
         }

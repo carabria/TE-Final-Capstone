@@ -2,8 +2,11 @@
   <div class="home">
     <h1 id="company">{{ header }}</h1>
     <p id="app">{{ body }}</p>
-    <!-- TODO (Yukon) Do we even want an image on the home screen? -->
-    <!-- <img id="HomeViewImage"/>  -->
+    <img id="HomeViewImage" src="./../../img/Products.png"/>
+    <div class="process">
+      <p id="ProcessInfo">Protein Purification Process Using the <i>iCapTag</i>&trade; Technology</p>
+      <img id="ProcessPic" src="./../../img/Process.png" /> 
+    </div>
   </div>
 </template>
 
@@ -46,5 +49,35 @@ this.view();
   },
 }
 </script>
-<style>
+
+<style scoped>
+.home {
+  font-family: Playfair Display;
+  font-weight: 400;
+}
+#company {
+  text-align: center;
+  height: auto;
+}
+#app {
+  text-align: center;
+  font-size: 20px;
+}
+#HomeViewImage {
+  display:block;
+  margin: auto;
+  max-width: 100%;
+}
+#ProcessInfo {
+  text-align: center;
+  font-size: 30px;
+  height: auto; 
+  font-style: normal;
+}
+#ProcessPic {
+  display: block;
+  margin:auto;
+  width: 70%;
+  margin-top: 0px;
+}
 </style>

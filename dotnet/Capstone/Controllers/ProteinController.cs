@@ -4,14 +4,10 @@ using Capstone.DAO;
 using Capstone.Exceptions;
 using Capstone.Models;
 using Microsoft.AspNetCore.Authorization;
-<<<<<<< HEAD
 using System.Web;
 using System.Net.Http;
 using System;
 
-=======
-
->>>>>>> 72058b23ca7d8f15af4a0c94d4a663eccfd3ba30
 namespace Capstone.Controllers
 {
     [Route("[controller]")]
@@ -132,13 +128,8 @@ namespace Capstone.Controllers
             }
 
             return Ok(protein);
-<<<<<<< HEAD
         }
 
-=======
-        }
-
->>>>>>> 72058b23ca7d8f15af4a0c94d4a663eccfd3ba30
         [HttpDelete("delete/{id}")]
         public ActionResult DeleteProtein(int id)
         {

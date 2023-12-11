@@ -162,18 +162,30 @@ def cell_to_str(cell):
     acid = cell.acid
     return x + ',' + y + ' | ' + letter1 + letter2 + ' | ' + color + ' ' + acid
 
+def cell_as_insert(cell):
+    x = str(cell.x[0])
+    y = str(cell.y[0])
+    letter1 = cell.x[1]
+    letter2 = cell.y[1]
+    color = cell.color
+    acid = cell.acid
+    return 'INSERT INTO cells (x_cord, y_cord, letter_x, letter_y, color, acid) VALUES (' + x + ',' + y + ',\'' + letter1 + '\',\'' + letter2 + '\',\'' + color + '\',\'' + acid + '\');'
 
-def main():
-    set_cells()
+def print_sql(cell):
+    print(cell_as_insert(cell))
+
+def write_to_file():
+    file = open('cells.sql', 'w')
     for row in cell_grid:
         for cell in row:
             if cell.color != '':
-                print_cell(cell)
-        print()
+                file.write(cell_as_insert(cell) + '\n')
+    file.close()
 
+def main():
+    set_cells()
+    write_to_file()
 
-def print_cell(cell):
-    print(cell.x[1] + cell.y[1] + '=' + str(cell.x[0]) + ',' + str(cell.y[0]) + ' ' + cell.acid + ' ' + cell.color, end=', ')
 
 
 main()

@@ -53,7 +53,7 @@ CREATE TABLE homeview (
 ) 
 
 CREATE TABLE cells (
-	replacement_id int IDENTITY(1,1) NOT NULL,
+	cell_id int IDENTITY(1,1) NOT NULL,
 	x_cord int NOT NULL,
 	y_cord int NOT NULL,
 	letter_x varchar(1) NOT NULL,

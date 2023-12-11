@@ -1,16 +1,16 @@
 #! /bin/bash/python3
 
 
-Y = [0, 'Y']
-F = [1, 'F']
-H = [2, 'H']
-L = [3, 'L']
-W = [4, 'W']
-I = [5, 'I']
-M = [6, 'M']
-Q = [7, 'Q']
-C = [8, 'C']
-V = [9, 'V']
+Y = [0,  'Y']
+F = [1,  'F']
+H = [2,  'H']
+L = [3,  'L']
+W = [4,  'W']
+I = [5,  'I']
+M = [6,  'M']
+Q = [7,  'Q']
+C = [8,  'C']
+V = [9,  'V']
 T = [10, 'T']
 D = [11, 'D']
 E = [12, 'E']
@@ -22,7 +22,7 @@ N = [17, 'N']
 G = [18, 'G']
 P = [19, 'P']
 
-# 20x20 matrix
+# 20x20 grid
 Y_AXIS = [Y, F, H, L, W, I, M, Q, C, V, T, D, E, S, R, K, A, N, G, P]
 X_AXIS = [Y, F, H, L, W, I, M, Q, C, V, T, D, E, S, R, K, A, N, G, P]
 
@@ -174,12 +174,21 @@ def cell_as_insert(cell):
 def print_sql(cell):
     print(cell_as_insert(cell))
 
+
+
 def write_to_file():
     file = open('cells.sql', 'w')
+
+    header ="""
+-- AUTO GENERATED FILE DO NOT EDIT!!!!\n
+USE final_capstone
+GO
+    """
+    file.write(header + '\n\n\n')
+
     for row in cell_grid:
         for cell in row:
-            if cell.color != '':
-                file.write(cell_as_insert(cell) + '\n')
+            file.write(cell_as_insert(cell) + '\n')
     file.close()
 
 def main():

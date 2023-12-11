@@ -4,7 +4,6 @@ using Capstone.DAO;
 using Capstone.Exceptions;
 using Capstone.Models;
 using Microsoft.AspNetCore.Authorization;
-using System.Web;
 
 namespace Capstone.Controllers
 {
@@ -15,10 +14,13 @@ namespace Capstone.Controllers
     {
         private readonly IUserDao userDao;
         private readonly IProteinDao proteinDao;
-        public ProteinsController(IProteinDao proteinDao, IUserDao userDao)
+        private readonly ICellDao cellDao;
+
+        public ProteinsController(IProteinDao proteinDao, IUserDao userDao, ICellDao cellDao)
         {
             this.userDao = userDao;
             this.proteinDao = proteinDao;
+            this.cellDao = cellDao;
         }
 
         [HttpGet]
@@ -69,6 +71,7 @@ namespace Capstone.Controllers
             {
                 return StatusCode(500, "An internal server error occurred.");
             }
+
             return Ok(proteins);
         }
 
@@ -113,14 +116,16 @@ namespace Capstone.Controllers
             Protein protein = null;
             try
             {
-                protein = proteinDao.UpdateProtein(proteinParam.ProteinId, proteinParam.SequenceName, proteinParam.ProteinSequence, proteinParam.Description, user.UserId);
+                protein = proteinDao.UpdateProtein(proteinParam.ProteinId, proteinParam.SequenceName,
+                    proteinParam.ProteinSequence, proteinParam.Description, user.UserId);
             }
             catch (DaoException)
             {
                 return StatusCode(500, "An internal server error occurred.");
             }
+
             return Ok(protein);
-        }   
+        }
 
         [HttpDelete("delete/{id}")]
         public ActionResult DeleteProtein(int id)

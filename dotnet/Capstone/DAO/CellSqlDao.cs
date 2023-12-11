@@ -41,6 +41,57 @@ namespace Capstone.DAO
             return cells;
         }
 
+        public List<Cell> getPossibleCells(string letters)
+        {
+            List<Cell> cells = new List<Cell>();
+            //Note(anita): Grab the Y letter and find all the possible X's
+            string letterY = letters.Substring(0, 1);
+            string sql = "SELECT cell_id, x_cord, y_cord, letter_x, letter_y, color, acid FROM cells WHERE letter_y = @letterY;";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@letterY", letterY);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        Cell cell = cell_mapper(reader);
+                        cells.Add(cell);
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new DaoException("SQL exception occurred", ex);
+            }
+            return cells;
+        }
+
+        public List<Cell> getIdealizedCells(string letters)
+        {
+            List<Cell> cells = new List<Cell>();
+            
+            
+            
+            return cells;
+        }
+
+        private List<Cell> reduce_cells(List<Cell> cells)
+        {
+            List<Cell> reduced_cells = new List<Cell>();
+            
+            return reduced_cells;
+            
+        }
+
+        
+
         public List<Cell> getCellByLetters(string letters)
         {
             List<Cell> cells = new List<Cell>();

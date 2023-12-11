@@ -288,9 +288,9 @@ namespace Capstone.DAO
             protein.FormatType = Convert.ToInt32(reader["format_type"]);
             protein.UserId = Convert.ToInt32(reader["user_id"]);
             //set possible null values to empty string
-            protein.Sequence1 = reader["sequence_1"] is DBNull ? "" : Convert.ToString(reader["sequence_1"]);
-            protein.Sequence2 = reader["sequence_2"] is DBNull ? "" : Convert.ToString(reader["sequence_2"]);
-            protein.Sequence3 = reader["sequence_3"] is DBNull ? "" : Convert.ToString(reader["sequence_3"]);
+            //protein.Sequence1 = reader["sequence_1"] is DBNull ? "" : Convert.ToString(reader["sequence_1"]);
+            //protein.Sequence2 = reader["sequence_2"] is DBNull ? "" : Convert.ToString(reader["sequence_2"]);
+            //protein.Sequence3 = reader["sequence_3"] is DBNull ? "" : Convert.ToString(reader["sequence_3"]);
             
             return protein;
         }

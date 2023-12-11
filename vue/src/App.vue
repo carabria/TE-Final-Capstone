@@ -50,6 +50,10 @@ export default {
 </script>
 
 <style>
+#nav {
+  width: 100%;
+  max-width: 100%;
+}
 
 .homeButton {
   background-color: transparent;
@@ -107,7 +111,7 @@ export default {
   text-decoration: underline;
   text-underline-offset: .3rem;
   text-decoration-thickness: 1.5px;
-}
+  }
 
 .dropdown:hover .dropdown-content {
   display: block;
@@ -122,6 +126,7 @@ div#nav {
   font-weight: 400;
   position: sticky;
   top: 0px;
+  margin-top: 0px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -135,7 +140,7 @@ div#nav {
   padding-top: 10px;
   margin-bottom: 10px;
   text-align: center;
-  font-size: 14px;
+  font-size: 14px;  
 }
 
 .log {  
@@ -143,11 +148,16 @@ div#nav {
   margin-right: auto;
 }
 
+.log:hover {
+  text-decoration: underline;
+  text-underline-offset: .3rem;
+  text-decoration-thickness: 1.5px;
+}
+
 #adminNav,
 #adminNavBtn,
 #adminNav .dropdown-content a {
   color: orange;
-  display:flex;
   margin-left: auto;
   margin-right: 2vw;
 }

@@ -16,16 +16,6 @@ a{
 h1{
   font-weight: 400;
 }
-#nav{
-  width: fit-content;
-  background-color: aliceblue;
-  border-radius: 2.5vh;
-  border-color: rgb(71,95,123);;
-}
-.navItem{
-  display: inline;
-  text-decoration: none;
-}
 label{
   font-size:x-large;
 }

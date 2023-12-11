@@ -24,5 +24,10 @@ export default {
   deleteProtein(sessionToken, proteinId) {
     return axios.delete(`/proteins/delete/${proteinId}`, {headers: {Authorization: `Bearer ${sessionToken}`}});
   },
-
+  ncbiAPI(sessionToken, name){
+    return axios.get(`/proteins/api/ncbi/${name}`, {headers: {Authorization: `Bearer ${sessionToken}`}});
+  },
+  getApiList(sessionToken){
+    return axios.get('proteins/api/list');
+  },
 }

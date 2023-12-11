@@ -2,12 +2,12 @@
   <div id="data-input">
     <h1>Import Data</h1>
     <!--- Todo(anderson): Import data from URL --->
-    <form hidden @submit.prevent="importApiData">
-      <label for="apiData">API URL</label>
+    <form @submit.prevent="getProteinAPIfromNCBI()">
+      <label for="apiData">Get Info From NCBI</label>
       <input type="text" id="apiData" v-model="apiData" />
       <button type="submit">Import Data</button>
     </form>
-
+    
     <form @submit.prevent="importTextArea">
       <label for="text">Name</label>
       <input type="text" id="text" v-model="protein.name" required/>
@@ -23,7 +23,7 @@
       <input type="file" id="file" v-on:change="importFile"/>
     </form>
 
-  </div>
+    <button v-on:click="clearForm()">Clear Form</button>  </div>
 </template>
 
 <script>
@@ -43,6 +43,18 @@ export default {
     };
   },
   methods: {
+    clearForm(){
+      this.protein = {};
+      this.apiData = '';
+    },
+    getProteinAPIfromNCBI(){
+      ProteinService.ncbiAPI(this.$store.state.token, this.apiData).then((respsonse) => this.assignProtein(respsonse)
+    )},
+    assignProtein(response){
+      this.protein.name = response.data.sequenceName;
+      this.protein.data = response.data.proteinSequence;
+      this.protein.description = response.data.description; 
+    },
     importTextArea() {
       const token = this.$store.state.token;
 

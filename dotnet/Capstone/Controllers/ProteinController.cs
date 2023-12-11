@@ -5,6 +5,8 @@ using Capstone.Exceptions;
 using Capstone.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Web;
+using System.Net.Http;
+using System;
 
 namespace Capstone.Controllers
 {
@@ -120,7 +122,7 @@ namespace Capstone.Controllers
                 return StatusCode(500, "An internal server error occurred.");
             }
             return Ok(protein);
-        }   
+        }
 
         [HttpDelete("delete/{id}")]
         public ActionResult DeleteProtein(int id)
@@ -132,7 +134,7 @@ namespace Capstone.Controllers
             }
             catch (DaoException)
             {
-                return StatusCode(500, "An internal server error occur  red.");
+                return StatusCode(500, "An internal server error occurred.");
             }
             if (result == true)
             {
@@ -140,5 +142,34 @@ namespace Capstone.Controllers
             }
             return NotFound();
         }
+        [HttpGet("api/ncbi/{name}")]
+        public ActionResult<Protein> GetApiProtein(string name)
+        {
+            Protein protein = new Protein();
+            try
+            {
+                string id = proteinDao.ApiGetProteinId(name).Result;
+                protein = proteinDao.ApiGetProteinSequence(id).Result;
+                protein.SequenceName = name;
+            }
+            catch (DaoException)
+            {
+                return StatusCode(500, "An internal server error occurred.");
+            }
+            return Ok(protein);
+        }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

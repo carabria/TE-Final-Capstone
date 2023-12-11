@@ -3,11 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml;
 using Capstone.Exceptions;
 using Capstone.Models;
 using Capstone.Security;
 using Capstone.Security.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Capstone.DAO
 {
@@ -19,6 +24,11 @@ namespace Capstone.DAO
         {
             connectionString = dbConnectionString;
         }
+
+        private static HttpClient sharedClient = new()
+        {
+            BaseAddress = new Uri("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/"),
+        };
         public IList<Protein> GetProteins()
         {
             IList<Protein> proteins = new List<Protein>();
@@ -160,7 +170,7 @@ namespace Capstone.DAO
                     conn.Open();
 
                     SqlCommand cmd = new SqlCommand(sql, conn);
-                    cmd.Parameters.AddWithValue("@sequence_name",newProtein.SequenceName);
+                    cmd.Parameters.AddWithValue("@sequence_name", newProtein.SequenceName);
                     cmd.Parameters.AddWithValue("@protein_sequence", newProtein.ProteinSequence);
                     cmd.Parameters.AddWithValue("@description", newProtein.Description);
                     cmd.Parameters.AddWithValue("@format_type", formatType);
@@ -258,6 +268,76 @@ namespace Capstone.DAO
             }
             return result;
         }
+        //"esearch.fcgi?db=protein&term=Human_Insulin"
+        public async Task<string> ApiGetProteinId(string name)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            string id = "";
+            try
+            {
+                using (response = await sharedClient.GetAsync($"esearch.fcgi?db=protein&term={name}"))
+                {
+
+                    response.EnsureSuccessStatusCode();
+                    string list = await response.Content.ReadAsStringAsync();
+                    id = ParseProteinId(list);
+                    
+                }
+            }
+            //2629715147
+            catch (HttpRequestException ex)
+            {
+                throw new DaoException("HTTP exception occurred", ex);
+            }
+            return id;
+        }
+        public async Task<Protein> ApiGetProteinSequence(string id)
+        {
+            Protein protein = new Protein();
+            try
+            {
+                using (HttpResponseMessage response = await sharedClient.GetAsync($"efetch.fcgi?db=protein&id={id}&rettype=fasta&retmode=text"))
+                {
+                    response.EnsureSuccessStatusCode();
+                    string fasta = await response.Content.ReadAsStringAsync();
+                    protein = ParseFasta(fasta);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new DaoException("HTTP exception occurred", ex);
+            }
+            return protein;
+        }
+        public static string ParseProteinId(string xmlData)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml(xmlData);
+
+            string idListContent = xmlDoc.SelectSingleNode("//Id")?.InnerXml;
+
+            return idListContent;
+        }
+        public Protein ParseFasta(string fastaData)
+        {
+            string[] lines = fastaData.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+            string proteinId = lines[0].Trim().Substring(1); // Exclude the '>' character
+
+            StringBuilder sequenceBuilder = new StringBuilder();
+            for (int i = 1; i < lines.Length; i++)
+            {
+                sequenceBuilder.Append(lines[i].Trim());
+            }
+
+            string proteinSequence = sequenceBuilder.ToString();
+
+            return new Protein
+            {
+                Description = proteinId,
+                ProteinSequence = proteinSequence
+            };
+        }
+
         public Protein NullPropertyToEmpty(string sequenceName, string proteinSequence, string description, int userId)
         {
             Protein protein = new Protein();

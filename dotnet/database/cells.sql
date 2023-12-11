@@ -212,7 +212,7 @@ INSERT INTO cells (x_cord, y_cord, letter_x, letter_y, color, acid) VALUES (10,2
 INSERT INTO cells (x_cord, y_cord, letter_x, letter_y, color, acid) VALUES (10,3,'T','L','','');
 INSERT INTO cells (x_cord, y_cord, letter_x, letter_y, color, acid) VALUES (10,4,'T','W','','');
 INSERT INTO cells (x_cord, y_cord, letter_x, letter_y, color, acid) VALUES (10,5,'T','I','','');
-INSERT INTO cells (x_cord, y_cord, letter_x, letter_y, color, acid) VALUES (10,6,'T','M','green','A');
+INSERT INTO cells (x_cord, y_cord, letter_x, letter_y, color, acid) VALUES (10,6,'T','M','yellow','A');
 INSERT INTO cells (x_cord, y_cord, letter_x, letter_y, color, acid) VALUES (10,7,'T','Q','','');
 INSERT INTO cells (x_cord, y_cord, letter_x, letter_y, color, acid) VALUES (10,8,'T','C','','');
 INSERT INTO cells (x_cord, y_cord, letter_x, letter_y, color, acid) VALUES (10,9,'T','V','','');
@@ -382,7 +382,7 @@ INSERT INTO cells (x_cord, y_cord, letter_x, letter_y, color, acid) VALUES (18,1
 INSERT INTO cells (x_cord, y_cord, letter_x, letter_y, color, acid) VALUES (18,13,'G','S','','');
 INSERT INTO cells (x_cord, y_cord, letter_x, letter_y, color, acid) VALUES (18,14,'G','R','','');
 INSERT INTO cells (x_cord, y_cord, letter_x, letter_y, color, acid) VALUES (18,15,'G','K','','');
-INSERT INTO cells (x_cord, y_cord, letter_x, letter_y, color, acid) VALUES (18,16,'G','A','red','F');
+INSERT INTO cells (x_cord, y_cord, letter_x, letter_y, color, acid) VALUES (18,16,'G','A','red','I');
 INSERT INTO cells (x_cord, y_cord, letter_x, letter_y, color, acid) VALUES (18,17,'G','N','','');
 INSERT INTO cells (x_cord, y_cord, letter_x, letter_y, color, acid) VALUES (18,18,'G','G','','');
 INSERT INTO cells (x_cord, y_cord, letter_x, letter_y, color, acid) VALUES (18,19,'G','P','','');

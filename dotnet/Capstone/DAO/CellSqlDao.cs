@@ -19,7 +19,10 @@ namespace Capstone.DAO
         public List<Cell> getCells()
         {
             List<Cell> cells = new List<Cell>();
-            string sql = "SELECT cell_id, x_cord, y_cord, letter_x, letter_y, color, acid FROM cells;";
+            string sql = @"SELECT cell_id, x_cord, y_cord, letter_x, letter_y, color, acid
+                                FROM cells
+                            WHERE cells.color != '';
+                          ";
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -73,24 +76,56 @@ namespace Capstone.DAO
             return cells;
         }
 
-        public List<Cell> getIdealizedCells(string letters)
+        public List<Cell> getFastestCells(string letters)
         {
+            string letter_y = letters.Substring(0, 1);
+            string letter_x = letters.Substring(1, 1);
             List<Cell> cells = new List<Cell>();
-            
-            
-            
+            string sql = @"
+                        DECLARE @LetterX VARCHAR(1) = '@LetterX';
+                        DECLARE @LetterY VARCHAR(1) = '@LetterY';
+                        
+                        WITH DistanceCalculation AS (
+                            SELECT
+                                c.*,
+                                ABS(c.x_cord - s.x_cord) + ABS(c.y_cord - s.y_cord) AS distance,
+                                ROW_NUMBER() OVER (PARTITION BY c.color ORDER BY ABS(c.x_cord - s.x_cord) + ABS(c.y_cord - s.y_cord)) AS rnk --Dunno asked a freind of mine who is a dba
+                            FROM
+                                cells c
+                            CROSS JOIN
+                                (SELECT x_cord, y_cord FROM cells WHERE letter_x = @LetterX AND letter_y = @LetterY) s
+                            WHERE
+                                c.color IN ('blue', 'green', 'yellow')
+                        )
+                        
+                        -- Select the closest blue, green, and yellow cells
+                        SELECT *
+                        FROM DistanceCalculation
+                        WHERE rnk = 1;
+                        ";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString)) 
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@LetterX", letter_x);
+                    cmd.Parameters.AddWithValue("@LetterY", letter_y);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Cell cell = cell_mapper(reader);
+                        cells.Add(cell);
+                    }
+                }
+            } catch (SqlException ex)
+            {
+                throw new DaoException("SQL exception occurred", ex);
+            }
             return cells;
         }
 
-        private List<Cell> reduce_cells(List<Cell> cells)
-        {
-            List<Cell> reduced_cells = new List<Cell>();
-            
-            return reduced_cells;
-            
-        }
 
-        
 
         public List<Cell> getCellByLetters(string letters)
         {

@@ -101,7 +101,8 @@ def set_cells():
     # T on x axis
     set_by_letters('T', 'F', 'green', 'A')
     set_by_letters('T', 'H', 'green', 'K')
-    set_by_letters('T', 'M', 'green', 'A')
+
+    set_by_letters('T', 'M', 'yellow', 'A')
 
     # D on x axis
     set_by_letters('D', 'M', 'yellow', 'D')
@@ -140,7 +141,7 @@ def set_cells():
 
     # G on x axis
     set_by_letters('G', 'M', 'yellow', 'F')
-    set_by_letters('G', 'A', 'red', 'F')
+    set_by_letters('G', 'A', 'red', 'I')
 
     # P on x axis
     set_by_letters('P', 'F', 'yellow', 'X')

@@ -1,11 +1,31 @@
 <template>
   <h1>Import data</h1>    
   <div id="data-input">
+<<<<<<< HEAD
+    <h1>Import Data</h1>
+    <!--- Todo(anderson): Import data from URL --->
+    <form @submit.prevent="getProteinAPIfromNCBI()">
+      <label for="apiData">Get Info From NCBI</label>
+      <input type="text" id="apiData" v-model="apiData" />
+      <button type="submit">Import Data</button>
+    </form>
+    
+    <form @submit.prevent="importTextArea">
+      <label for="text">Name</label>
+      <input type="text" id="text" v-model="protein.name" required/>
+      <label for="proteinDescription">Note</label>
+      <input type="text" id="proteinDescription" v-model="protein.description"/>
+      <label for="proteinDataBox">Data</label>
+      <textarea id="proteinDataBox" v-model="protein.data" required></textarea>
+      <button type="submit">Import Data</button>
+    </form>
+=======
     <form id="text-form" @submit.prevent="importTextArea">
       <div class="name">
         <label for="nameText" id="nameLabel">Name</label>
         <input type="text" id="nameText" v-model="protein.name" required />
       </div>
+>>>>>>> 72058b23ca7d8f15af4a0c94d4a663eccfd3ba30
 
       <div class="note">
         <label for="noteText" id="noteLabel">Note</label>
@@ -31,9 +51,13 @@
         <input type="file" id="fileInput" v-on:change="importFile" />
       </form>
 
+<<<<<<< HEAD
+    <button v-on:click="clearForm()">Clear Form</button>  </div>
+=======
       <button id="submit" type="submit">Submit Data</button>
     </div>
   </div>
+>>>>>>> 72058b23ca7d8f15af4a0c94d4a663eccfd3ba30
 </template>
 
 <script>
@@ -53,6 +77,18 @@ export default {
     };
   },
   methods: {
+    clearForm(){
+      this.protein = {};
+      this.apiData = '';
+    },
+    getProteinAPIfromNCBI(){
+      ProteinService.ncbiAPI(this.$store.state.token, this.apiData).then((respsonse) => this.assignProtein(respsonse)
+    )},
+    assignProtein(response){
+      this.protein.name = response.data.sequenceName;
+      this.protein.data = response.data.proteinSequence;
+      this.protein.description = response.data.description; 
+    },
     importTextArea() {
       const token = this.$store.state.token;
 

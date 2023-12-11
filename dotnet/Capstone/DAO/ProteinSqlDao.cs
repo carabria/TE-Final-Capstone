@@ -7,13 +7,10 @@ using System.Threading.Tasks;
 using System.Xml;
 using Capstone.Exceptions;
 using Capstone.Models;
-<<<<<<< HEAD
 using Capstone.Security;
 using Capstone.Security.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-=======
->>>>>>> 72058b23ca7d8f15af4a0c94d4a663eccfd3ba30
 
 namespace Capstone.DAO
 {

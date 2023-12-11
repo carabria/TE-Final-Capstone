@@ -3,7 +3,7 @@
     <h1>Import Data</h1>
     <!--- Todo(anderson): Import data from URL --->
     <form hidden @submit.prevent="importApiData">
-      <label for="apiData">API URL</label>
+      <label for="apiData">API URL</label>npm
       <input type="text" id="apiData" v-model="apiData" />
       <button type="submit">Import Data</button>
     </form>

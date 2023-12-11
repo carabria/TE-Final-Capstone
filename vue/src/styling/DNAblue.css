@@ -3,17 +3,6 @@ body{
   width: 100vw;
   height: 100vh;
   align-items: center;
-  background-image:
-    linear-gradient(to bottom, rgba(245, 246, 252, 0.52), rgba(26, 19, 117, 0.233)),
-    url('../img/DNAbackdrop.jpg');
-    width: 100%;
-    height: 100vh;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    color:rgba(240, 248, 255, 0.849);
-    font-family: "Playfair Display";
-    font-weight: 400;
 }
 .spacer{
   color: rgb(71,95,123);
@@ -47,7 +36,6 @@ input{
   border-style: solid;
 }
 #login-username {
-
   display: grid;
   grid-area: login-username;
   grid-row-gap: 16px;
@@ -95,7 +83,6 @@ input{
 }
 
 #login-alert-invalid {
-
   text-align: center;
   grid-area: login-alert-invalid;
 }
@@ -109,11 +96,10 @@ input{
   grid-area: login-register;
 }
 #login-form{
-
   margin: auto;
   grid-area: login-form;
   display: grid;
-  column-gap: 5x;
+  column-gap: 5px;
   grid-row-gap: 20px;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-template-areas:
@@ -132,10 +118,10 @@ input{
   margin-left: auto;
   margin-right: auto;
   width: 30%;
-  color:rgb(71,95,123);
+  color:black;
   border-radius: 2.5vh;
   background-color: aliceblue;
-  border-color: rgb(71,95,123);
+  border-color: black;
   border-style: solid;
   text-align: center;
   grid-area: login;
@@ -147,60 +133,93 @@ input{
   grid-template-areas:
   "login-form"
 }
-#password_change{
+
+#password-change {
   height: fit-content;
   width: fit-content;
-  background-color: aliceblue;
-  color: rgb(71,95,123);
-  grid-template-columns: 1fr;
-  grid-template-areas:
-  "password_change_header"
-  "password_change_form"
-}
-#password_change_header{
-  grid-area: password_change_header;
-}
-#password_change_form{
-  grid-area: password_change-form;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-areas:
-  "oldPassword_Div"
-  "newPassword_Div"
-  "confirmPassword_Div"
-  "password_change_submit"
-}
-#newPasswrord{
-  grid-area: newPassword;
-}
-#newPassword_Label{
-  grid-area: newPassword_Label;
-}
-#newPassword_Div{
-  display: grid;
-  grid-area: newPassword_Div;
-}
-#oldPasswrord{
-  grid-area: oldPassword;
-}
-#oldPassword_Label{
-  grid-area: oldPassword_Label;
-}
-#oldPassword_Div{
-grid-area: oldPassword_Div;
-}
-#confirmPasswrord{
-  grid-area: confirmPassword;
-}
-#confirmPassword_Label{
-  grid-area: confirmPassword_Label;
-}
-#confirmPassword_Div{
-  grid-area: confirmPassword_Div;
-}
-#user-links{
+  margin-top: 10vh;
+  margin-left: auto;
+  margin-right: auto;
+  width: 30%;
+  color:black;
   border-radius: 2.5vh;
-  margin: auto;
-  width: fit-content;
   background-color: aliceblue;
+  border-color: black;
+  border-style: solid;
+  text-align: center;
+  grid-area: password-change;
+  display: grid;
+  column-gap: 50px;
+  grid-row-gap: 20px;
+  grid-template-columns: 1fr;
+  align-items: center;
+  grid-template-areas:
+  "password-change-form"
+}
+
+#password-change-form {
+  margin: auto;
+  grid-area: password-change-form;
+  display: grid;
+  column-gap: 5px;
+  grid-row-gap: 20px;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  justify-items: center;
+  grid-template-areas:
+    "password-change-header password-change-header password-change-header password-change-header password-change-header"
+    "password-new password-new password-new password-new password-new"
+    "password-confirm password-confirm password-confirm password-confirm password-confirm"
+    "password-submit password-submit password-submit password-submit password-submit"
+}
+
+#password-change-header {
+  grid-area: password-change-header;
+}
+
+#password-new {
+  display: grid;
+  grid-area: password-new;
+  grid-row-gap: 16px;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+  "password-new-label"
+  "password-new-pass"
+}
+#password-new-pass{
+  margin: auto;
+  grid-area: password-new-pass;
+}
+
+#password-new-label{
+  grid-area: password-new-label;
+}
+
+#password-confirm {
+  margin-left: 1px;
+  margin-right: 1px;
+  object-fit: contain;
+  display: grid;
+  grid-area: password-confirm;
+  grid-row-gap: 16px;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+  "password-confirm-label"
+  "password-confirm-password"
+}
+#password-confirm-label{
+  margin: auto;
+  width: auto;
+  grid-area: password-confirm-label;
+}
+#password-confirm-password{
+  grid-area: password-confirm-password;
+}
+
+#password-submit {
+  border-radius: 2.5vh;
+  grid-area: password-submit;
+  width: 100%;
+  margin: auto;
+  margin-top: 2vh;
+  margin-bottom: 3vh;
 }

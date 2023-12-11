@@ -7,6 +7,9 @@
         public string ProteinSequence { get; set; }
         public string Description { get; set; }
         public int FormatType { get; set; }
+        public string Sequence1 { get; set; }
+        public string Sequence2 { get; set; }
+        public string Sequence3 { get; set; }
         public int UserId { get; set; }
     }
 

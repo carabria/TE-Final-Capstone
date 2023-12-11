@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
 using Capstone.Exceptions;
 using Capstone.Models;
-using Capstone.Security;
-using Capstone.Security.Models;
-using Microsoft.AspNetCore.Identity;
 
 namespace Capstone.DAO
 {
@@ -23,8 +18,8 @@ namespace Capstone.DAO
         {
             IList<Protein> proteins = new List<Protein>();
 
-            string sql = "SELECT protein_id, sequence_name, protein_sequence, description, format_type, username, user_id FROM proteins";
-
+            string sql = "SELECT protein_id, sequence_name, protein_sequence, description, format_type, username, user_id, sequence_1, sequence_2, sequence_3  FROM proteins";
+            
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -292,6 +287,11 @@ namespace Capstone.DAO
             protein.Description = Convert.ToString(reader["description"]);
             protein.FormatType = Convert.ToInt32(reader["format_type"]);
             protein.UserId = Convert.ToInt32(reader["user_id"]);
+            //set possible null values to empty string
+            protein.Sequence1 = reader["sequence_1"] is DBNull ? "" : Convert.ToString(reader["sequence_1"]);
+            protein.Sequence2 = reader["sequence_2"] is DBNull ? "" : Convert.ToString(reader["sequence_2"]);
+            protein.Sequence3 = reader["sequence_3"] is DBNull ? "" : Convert.ToString(reader["sequence_3"]);
+            
             return protein;
         }
     }

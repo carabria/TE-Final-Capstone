@@ -108,3 +108,5 @@ coverage
 *.ntvs*
 *.njsproj
 *.sw?
+
+*.lockb

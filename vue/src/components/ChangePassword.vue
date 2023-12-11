@@ -1,16 +1,16 @@
 <template>
-  <div id="password_change">
-    <h1 id="password_change_header">Change Password</h1>
-    <form id="password_change_form" @submit.prevent="changePassword">
-      <div id="newPassword_div">
-        <label id="newPassword_label" for="newPassword">New Password</label>
-        <input type="password" id="newPassword" v-model="password" />
+  <div id="password-change">
+    <form id="password-change-form" @submit.prevent="changePassword">
+      <h1 id="password-change-header">Change Password</h1>
+      <div class="form-input-group" id="password-new">
+        <label id="password-new-label" for="newPassword">New Password</label>
+        <input type="password" id="password-new-pass" v-model="password" />
       </div>
-      <div id="confirmPassword_div">
-        <label id="confirmPassword_Label" for="confirmPassword">Confirm Password</label>
-        <input type="password" id="confirmPassword" v-model="confirmPassword" />
+      <div class="form-input-group" id="password-confirm">
+        <label id="password-confirm-label" for="confirmPassword">Confirm Password</label>
+        <input type="password" id="password-confirm-password" v-model="confirmPassword" />
       </div>
-      <button id="password_change_submit" type="submit">Change Password</button>
+      <button id="password-submit" type="submit">Change Password</button>
     </form>
   </div>
 </template>
@@ -61,3 +61,13 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.form-input-group {
+  margin-bottom: 1rem;
+}
+
+label {
+  margin-right: 0.5rem;
+}
+</style>

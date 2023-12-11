@@ -1,7 +1,8 @@
 <template>
   <div class="protein-list-view">
+
     <div class="search">
-      <input type="text" v-model="search.name" placeholder="Search by name">
+      <input class="search_box" type="text" v-model="search.name" placeholder="Search by name">
       <table class="p-table">
         <thead>
           <tr id="header">
@@ -9,7 +10,7 @@
             <th>Note</th>
           </tr>
         </thead>
-        <tbody v-for="p in filteredProteins" :key="p.proteinId">
+        <tbody v-for="(p, idx) in filteredProteins" :key="p.proteinId" :class="{'hightlight': idx % 2 === 1}">
           <tr>
             <th>
               <router-link :to="{ name: 'protein_detail', params: { id: p.proteinId } }"> {{ p.sequenceName }}</router-link>
@@ -22,6 +23,7 @@
 
   </div>
 </template>
+
 <script>
 import ProteinService from '../../services/ProteinService.js';
 
@@ -78,41 +80,31 @@ export default {
 <style scoped>
 .protein-list-view {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  margin: 0;
-
-}
-
-.search {
-  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: white;
+}
+
+.search {
+  margin-bottom: 20px; /* Optional margin between search box and table */
+}
+
+.table-container {
+  display: flex;
+  justify-content: center;
+}
+
+.p-table {
+
+  border-collapse: collapse;
 }
 
 table {
   border-collapse: collapse;
-  width: 100%;
-  border: 1px solid #ddd;
-  font-size: 18px;
+  border: 3px solid black;
+  background-color: white;
   color: black;
 }
 
-table th, table td {
-  text-align: left;
-  padding: 16px;
-}
-
-tr#header {
-  background-color: black;
-  color: white;
-}
-
-tbody tr:nth-child(even) {
-  background-color: grey;
-}
 
 </style>

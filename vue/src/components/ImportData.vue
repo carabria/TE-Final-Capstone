@@ -1,5 +1,7 @@
 <template>
+  <h1>Import data</h1>    
   <div id="data-input">
+<<<<<<< HEAD
     <h1>Import Data</h1>
     <!--- Todo(anderson): Import data from URL --->
     <form @submit.prevent="getProteinAPIfromNCBI()">
@@ -17,13 +19,45 @@
       <textarea id="proteinDataBox" v-model="protein.data" required></textarea>
       <button type="submit">Import Data</button>
     </form>
+=======
+    <form id="text-form" @submit.prevent="importTextArea">
+      <div class="name">
+        <label for="nameText" id="nameLabel">Name</label>
+        <input type="text" id="nameText" v-model="protein.name" required />
+      </div>
+>>>>>>> 72058b23ca7d8f15af4a0c94d4a663eccfd3ba30
 
-    <form>
-      <label for="file">File</label>
-      <input type="file" id="file" v-on:change="importFile"/>
+      <div class="note">
+        <label for="noteText" id="noteLabel">Note</label>
+        <input type="text" id="noteText" v-model="protein.description" />
+      </div>
+      
+      <div class="data">
+        <label for="dataField" id="dataLabel">Sequence</label>
+        <textarea rows ="20" cols="70" id="dataField" v-model="protein.data" required></textarea>
+      </div>
+      
     </form>
+    
+    <div class="import">
+      <form id="api-form" @submit.prevent="importApiData">
+        <label for="apiText" id="apiLabel">API URL</label>
+        <input type="text" id="apiText" v-model="apiData" />
+        <button type="submit" id="apiSubmit">Import Data</button>
+      </form>
+  
+      <form class="file">
+        <label for="fileInput" id="fileLabel">File</label>
+        <input type="file" id="fileInput" v-on:change="importFile" />
+      </form>
 
+<<<<<<< HEAD
     <button v-on:click="clearForm()">Clear Form</button>  </div>
+=======
+      <button id="submit" type="submit">Submit Data</button>
+    </div>
+  </div>
+>>>>>>> 72058b23ca7d8f15af4a0c94d4a663eccfd3ba30
 </template>
 
 <script>
@@ -82,7 +116,7 @@ export default {
         });
 
       this.$router.push("/protein");
-    },  
+    },
     importFile(evt) {
       const file = evt.target.files[0];
       if (file.name.includes(".txt")) {
@@ -102,4 +136,148 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+  text-align: center;
+}
+#data-input {
+  height: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
+  height: 90%;
+  color: black;
+  border-radius: 2.5vh;
+  background-color: aliceblue;
+  border-color: black;
+  border-style: solid;
+  text-align: center;
+  grid-area: data-input;
+  display: grid;
+  column-gap: 50px;
+  grid-row-gap: 20px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  align-items: center;
+  grid-template-areas:
+    "text-form text-form text-form text-form"
+    "text-form text-form text-form text-form"
+    "text-form text-form text-form text-form"
+    "text-form text-form text-form text-form"
+    "import import import import"
+}
+
+#text-form {
+  margin: auto;
+  grid-area: text-form;
+  display: grid;
+  column-gap: 5px;
+  align-items: center;
+  grid-row-gap: 20px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "name note"
+    "data data"
+    "data data"
+    "data data"
+}
+
+.name {
+  object-fit: contain;
+  display: block;
+  grid-area: name;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "nameLabel" "NameText"
+}
+
+#nameLabel {
+  margin:auto;
+  width: auto;
+  grid-area: nameLabel;
+}
+
+#nameText {
+  margin: auto;
+  width: auto;
+  grid-area: nameText;
+}
+
+.note {
+  margin-left: 1px;
+  margin-right: 1px;
+  object-fit: contain;
+  display: block;
+  grid-area: note;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "noteLabel" "noteText";
+}
+
+#noteLabel {
+  grid-area: noteLabel;
+}
+
+#noteText {
+  margin: auto;
+  width: auto;
+  grid-area: noteText;
+}
+
+.data {
+  margin: auto;
+  grid-area: data;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "dataField";
+}
+
+#dataField {
+  grid-area: dataField;
+  height: 100%;
+  width: 100%;
+}
+
+.import {
+  margin: auto;
+  grid-area: import;
+  grid-row-gap: 5px;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-areas: 
+  "api-form api-form file file submit"
+}
+#api-form {
+  margin: auto;
+  grid-area: api-form;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas:
+    "apiLabel apiText apiSubmit";
+}
+
+#apiLabel {
+  grid-area: apiLabel;
+}
+
+#apiText {
+  margin: auto;
+  width: auto;
+  grid-area: apiText;
+}
+
+#apiSubmit {
+  grid-area: apiSubmit;
+}
+
+.file {
+  grid-area: file;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: 
+  "fileLabel fileSubmit";
+}
+
+#submit {
+  grid-area: submit;
+}
+
+
+
+#import {}
 </style>

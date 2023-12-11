@@ -2,7 +2,7 @@
   <div class="home">
     <h1 id="company">{{ header }}</h1>
     <p id="app">{{ body }}</p>
-    <img id="HomeViewImage" src="./../../img/Products.png"/>
+    <img id="HomeViewImage" v-bind:src="image"/>
     <div class="process">
       <p id="ProcessInfo">Protein Purification Process Using the <i>iCapTag</i>&trade; Technology</p>
       <img id="ProcessPic" src="./../../img/Process.png" /> 

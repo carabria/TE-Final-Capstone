@@ -34,9 +34,10 @@ namespace Capstone.Controllers
         [HttpPut("{id}")]
         public ActionResult ChangeHomeView(int id)
         {
+            Home home = new Home();
             try
             {
-
+                home = homeDao.GetViewById(id);
                 homeDao.UpdateHomeView(id);
             }
             catch (DaoException)
@@ -44,7 +45,7 @@ namespace Capstone.Controllers
                 return StatusCode(500, "An internal server error occured.");
             }
 
-            return Ok();
+            return Ok(home);
         }
         [HttpGet("views")]
         public ActionResult<List<Home>> AdminHomeViewEditChoose()

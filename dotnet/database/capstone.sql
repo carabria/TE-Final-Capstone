@@ -48,7 +48,7 @@ CREATE TABLE homeview (
 	header varchar(500) NOT NULL,
 	body varchar(8000) NOT NULL, 
 	active bit NOT NULL,
-	image_source varchar(200) NOT NULL,
+	image_source varchar(1000) NOT NULL,
 	CONSTRAINT view_id PRIMARY KEY(view_id)
 ) 
 
@@ -69,9 +69,9 @@ INSERT INTO users (username, email, organization_name, password_hash, salt, user
 INSERT INTO users (username, email, organization_name, password_hash, salt, user_role, has_one_time_password) VALUES ('new admin', 'admin@gmail.com', 'administrative experts incorporated', '7aAwUxYHuUaz2iNz3SjHZHaZq88=', 'ydNeoqlGX9I=', 'admin', 0);
 
 
-INSERT INTO homeview (header, body, active, image_source, name) VALUES ('Protein Capture Science', 'Amino Acid Sifter', 1, 'src/img/AminoAcid.jpg', 'Default')
-INSERT INTO homeview (header, body, active, image_source, name) VALUES ('HO HO HO', 'Merry Christmas', 0, 'src/img/AminoAcid.jpg', 'Christmas')
-INSERT INTO homeview (header, body, active, image_source, name) VALUES ('Software is a great combination between artistry and engineering', '-Bill Gates', 0, 'src/image/Empty', 'Quote')
+INSERT INTO homeview (header, body, active, image_source, name) VALUES ('Protein Capture Science', 'Just a few of our products', 1, 'src/img/Products.png', 'Default')
+INSERT INTO homeview (header, body, active, image_source, name) VALUES ('HO HO HO', 'Merry Christmas', 0, 'src/img/Santa.jpg', 'Christmas')
+INSERT INTO homeview (header, body, active, image_source, name) VALUES ('Software is a great combination between artistry and engineering', '-Bill Gates', 0, 'src/img/AminoAcid.jpg', 'Quote')
 
 INSERT INTO proteins (sequence_name, protein_sequence, description, format_type, username, user_id) 
 VALUES ('Insulin', 'MALWMRLLPLLALLALWGPDPAAAFVNQHLCGSHLVEALYLVCGERGFFYTPKTRREAEDLQASALSLSSSTSTWPEGLDATARAPPALVVTANIGQAGGSSSRQFRQRALGTSDSPVLFIHCPGAAGTAQGLEYRGRRVTTELVWEEVDSSPQPQGSESLPAQPPAQPAPQPEPQQAREPSPEVSCCGLWPRRPQRSQN', 'This is an insulin protein!', 1, 'user', 1);

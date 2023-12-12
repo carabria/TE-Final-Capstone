@@ -1,6 +1,7 @@
 <template>
   <h1>Import data</h1>
   <div id="data-input">
+    <!--- Todo(anderson): Import data from URL --->
     <form id="text-form">
       <div class="name">
         <label for="nameText" id="nameLabel">Name</label>
@@ -14,9 +15,7 @@
         <label for="dataField" id="dataLabel">Sequence</label>
         <textarea rows="20" cols="70" id="dataField" v-model="protein.data" required></textarea>
       </div>
-
     </form>
-
     <div class="import">
       <form id="api-form" @submit.prevent="getProteinAPIfromNCBI()">
         <label for="apiText" id="apiLabel">Get Info From NCBI</label>

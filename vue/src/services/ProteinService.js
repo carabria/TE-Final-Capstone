@@ -27,7 +27,10 @@ export default {
   ncbiAPI(sessionToken, name){
     return axios.get(`/proteins/api/ncbi/${name}`, {headers: {Authorization: `Bearer ${sessionToken}`}});
   },
-  getApiList(sessionToken){
-    return axios.get('proteins/api/list');
+  rcsbAPI(sessionToken, name){
+    return axios.get(`/proteins/api/rcsb/${name}`, {headers: {Authorization: `Bearer ${sessionToken}`}});
+  },
+  getApiList(sessionToken, jsonQuery){
+    return axios.get(`https://search.rcsb.org/rcsbsearch/v2/query?json=${jsonQuery}`);
   },
 }

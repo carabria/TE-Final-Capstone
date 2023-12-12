@@ -27,12 +27,15 @@
         <input type="text" id="apiText" v-model="apiDataRCSB" />
         <button type="submit" id="apiSubmit">Import Data</button>
       </form>
-      <form class="file" @submit.prevent="importTextArea">
-        <label for="fileInput" id="fileLabel">File</label>
+      <form class="file">
+        <label for="fileInput" id="fileLabel">Upload From File</label>
         <input type="file" id="fileInput" v-on:change="importFile" />
         <button id="submit" type="submit">Submit Data</button> 
       </form>
-      <button v-on:click="clearForm()">Clear Form</button>
+      <form class="finished" @submit.prevent="importTextArea">
+        <button id="clearForm" v-on:click="clearForm()">Clear Form</button>
+        <button id="submit" type="submit">Submit Data</button>
+      </form>
     </div>
   </div>
 </template>
@@ -46,6 +49,7 @@ export default {
         name: '',
         description: '',
         data: '',
+        proteinId: ''
       },
       apiDataNCBI: '',
       apiDataRCSB: '',
@@ -74,6 +78,7 @@ export default {
       this.protein.name = response.data.sequenceName;
       this.protein.data = response.data.proteinSequence;
       this.protein.description = response.data.description;
+      this.protein.proteinId = response.data.proteinId;
     },
     importTextArea() {
       const token = this.$store.state.token;
@@ -84,24 +89,23 @@ export default {
         Description: this.protein.description,
         FormatType: 0,
         UserId: 0
-
       };
       console.log(protein_data);
       ProteinService.createProtein(token, protein_data)
         .then(response => {
-          if (response.status === 200) {
+          if (response.status === 201) {
             alert("Protein created successfully");
-            this.$router.push("/protein");
+            console.log(this.protein.id)
+            this.$router.push(`/protein/${response.data.proteinId}`);
           }
         })
         .catch(error => {
           const response = error.response;
           if (response.status === 401) {
             alert("Invalid password");
+            console.log('reached 401 error');
           }
         });
-
-      this.$router.push("/protein");
     },
     importFile(evt) {
       const file = evt.target.files[0];
@@ -261,6 +265,20 @@ h1 {
     "fileLabel fileSubmit";
 }
 
+.finished {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  margin-top: 15px;
+}
 #submit {
-  grid-area: submit;
-}</style>
+  align-items: right;
+  justify-content: right;
+  margin: auto;
+}
+
+#clearForm {
+  margin: auto;
+}
+</style>

@@ -90,6 +90,7 @@ namespace Capstone.Controllers
         [HttpPost("/register")]
         public IActionResult Register(RegisterUser userParam)
         {
+            int test = 7;
             // Default generic error message
             const string ErrorMessage = "An error occurred and user was not created.";
 

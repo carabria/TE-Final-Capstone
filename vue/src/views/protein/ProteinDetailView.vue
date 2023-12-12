@@ -12,11 +12,15 @@
     <div class = "p-sequence">
       <h2>{{ protein.proteinSequence }}</h2>
     </div>
+    <form class = "p-generate" @submit.prevent="generateSequences()">
+      <button id="submit" type="submit">Generate Sequences</button>
+    </form>
   </div>
 </template>
 
 <script>
 import ProteinService from '../../services/ProteinService.js';
+import GenerateService from '../../services/GenerateService.js'
 export default {
   props: ['id'],
 
@@ -26,6 +30,9 @@ export default {
         sequenceName: '',
         description: '',
         proteinSequence: '',
+        sequence1: '',
+        sequence2: '',
+        sequence3: ''
       },
     };
   },
@@ -47,6 +54,14 @@ export default {
           console.log(error);
         });
     },
+    generateSequences() {
+        const token = this.$store.state.token;
+        const protein_id = this.$route.params.id;
+        GenerateService.generateSequences(token, protein_id)
+        .then(response => {
+          this.protein = response.data;
+        })
+    }
   },
   computed: {
   },
@@ -102,6 +117,13 @@ body {
 .p-sequence h2 {
   margin: 0;
   padding: 10px;
+}
+
+#submit {
+  align-items: right;
+  justify-content: right;
+  align-content: right;
+  justify-self: right;
 }
 
 </style>

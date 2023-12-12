@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using Capstone.DAO;
 using Capstone.Exceptions;
 using Capstone.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +24,7 @@ namespace Capstone.Controllers
             this.proteinDao = proteinDao;
         }
 
+        [HttpGet]
         public ActionResult<List<Cell>> getCells()
         {
             List<Cell> cells = new List<Cell>();
@@ -37,6 +40,30 @@ namespace Capstone.Controllers
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
             return cells;
+        }
+       
+        [HttpGet("{id}")]
+        public ActionResult<List<Cell>> getFastetCells(int id)
+        {
+           List<Cell> cells = new List<Cell>();
+           try
+           {
+               Protein protein = proteinDao.GetProteinById(id);
+               string letters = protein.SequenceName;
+               List<Cell> cellList = cellDao.getFastestCells(letters);
+           } catch (DaoException ex)
+           {
+                Console.WriteLine(ex.Message);
+                //return a status with error message
+                // return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                //return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                return new ObjectResult(ex.Message)
+                {
+                    StatusCode = StatusCodes.Status500InternalServerError
+                };
+           }
+
+           return cells;
         }
     }
 }

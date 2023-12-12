@@ -4,9 +4,6 @@ using Capstone.DAO;
 using Capstone.Exceptions;
 using Capstone.Models;
 using Microsoft.AspNetCore.Authorization;
-using System.Web;
-using System.Net.Http;
-using System;
 
 namespace Capstone.Controllers
 {
@@ -44,7 +41,7 @@ namespace Capstone.Controllers
             return Ok(proteins);
         }
 
-        [HttpGet("proteinId={id}")]
+        [HttpGet("{id}")]
         public ActionResult GetProteinById(int id)
         {
             Protein protein = new Protein();
@@ -109,7 +106,7 @@ namespace Capstone.Controllers
             {
                 return StatusCode(500, "An internal server error occurred.");
             }
-            return Created($"/protein/{protein.ProteinId}", protein);
+            return Created($"/proteins/{protein.ProteinId}", protein);
         }
 
         [HttpPut]
@@ -140,7 +137,7 @@ namespace Capstone.Controllers
             }
             catch (DaoException)
             {
-                return StatusCode(500, "An internal server error occurred.");
+                return StatusCode(500, "An internal server error occur  red.");
             }
             if (result == true)
             {
@@ -148,34 +145,5 @@ namespace Capstone.Controllers
             }
             return NotFound();
         }
-        [HttpGet("api/ncbi/{name}")]
-        public ActionResult<Protein> GetApiProtein(string name)
-        {
-            Protein protein = new Protein();
-            try
-            {
-                string id = proteinDao.ApiGetProteinId(name).Result;
-                protein = proteinDao.ApiGetProteinSequence(id).Result;
-                protein.SequenceName = name;
-            }
-            catch (DaoException)
-            {
-                return StatusCode(500, "An internal server error occurred.");
-            }
-            return Ok(protein);
-        }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

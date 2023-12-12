@@ -9,7 +9,5 @@ namespace Capstone.DAO
         List<Cell> getCells();
         
         List<Cell> getFastestCells(String letters);
-        
-        List<Cell> getCellByLetters(string letters);
     }
 }

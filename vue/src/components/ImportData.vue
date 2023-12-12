@@ -1,12 +1,28 @@
 <template>
   <h1>Import data</h1>
   <div id="data-input">
-    <form id="text-form">
-      <div class="name">
-        <label for="nameText" id="nameLabel">Name</label>
-        <input type="text" id="nameText" v-model="protein.name" required />
-      </div>
-      
+    <h1>Import Data</h1>
+    <!--- Todo(anderson): Import data from URL --->
+    <form @submit.prevent="getProteinAPIfromNCBI()">
+      <label for="apiData">Get Info From NCBI</label>
+      <input type="text" id="apiData" v-model="apiDataNCBI" />
+      <button type="submit">Import Data</button>
+    </form>
+    <form @submit.prevent="getProteinAPI()">
+      <label for="apiData">Get Info From RSCB</label>
+      <input type="text" id="apiData" v-model="apiDataRCSB" />
+      <button type="submit">Import Data</button>
+    </form>
+    <form @submit.prevent="importTextArea">
+      <label for="text">Name</label>
+      <input type="text" id="text" v-model="protein.name" required/>
+      <label for="proteinDescription">Note</label>
+      <input type="text" id="proteinDescription" v-model="protein.description"/>
+      <label for="proteinDataBox">Data</label>
+      <textarea id="proteinDataBox" v-model="protein.data" required></textarea>
+      <button type="submit">Import Data</button>
+    </form>
+
       <div class="note">
         <label for="noteText" id="noteLabel">Note</label>
         <input type="text" id="noteText" v-model="protein.description" />
@@ -17,7 +33,7 @@
         <textarea rows="20" cols="70" id="dataField" v-model="protein.data" required></textarea>
       </div>
       
-    </form>
+    </div>
     
     <div class="import">
       <form id="api-form" @submit.prevent="getProteinAPIfromNCBI()">
@@ -31,9 +47,8 @@
         <input type="file" id="fileInput" v-on:change="importFile" />
         <button id="submit" type="submit">Submit Data</button>
       </form>
-      <button v-on:click="clearForm()">Clear Form</button>
-    </div>
-  </div>
+
+    <button v-on:click="clearForm()">Clear Form</button>  </div>
 </template>
 
 <script>
@@ -46,7 +61,9 @@ export default {
         description: '',
         data: '',
       },
-      apiData: '',
+      apiData: '' ,
+      apiDataNCBI: '',
+      apiDataRCSB: '',
       proteinName: '',
       proteinDataBox: '',
       file: null,
@@ -56,12 +73,19 @@ export default {
     clearForm() {
       this.protein = {};
       this.apiData = '';
+      this.apiDataNCBI = '';
+      this.apiDataRCSB = '';
     },
-    getProteinAPIfromNCBI() {
-      ProteinService.ncbiAPI(this.$store.state.token, this.apiData).then((respsonse) => this.assignProtein(respsonse)
-      )
-    },
-    assignProtein(response) {
+    getProteinAPIfromNCBI(){
+      ProteinService.ncbiAPI(this.$store.state.token, this.apiDataNCBI).then((respsonse) => this.assignProtein(respsonse)
+    )},
+    getProteinAPIfromRCSB(){
+      ProteinService.rcsbAPI(this.$store.state.token, this.apiDataRCSB).then((respsonse) => this.assignProtein(respsonse)
+    )},
+    getProteinAPI(){
+      ProteinService.getApiList(this.$store.state.token, this.apiDataRCSB).then((respsonse) => this.assignProtein(respsonse)
+    )},
+    assignProtein(response){
       this.protein.name = response.data.sequenceName;
       this.protein.data = response.data.proteinSequence;
       this.protein.description = response.data.description;

@@ -23,9 +23,13 @@ namespace Capstone.DAO
             connectionString = dbConnectionString;
         }
 
-        private static HttpClient sharedClient = new()
+        private static HttpClient ncbiClient = new()
         {
             BaseAddress = new Uri("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/"),
+        };
+        private static HttpClient rcsbClient = new()
+        {
+            BaseAddress = new Uri("https://search.rcsb.org/rcsbsearch/v2/query?json="),
         };
         public IList<Protein> GetProteins()
         {
@@ -268,18 +272,18 @@ namespace Capstone.DAO
             return result;
         }
         //"esearch.fcgi?db=protein&term=Human_Insulin"
-        public async Task<string> ApiGetProteinId(string name)
+        public async Task<string> NCBIApiGetProteinID(string name)
         {
             HttpResponseMessage response = new HttpResponseMessage();
             string id = "";
             try
             {
-                using (response = await sharedClient.GetAsync($"esearch.fcgi?db=protein&term={name}"))
+                using (response = await ncbiClient.GetAsync($"esearch.fcgi?db=protein&term={name}"))
                 {
 
                     response.EnsureSuccessStatusCode();
                     string list = await response.Content.ReadAsStringAsync();
-                    id = ParseProteinId(list);
+                    id = ParseNCBIProteinId(list);
                     
                 }
             }
@@ -290,12 +294,12 @@ namespace Capstone.DAO
             }
             return id;
         }
-        public async Task<Protein> ApiGetProteinSequence(string id)
+        public async Task<Protein> NCBIApiGetProteinSequence(string id)
         {
             Protein protein = new Protein();
             try
             {
-                using (HttpResponseMessage response = await sharedClient.GetAsync($"efetch.fcgi?db=protein&id={id}&rettype=fasta&retmode=text"))
+                using (HttpResponseMessage response = await ncbiClient.GetAsync($"efetch.fcgi?db=protein&id={id}&rettype=fasta&retmode=text"))
                 {
                     response.EnsureSuccessStatusCode();
                     string fasta = await response.Content.ReadAsStringAsync();
@@ -308,7 +312,47 @@ namespace Capstone.DAO
             }
             return protein;
         }
-        public static string ParseProteinId(string xmlData)
+        public async Task<Protein> RCSBApiGetProteinSequence(string id)
+        {
+            Protein protein = new Protein();
+            try
+            {
+                using (HttpResponseMessage response = await rcsbClient.GetAsync($"efetch.fcgi?db=protein&id={id}&rettype=fasta&retmode=text"))
+                {
+                    response.EnsureSuccessStatusCode();
+                    string fasta = await response.Content.ReadAsStringAsync();
+                    protein = ParseFasta(fasta);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new DaoException("HTTP exception occurred", ex);
+            }
+            return protein;
+        }
+        public async Task<string> RCSBApiGetProteinID(string name)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            string id = "";
+            try
+            {
+                using (response = await rcsbClient.GetAsync("%7B%0A%20%20%22query%22%3A%20%7B%0A%20%20%20%20%22type%22%3A%20%22terminal%22%2C%0A%20%20%20%20%22service%22%3A%20%22full_text%22%2C%0A%20%20%20%20%22parameters%22%3A%20%7B%0A%20%20%20%20%20%20%22value%22%3A%20%22thymidine%20kinase%22%0A%20%20%20%20%7D%0A%20%20%7D%2C%0A%20%20%22return_type%22%3A%20%22entry%22%0A%7D"))
+                {
+
+                    response.EnsureSuccessStatusCode();
+                    string list = await response.Content.ReadAsStringAsync();
+                    id = ParseNCBIProteinId(list);
+
+                }
+            }
+            //2629715147
+            catch (HttpRequestException ex)
+            {
+                throw new DaoException("HTTP exception occurred", ex);
+            }
+            return id;
+        }
+        public static string ParseNCBIProteinId(string xmlData)
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(xmlData);

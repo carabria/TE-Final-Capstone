@@ -1,5 +1,5 @@
 <template>
-  <h1>Import data</h1>    
+  <h1>Import data</h1>
   <div id="data-input">
     <!--- Todo(anderson): Import data from URL --->
     <form id="text-form">
@@ -13,7 +13,7 @@
       </div>
       <div class="data">
         <label for="dataField" id="dataLabel">Sequence</label>
-        <textarea rows ="20" cols="70" id="dataField" v-model="protein.data" required></textarea>
+        <textarea rows="20" cols="70" id="dataField" v-model="protein.data" required></textarea>
       </div>
     </form>
     <div class="import">
@@ -57,20 +57,22 @@ export default {
     };
   },
   methods: {
-    clearForm(){
+    clearForm() {
       this.protein = {};
       this.apiData = '';
       this.apiDataNCBI = '';
       this.apiDataRCSB = '';
     },
-    getProteinAPIfromNCBI(){
+    getProteinAPIfromNCBI() {
       ProteinService.ncbiAPI(this.$store.state.token, this.apiDataNCBI).then((respsonse) => this.assignProtein(respsonse)
-    )},
-    getProteinAPIfromRCSB(){
+      )
+    },
+    getProteinAPIfromRCSB() {
       ProteinService.rcsbAPI(this.$store.state.token, this.apiDataRCSB).then((respsonse) => this.assignProtein(respsonse)
-    )},
-    
-    assignProtein(response){
+      )
+    },
+
+    assignProtein(response) {
       this.protein.name = response.data.sequenceName;
       this.protein.data = response.data.proteinSequence;
       this.protein.description = response.data.description;
@@ -125,6 +127,7 @@ export default {
 h1 {
   text-align: center;
 }
+
 #data-input {
   height: fit-content;
   margin-left: auto;
@@ -176,7 +179,7 @@ h1 {
 }
 
 #nameLabel {
-  margin:auto;
+  margin: auto;
   width: auto;
   grid-area: nameLabel;
 }
@@ -227,9 +230,10 @@ h1 {
   grid-area: import;
   grid-row-gap: 5px;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  grid-template-areas: 
-  "api-form api-form file file submit"
+  grid-template-areas:
+    "api-form api-form file file submit"
 }
+
 #api-form {
   margin: auto;
   grid-area: api-form;
@@ -255,8 +259,8 @@ h1 {
 .file {
   grid-area: file;
   grid-template-columns: 1fr 1fr;
-  grid-template-areas: 
-  "fileLabel fileSubmit";
+  grid-template-areas:
+    "fileLabel fileSubmit";
 }
 
 .finished {
@@ -275,5 +279,4 @@ h1 {
 #clearForm {
   margin: auto;
 }
-
 </style>

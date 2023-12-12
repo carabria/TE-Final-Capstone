@@ -226,7 +226,7 @@ namespace Capstone.DAO
             return updatedProtein;
         }
 
-        public void OptimizeProtein(int proteinId, string sequence_1, string sequence_2, string sequence_3)
+        public Protein OptimizeProtein(Protein protein)
         {
             string sql = "UPDATE proteins " +
             "SET sequence_1 = @sequence_1, sequence_2 = @sequence_2, sequence_3 = @sequence_3 " +
@@ -239,10 +239,10 @@ namespace Capstone.DAO
                     conn.Open();
 
                     SqlCommand cmd = new SqlCommand(sql, conn);
-                    cmd.Parameters.AddWithValue("@sequence_1", sequence_1);
-                    cmd.Parameters.AddWithValue("@sequence_2", sequence_2);
-                    cmd.Parameters.AddWithValue("@sequence_3", sequence_3);
-                    cmd.Parameters.AddWithValue("@protein_id", proteinId);
+                    cmd.Parameters.AddWithValue("@sequence_1", protein.Sequence1);
+                    cmd.Parameters.AddWithValue("@sequence_2", protein.Sequence2);
+                    cmd.Parameters.AddWithValue("@sequence_3", protein.Sequence3);
+                    cmd.Parameters.AddWithValue("@protein_id", protein.ProteinId);
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -250,6 +250,8 @@ namespace Capstone.DAO
             {
                 throw new DaoException("SQL exception occurred", ex);
             }
+
+            return protein;
         }
 
 

@@ -18,7 +18,7 @@ namespace Capstone.DAO
 
         Protein UpdateProtein(int proteinId, string sequenceName, string proteinSequence, string description, int userId);
 
-        void OptimizeProtein(int proteinId, string sequence_1, string sequence_2, string sequence_3);
+        Protein OptimizeProtein(Protein protein);
 
         bool DeleteProteinById(int proteinId);
 

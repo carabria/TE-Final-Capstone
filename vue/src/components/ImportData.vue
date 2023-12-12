@@ -24,12 +24,13 @@
       </form>
       <form id="RCSB-form" @submit.prevent="getProteinAPIfromRCSB()">
         <label for="apiText" id="apiLabel">Get Info From RCSB</label>
-        <input type="text" id="apiText" v-model="apidataRCSB" />
+        <input type="text" id="apiText" v-model="apiDataRCSB" />
         <button type="submit" id="apiSubmit">Import Data</button>
       </form>
       <form class="file" @submit.prevent="importTextArea">
         <label for="fileInput" id="fileLabel">File</label>
         <input type="file" id="fileInput" v-on:change="importFile" />
+        <button id="submit" type="submit">Submit Data</button> 
       </form>
       <button v-on:click="clearForm()">Clear Form</button>
     </div>

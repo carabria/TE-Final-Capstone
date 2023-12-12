@@ -166,13 +166,13 @@ namespace Capstone.Controllers
             return Ok(protein);
         }
         [HttpGet("api/rcsb/{name}")]
-        public ActionResult<string> GetRCSBApiProtein(string name)
+        public ActionResult<Protein> GetRCSBApiProtein(string name)
         {
-
+            string id = "";
             Protein protein = new Protein();
             try
             {
-                string id = proteinDao.RCSBApiGetProteinID(name).Result;
+                id = proteinDao.RCSBApiGetProteinID(name).Result;
                 protein = proteinDao.RCSBApiGetProteinSequence(id).Result;
                 protein.SequenceName = name;
             }
@@ -180,7 +180,7 @@ namespace Capstone.Controllers
             {
                 return StatusCode(500, "An internal server error occurred.");
             }
-            List<string> test = new List<string>() { "hmhm", "what will occur?", "should I send a lit of list?", "no, we'll send this first" };
+            
             return Ok(protein);
         }
     }

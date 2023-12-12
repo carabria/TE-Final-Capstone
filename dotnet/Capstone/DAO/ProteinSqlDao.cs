@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Linq;
 using Capstone.Exceptions;
 using Capstone.Models;
 using Capstone.Security;
@@ -288,7 +290,6 @@ namespace Capstone.DAO
                     
                 }
             }
-            //2629715147
             catch (HttpRequestException ex)
             {
                 throw new DaoException("HTTP exception occurred", ex);
@@ -304,7 +305,7 @@ namespace Capstone.DAO
                 {
                     response.EnsureSuccessStatusCode();
                     string fasta = await response.Content.ReadAsStringAsync();
-                    protein = ParseFasta(fasta);
+                    protein = ParseNCBIFasta(fasta);
                 }
             }
             catch (HttpRequestException ex)
@@ -318,11 +319,27 @@ namespace Capstone.DAO
             Protein protein = new Protein();
             try
             {
-                using (HttpResponseMessage response = await rcsbClient.GetAsync($"efetch.fcgi?db=protein&id={id}&rettype=fasta&retmode=text"))
+                var searchQuery = new
+                {
+                    request_info = new
+                    {
+                        query = id
+                    },
+                    request_options = new
+                    {
+                        return_type = "polymer_entity"
+                    }
+                };
+
+
+                var jsonPayload = JsonSerializer.Serialize(searchQuery);
+
+                var encodedJsonPayload = Uri.EscapeDataString(jsonPayload);
+                using (HttpResponseMessage response = await new HttpClient().GetAsync($"https://data.rcsb.org/rest/v1/core/polymer_entity/{id.Replace("_", "/")}"))
                 {
                     response.EnsureSuccessStatusCode();
                     string fasta = await response.Content.ReadAsStringAsync();
-                    protein = ParseFasta(fasta);
+                    protein = ParseRCSBFasta(fasta);
                 }
             }
             catch (HttpRequestException ex)
@@ -338,39 +355,33 @@ namespace Capstone.DAO
             try
             {
 
-                // Construct the search request JSON payload
                 var searchRequest = new
                 {
                     query = new
                     {
                         type = "terminal",
-                        service = "text",
+                        service = "full_text",
                         parameters = new
                         {
                             value = name,
-                            searchTool = "pdb_protein_name_search"
                         }
                     },
                     return_type = "polymer_entity"
                 };
 
-                // Convert the search request object to a JSON string
                 var jsonPayload = JsonSerializer.Serialize(searchRequest);
 
-                // URL encode the JSON payload
                 var encodedJsonPayload = Uri.EscapeDataString(jsonPayload);
 
-
-                using (response = await rcsbClient.GetAsync($"{encodedJsonPayload}"))
+                using (response = await new HttpClient().GetAsync($"https://search.rcsb.org/rcsbsearch/v2/query?json={encodedJsonPayload}"))
                 {
 
                     response.EnsureSuccessStatusCode();
                     string list = await response.Content.ReadAsStringAsync();
-                    id = ParseNCBIProteinId(list);
+                    id = ParseRCSBProteinId(list);
 
                 }
             }
-            //2629715147
             catch (HttpRequestException ex)
             {
                 throw new DaoException("HTTP exception occurred", ex);
@@ -386,10 +397,23 @@ namespace Capstone.DAO
 
             return idListContent;
         }
-        public Protein ParseFasta(string fastaData)
+        public static string ParseRCSBProteinId(string xmlData)
+        {
+            JsonDocument jsonObject = JsonSerializer.Deserialize<JsonDocument>(xmlData);
+       
+            List<string> pdbIds = jsonObject?.RootElement
+                .GetProperty("result_set")
+                .EnumerateArray()
+                .Select(entity => entity.GetProperty("identifier").GetString())
+                .ToList();
+
+            return pdbIds[0];
+        }
+
+        public Protein ParseNCBIFasta(string fastaData)
         {
             string[] lines = fastaData.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-            string proteinId = lines[0].Trim().Substring(1); // Exclude the '>' character
+            string proteinId = lines[0].Trim().Substring(1); 
 
             StringBuilder sequenceBuilder = new StringBuilder();
             for (int i = 1; i < lines.Length; i++)
@@ -403,6 +427,22 @@ namespace Capstone.DAO
             {
                 Description = proteinId,
                 ProteinSequence = proteinSequence
+            };
+        }
+        public Protein ParseRCSBFasta(string fastaData)
+        {
+            JsonDocument jsonObject = JsonSerializer.Deserialize<JsonDocument>(fastaData);
+            // Extract the PDB IDs from the response
+            string sequence = jsonObject?.RootElement
+                .GetProperty("entity_poly")
+                .GetProperty("pdbx_seq_one_letter_code").GetString();
+            string description = jsonObject?.RootElement
+               .GetProperty("rcsb_polymer_entity")
+               .GetProperty("pdbx_description").GetString();
+            return new Protein
+            {
+                Description = description,
+                ProteinSequence = sequence
             };
         }
 

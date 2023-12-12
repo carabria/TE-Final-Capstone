@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Net.Http;
@@ -28,16 +28,18 @@ namespace Capstone.DAO
         {
             BaseAddress = new Uri("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/"),
         };
+
         private static HttpClient rcsbClient = new()
         {
             BaseAddress = new Uri("https://search.rcsb.org/rcsbsearch/v2/query?json="),
         };
+
         public IList<Protein> GetProteins()
         {
             IList<Protein> proteins = new List<Protein>();
 
             string sql = "SELECT protein_id, sequence_name, protein_sequence, description, format_type, username, user_id, sequence_1, sequence_2, sequence_3  FROM proteins";
-            
+
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -158,6 +160,7 @@ namespace Capstone.DAO
             return proteins;
         }
 
+
         public Protein CreateProtein(string sequenceName, string proteinSequence, string description, string username, int userId)
         {
             Protein newProtein = NullPropertyToEmpty(sequenceName, proteinSequence, description, userId);
@@ -212,7 +215,6 @@ namespace Capstone.DAO
                     cmd.Parameters.AddWithValue("@format_type", formatType);
                     cmd.Parameters.AddWithValue("@user_id", userId);
                     cmd.Parameters.AddWithValue("@protein_id", proteinId);
-//                    cmd.Parameters.AddWithValue()
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -223,6 +225,33 @@ namespace Capstone.DAO
             updatedProtein = GetProteinById(proteinId);
             return updatedProtein;
         }
+
+        public void OptimizeProtein(int proteinId, string sequence_1, string sequence_2, string sequence_3)
+        {
+            string sql = "UPDATE proteins " +
+            "SET sequence_1 = @sequence_1, sequence_2 = @sequence_2, sequence_3 = @sequence_3 " +
+            "WHERE protein_id = @protein_id";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@sequence_1", sequence_1);
+                    cmd.Parameters.AddWithValue("@sequence_2", sequence_2);
+                    cmd.Parameters.AddWithValue("@sequence_3", sequence_3);
+                    cmd.Parameters.AddWithValue("@protein_id", proteinId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new DaoException("SQL exception occurred", ex);
+            }
+        }
+
 
         public bool DeleteProteinById(int proteinId)
         {
@@ -272,6 +301,7 @@ namespace Capstone.DAO
             }
             return result;
         }
+
         //"esearch.fcgi?db=protein&term=Human_Insulin"
         public async Task<string> NCBIApiGetProteinID(string name)
         {
@@ -285,7 +315,7 @@ namespace Capstone.DAO
                     response.EnsureSuccessStatusCode();
                     string list = await response.Content.ReadAsStringAsync();
                     id = ParseNCBIProteinId(list);
-                    
+
                 }
             }
             //2629715147
@@ -295,6 +325,7 @@ namespace Capstone.DAO
             }
             return id;
         }
+
         public async Task<Protein> NCBIApiGetProteinSequence(string id)
         {
             Protein protein = new Protein();
@@ -313,6 +344,7 @@ namespace Capstone.DAO
             }
             return protein;
         }
+
         public async Task<Protein> RCSBApiGetProteinSequence(string id)
         {
             Protein protein = new Protein();
@@ -331,6 +363,7 @@ namespace Capstone.DAO
             }
             return protein;
         }
+
         public async Task<string> RCSBApiGetProteinID(string name)
         {
             HttpResponseMessage response = new HttpResponseMessage();
@@ -370,6 +403,7 @@ namespace Capstone.DAO
 
                 }
             }
+
             //2629715147
             catch (HttpRequestException ex)
             {
@@ -377,6 +411,7 @@ namespace Capstone.DAO
             }
             return id;
         }
+
         public static string ParseNCBIProteinId(string xmlData)
         {
             XmlDocument xmlDoc = new XmlDocument();
@@ -386,6 +421,7 @@ namespace Capstone.DAO
 
             return idListContent;
         }
+
         public Protein ParseFasta(string fastaData)
         {
             string[] lines = fastaData.Split('\n', StringSplitOptions.RemoveEmptyEntries);
@@ -431,6 +467,7 @@ namespace Capstone.DAO
             else protein.UserId = userId;
             return protein;
         }
+
         private Protein MapRowToProtein(SqlDataReader reader)
         {
             Protein protein = new Protein();
@@ -444,7 +481,7 @@ namespace Capstone.DAO
             //protein.Sequence1 = reader["sequence_1"] is DBNull ? "" : Convert.ToString(reader["sequence_1"]);
             //protein.Sequence2 = reader["sequence_2"] is DBNull ? "" : Convert.ToString(reader["sequence_2"]);
             //protein.Sequence3 = reader["sequence_3"] is DBNull ? "" : Convert.ToString(reader["sequence_3"]);
-            
+
             return protein;
         }
     }

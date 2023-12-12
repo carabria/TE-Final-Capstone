@@ -21,10 +21,14 @@
     <div class="import">
       <form id="api-form" @submit.prevent="getProteinAPIfromNCBI()">
         <label for="apiText" id="apiLabel">Get Info From NCBI</label>
-        <input type="text" id="apiText" v-model="apiData" />
+        <input type="text" id="apiText" v-model="apiDataNCBI" />
         <button type="submit" id="apiSubmit">Import Data</button>
       </form>
-
+      <form id="RCSB-form" @submit.prevent="getProteinAPIfromRCSB()">
+        <label for="apiText" id="apiLabel">Get Info From RCSB</label>
+        <input type="text" id="apiText" v-model="apidataRCSB" />
+        <button type="submit" id="apiSubmit">Import Data</button>
+      </form>
       <form class="file" @submit.prevent="importTextArea">
         <label for="fileInput" id="fileLabel">File</label>
         <input type="file" id="fileInput" v-on:change="importFile" />
@@ -45,7 +49,6 @@ export default {
         description: '',
         data: '',
       },
-      apiData: '' ,
       apiDataNCBI: '',
       apiDataRCSB: '',
       proteinName: '',
@@ -71,7 +74,7 @@ export default {
     )},
     assignProtein(response){
       this.protein.name = response.data.sequenceName;
-        this.protein.data = response.data.proteinSequence;
+      this.protein.data = response.data.proteinSequence;
       this.protein.description = response.data.description;
     },
     importTextArea() {

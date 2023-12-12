@@ -49,7 +49,7 @@ namespace Capstone.Controllers
            try
            {
                Protein protein = proteinDao.GetProteinById(id);
-               string letters = protein.SequenceName;
+               string letters = protein.ProteinSequence;
                List<Cell> cellList = cellDao.getFastestCells(letters);
            } catch (DaoException ex)
            {

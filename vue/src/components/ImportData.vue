@@ -22,18 +22,21 @@
       <textarea id="proteinDataBox" v-model="protein.data" required></textarea>
       <button type="submit">Import Data</button>
     </form>
-
+    <form id="text-form">
+      <div class="name">
+        <label for="nameText" id="nameLabel">Name</label>
+        <input type="text" id="nameText" v-model="protein.name" required />
+      </div>
       <div class="note">
         <label for="noteText" id="noteLabel">Note</label>
         <input type="text" id="noteText" v-model="protein.description" />
       </div>
-      
       <div class="data">
         <label for="dataField" id="dataLabel">Sequence</label>
         <textarea rows ="20" cols="70" id="dataField" v-model="protein.data" required></textarea>
       </div>
       
-    </div>
+    </form>
     
     <div class="import">
       <form id="api-form" @submit.prevent="importApiData">
@@ -46,8 +49,9 @@
         <label for="fileInput" id="fileLabel">File</label>
         <input type="file" id="fileInput" v-on:change="importFile" />
       </form>
-
-    <button v-on:click="clearForm()">Clear Form</button>  </div>
+      <button v-on:click="clearForm()">Clear Form</button>
+    </div>
+  </div>
 </template>
 
 <script>

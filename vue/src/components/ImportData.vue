@@ -1,39 +1,22 @@
 <template>
-  <h1>Import data</h1>
-  <div id="data-input">
-    <h1>Import Data</h1>
-    <!--- Todo(anderson): Import data from URL --->
-    <form @submit.prevent="getProteinAPIfromNCBI()">
-      <label for="apiData">Get Info From NCBI</label>
-      <input type="text" id="apiData" v-model="apiDataNCBI" />
-      <button type="submit">Import Data</button>
-    </form>
-    <form @submit.prevent="getProteinAPI()">
-      <label for="apiData">Get Info From RSCB</label>
-      <input type="text" id="apiData" v-model="apiDataRCSB" />
-      <button type="submit">Import Data</button>
-    </form>
-    <form @submit.prevent="importTextArea">
-      <label for="text">Name</label>
-      <input type="text" id="text" v-model="protein.name" required/>
-      <label for="proteinDescription">Note</label>
-      <input type="text" id="proteinDescription" v-model="protein.description"/>
-      <label for="proteinDataBox">Data</label>
-      <textarea id="proteinDataBox" v-model="protein.data" required></textarea>
-      <button type="submit">Import Data</button>
-    </form>
 
+<h1>Import data</h1>
+  <div id="data-input">
+    <form id="text-form">
+      <div class="name">
+        <label for="nameText" id="nameLabel">Name</label>
+        <input type="text" id="nameText" v-model="protein.name" required />
+      </div>
       <div class="note">
         <label for="noteText" id="noteLabel">Note</label>
         <input type="text" id="noteText" v-model="protein.description" />
       </div>
-
       <div class="data">
         <label for="dataField" id="dataLabel">Sequence</label>
         <textarea rows="20" cols="70" id="dataField" v-model="protein.data" required></textarea>
       </div>
       
-    </div>
+    </form>
     
     <div class="import">
       <form id="api-form" @submit.prevent="getProteinAPIfromNCBI()">
@@ -47,8 +30,9 @@
         <input type="file" id="fileInput" v-on:change="importFile" />
         <button id="submit" type="submit">Submit Data</button>
       </form>
-
-    <button v-on:click="clearForm()">Clear Form</button>  </div>
+      <button v-on:click="clearForm()">Clear Form</button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -87,7 +71,7 @@ export default {
     )},
     assignProtein(response){
       this.protein.name = response.data.sequenceName;
-      this.protein.data = response.data.proteinSequence;
+        this.protein.data = response.data.proteinSequence;
       this.protein.description = response.data.description;
     },
     importTextArea() {

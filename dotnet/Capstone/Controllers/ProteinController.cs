@@ -131,7 +131,7 @@ namespace Capstone.Controllers
 
             return Ok(protein);
         }
-            
+
         [HttpDelete("{id}")]
         public ActionResult DeleteProtein(int id)
         {

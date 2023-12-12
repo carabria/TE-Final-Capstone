@@ -28,10 +28,13 @@
         <button type="submit" id="apiSubmit">Import Data</button>
       </form>
       <form class="file" @submit.prevent="importTextArea">
-        <label for="fileInput" id="fileLabel">File</label>
+        <label for="fileInput" id="fileLabel">Upload From File</label>
         <input type="file" id="fileInput" v-on:change="importFile" />
       </form>
-      <button v-on:click="clearForm()">Clear Form</button>
+      <form class="finished" @submit.prevent="importTextArea">
+        <button id="clearForm" v-on:click="clearForm()">Clear Form</button>
+        <button id="submit" type="submit">Submit Data</button>
+      </form>
     </div>
   </div>
 </template>
@@ -256,8 +259,21 @@ h1 {
   "fileLabel fileSubmit";
 }
 
+.finished {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  margin-top: 15px;
+}
 #submit {
-  grid-area: submit;
+  align-items: right;
+  justify-content: right;
+  margin: auto;
+}
+
+#clearForm {
+  margin: auto;
 }
 
 </style>

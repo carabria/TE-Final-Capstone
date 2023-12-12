@@ -3,6 +3,7 @@
     <div class="card-header">
       <h1>Protein Details</h1>
     </div>
+    <!--TODO(neil) change this to show description on hover-->
     <div class = "p-name">
       <h2>{{ protein.sequenceName }}</h2>
     </div>
@@ -12,9 +13,20 @@
     <div class = "p-sequence">
       <h2>{{ protein.proteinSequence }}</h2>
     </div>
-    <form class = "p-generate" @submit.prevent="generateSequences()">
-      <button id="submit" type="submit">Generate Sequences</button>
-    </form>
+      <form class = "p-generate" v-show="protein.sequence1 === null" @submit.prevent="generateSequences()">
+        <button id="submit" type="submit" >Generate Sequences</button>
+      </form>
+    <div class="generatedCard" v-show="protein.sequence1 !== null">
+      <div class = "sequence1">
+        <h2><a class= "blue">{{ newProtein.sequence1 }}</a>{{ protein.proteinSequence.substring(2, 6) }}...</h2>
+      </div>
+      <div class = "sequence2">
+        <h2><a class= "green">{{ newProtein.sequence2 }}</a>{{ protein.proteinSequence.substring(2, 6) }}...</h2>
+      </div>
+      <div class = "sequence3">
+        <h2><a class= "yellow">{{ newProtein.sequence3 }}</a>{{ protein.proteinSequence.substring(2, 6) }}...</h2>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -34,6 +46,11 @@ export default {
         sequence2: '',
         sequence3: ''
       },
+      newProtein: {
+        sequence1: '',
+        sequence2: '',
+        sequence3: ''
+      }
     };
   },
   created() {
@@ -48,6 +65,9 @@ export default {
           console.log(response.data);
           // var new_data = response.data.proteinSequence.replace(/[0-9]/g, '');
           this.protein = response.data;
+          this.newProtein.sequence1 = this.protein.sequence1.substring(0, 2);
+          this.newProtein.sequence2 = this.protein.sequence2.substring(0, 2);
+          this.newProtein.sequence3 = this.protein.sequence3.substring(0, 2);
           // this.protein.proteinSequence = new_data;
         })
         .catch(error => {
@@ -60,6 +80,9 @@ export default {
         GenerateService.generateSequences(token, protein_id)
         .then(response => {
           this.protein = response.data;
+          this.newProtein.sequence1 = this.protein.sequence1.substring(0, 2);
+          this.newProtein.sequence2 = this.protein.sequence2.substring(0, 2);
+          this.newProtein.sequence3 = this.protein.sequence3.substring(0, 2);
         })
     }
   },
@@ -93,15 +116,17 @@ body {
 
 .card-header {
   background-color: black;
+  color: white;
 }
 
 .p-name {
-  color: black;
-  background-color: white;
+  color: white;
+  background-color: black;
 }
 
 .p-description {
   background-color: black;
+  color: white;
   margin: 0;
 }
 
@@ -126,4 +151,27 @@ body {
   justify-self: right;
 }
 
+.sequence1 {
+  word-wrap: break-word;
+}
+
+.sequence2 {
+  word-wrap: break-word;
+}
+
+.sequence3 {
+  word-wrap: break-word;
+}
+
+.blue {
+  color: blue;
+}
+
+.green {
+  color: green;
+}
+
+.yellow {
+  color: yellow;
+}
 </style>

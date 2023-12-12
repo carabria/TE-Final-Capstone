@@ -109,7 +109,7 @@ namespace Capstone.Controllers
             {
                 return StatusCode(500, "An internal server error occurred.");
             }
-            return Created($"/proteins/{protein.ProteinId}", protein);
+            return Created($"/protein/{protein.ProteinId}", protein);
         }
 
         [HttpPut]

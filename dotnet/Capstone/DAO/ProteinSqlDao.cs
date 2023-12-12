@@ -65,7 +65,7 @@ namespace Capstone.DAO
         {
             Protein protein = null;
 
-            string sql = "SELECT protein_id, sequence_name, protein_sequence, description, format_type, username, user_id " +
+            string sql = "SELECT protein_id, sequence_name, protein_sequence, description, format_type, username, user_id, sequence_1, sequence_2, sequence_3" +
                 "FROM proteins " +
                 "WHERE protein_id = @protein_id";
             try
@@ -95,7 +95,7 @@ namespace Capstone.DAO
         {
             {
                 IList<Protein> proteins = new List<Protein>();
-                string sql = "SELECT protein_id, sequence_name, protein_sequence, description, format_type, username, user_id " +
+                string sql = "SELECT protein_id, sequence_name, protein_sequence, description, format_type, username, user_id, sequence_1, sequence_2, sequence_3" +
                     "FROM proteins " +
                     "WHERE sequence_name = @sequence_name";
 
@@ -128,7 +128,7 @@ namespace Capstone.DAO
         public IList<Protein> GetProteinsByUsername(string name)
         {
             IList<Protein> proteins = new List<Protein>();
-            string sql = "SELECT protein_id, sequence_name, protein_sequence, description, format_type, username, user_id " +
+            string sql = "SELECT protein_id, sequence_name, protein_sequence, description, format_type, username, user_id, sequence_1, sequence_2, sequence_3" +
                 "FROM proteins " +
                 "WHERE username = @username";
 
@@ -211,6 +211,7 @@ namespace Capstone.DAO
                     cmd.Parameters.AddWithValue("@format_type", formatType);
                     cmd.Parameters.AddWithValue("@user_id", userId);
                     cmd.Parameters.AddWithValue("@protein_id", proteinId);
+//                    cmd.Parameters.AddWithValue()
                     cmd.ExecuteNonQuery();
                 }
             }

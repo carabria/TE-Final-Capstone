@@ -8,6 +8,10 @@
             <input id="welcome-body" type="text" name="welcome-body" v-model="home.body">
             <label id="welcome-image-label" for="welcome-name">Name</label>
         <input id="welcome-name" type="text" name="welcome-name" v-model="home.name">
+              <form class="file">
+        <label for="fileInput" id="fileLabel">Image URL</label>
+        <input id="fileInput" type="text" name="welcome-image" v-model="home.image" />
+      </form>
             <input v-bind:value="'Save'" type="submit"/>
             <input v-bind:value="'Save and Apply'" type="submit" v-on:click.prevent="saveAndApplyDisplay('apply')"/>
         </form>
@@ -30,8 +34,9 @@ export default {
     data() {
         return {
             home: {
-                header: '',
                 body: '',
+                header: '',
+                image:'',
                 name:''
             },
             homeviews: [],

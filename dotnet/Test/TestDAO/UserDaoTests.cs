@@ -17,7 +17,7 @@ namespace Test.TestDAO
         public void GetUsersTest()
         {
             IList<ReturnUser> users = dao.GetUsers();
-            Assert.AreEqual(2, users.Count);
+            Assert.AreEqual(4, users.Count);
         }
 
         [TestMethod]
@@ -30,7 +30,7 @@ namespace Test.TestDAO
         [TestMethod]
         public void GetUserByIdInvalidId()
         {
-            User user = dao.GetUserById(3);
+            User user = dao.GetUserById(12);
             Assert.IsNull(user);
         }
 
@@ -82,7 +82,7 @@ namespace Test.TestDAO
         {
             dao.CreateUser("username", "email", "org", "password", "user");
             IList<ReturnUser> users = dao.GetUsers();
-            Assert.AreEqual(3, users.Count);
+            Assert.AreEqual(5, users.Count);
         }
 
         [TestMethod]

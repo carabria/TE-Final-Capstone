@@ -109,7 +109,7 @@ namespace Capstone.Controllers
             return Created($"/proteins/{protein.ProteinId}", protein);
         }
 
-        [HttpPut]
+        [HttpPut]   
         public ActionResult UpdateProtein(int proteinId, Protein proteinParam)
         {
             ReturnUser user = userDao.GetUserByUsername(User.Identity.Name);

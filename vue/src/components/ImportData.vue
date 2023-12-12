@@ -1,27 +1,7 @@
 <template>
   <h1>Import data</h1>    
   <div id="data-input">
-    <h1>Import Data</h1>
     <!--- Todo(anderson): Import data from URL --->
-    <form @submit.prevent="getProteinAPIfromNCBI()">
-      <label for="apiData">Get Info From NCBI</label>
-      <input type="text" id="apiData" v-model="apiDataNCBI" />
-      <button type="submit">Import Data</button>
-    </form>
-    <form @submit.prevent="getProteinAPIfromRCSB()">
-      <label for="apiData">Get Info From RSCB</label>
-      <input type="text" id="apiData" v-model="apiDataRCSB" />
-      <button type="submit">Import Data</button>
-    </form>
-    <form @submit.prevent="importTextArea">
-      <label for="text">Name</label>
-      <input type="text" id="text" v-model="protein.name" required/>
-      <label for="proteinDescription">Note</label>
-      <input type="text" id="proteinDescription" v-model="protein.description"/>
-      <label for="proteinDataBox">Data</label>
-      <textarea id="proteinDataBox" v-model="protein.data" required></textarea>
-      <button type="submit">Import Data</button>
-    </form>
     <form id="text-form">
       <div class="name">
         <label for="nameText" id="nameLabel">Name</label>
@@ -35,9 +15,7 @@
         <label for="dataField" id="dataLabel">Sequence</label>
         <textarea rows ="20" cols="70" id="dataField" v-model="protein.data" required></textarea>
       </div>
-      
     </form>
-    
     <div class="import">
       <form id="api-form" @submit.prevent="getProteinAPIfromNCBI()">
         <label for="apiText" id="apiLabel">Get Info From NCBI</label>

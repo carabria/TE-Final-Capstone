@@ -1,5 +1,5 @@
 <template>
-  <h1>Import data</h1>
+  <h1>Import data</h1>    
   <div id="data-input">
     <h1>Import Data</h1>
     <!--- Todo(anderson): Import data from URL --->
@@ -8,7 +8,7 @@
       <input type="text" id="apiData" v-model="apiDataNCBI" />
       <button type="submit">Import Data</button>
     </form>
-    <form @submit.prevent="getProteinAPI()">
+    <form @submit.prevent="getProteinAPIfromRCSB()">
       <label for="apiData">Get Info From RSCB</label>
       <input type="text" id="apiData" v-model="apiDataRCSB" />
       <button type="submit">Import Data</button>
@@ -27,25 +27,24 @@
         <label for="noteText" id="noteLabel">Note</label>
         <input type="text" id="noteText" v-model="protein.description" />
       </div>
-
+      
       <div class="data">
         <label for="dataField" id="dataLabel">Sequence</label>
-        <textarea rows="20" cols="70" id="dataField" v-model="protein.data" required></textarea>
+        <textarea rows ="20" cols="70" id="dataField" v-model="protein.data" required></textarea>
       </div>
       
     </div>
     
     <div class="import">
-      <form id="api-form" @submit.prevent="getProteinAPIfromNCBI()">
-        <label for="apiText" id="apiLabel">Get Info From NCBI</label>
+      <form id="api-form" @submit.prevent="importApiData">
+        <label for="apiText" id="apiLabel">API URL</label>
         <input type="text" id="apiText" v-model="apiData" />
         <button type="submit" id="apiSubmit">Import Data</button>
       </form>
-
-      <form class="file" @submit.prevent="importTextArea">
+  
+      <form class="file">
         <label for="fileInput" id="fileLabel">File</label>
         <input type="file" id="fileInput" v-on:change="importFile" />
-        <button id="submit" type="submit">Submit Data</button>
       </form>
 
     <button v-on:click="clearForm()">Clear Form</button>  </div>
@@ -70,7 +69,7 @@ export default {
     };
   },
   methods: {
-    clearForm() {
+    clearForm(){
       this.protein = {};
       this.apiData = '';
       this.apiDataNCBI = '';
@@ -82,13 +81,11 @@ export default {
     getProteinAPIfromRCSB(){
       ProteinService.rcsbAPI(this.$store.state.token, this.apiDataRCSB).then((respsonse) => this.assignProtein(respsonse)
     )},
-    getProteinAPI(){
-      ProteinService.getApiList(this.$store.state.token, this.apiDataRCSB).then((respsonse) => this.assignProtein(respsonse)
-    )},
+    
     assignProtein(response){
       this.protein.name = response.data.sequenceName;
       this.protein.data = response.data.proteinSequence;
-      this.protein.description = response.data.description;
+      this.protein.description = response.data.description; 
     },
     importTextArea() {
       const token = this.$store.state.token;
@@ -140,7 +137,6 @@ export default {
 h1 {
   text-align: center;
 }
-
 #data-input {
   height: fit-content;
   margin-left: auto;
@@ -192,7 +188,7 @@ h1 {
 }
 
 #nameLabel {
-  margin: auto;
+  margin:auto;
   width: auto;
   grid-area: nameLabel;
 }
@@ -243,10 +239,9 @@ h1 {
   grid-area: import;
   grid-row-gap: 5px;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  grid-template-areas:
-    "api-form api-form file file submit"
+  grid-template-areas: 
+  "api-form api-form file file submit"
 }
-
 #api-form {
   margin: auto;
   grid-area: api-form;
@@ -272,11 +267,12 @@ h1 {
 .file {
   grid-area: file;
   grid-template-columns: 1fr 1fr;
-  grid-template-areas:
-    "fileLabel fileSubmit";
+  grid-template-areas: 
+  "fileLabel fileSubmit";
 }
 
 #submit {
   grid-area: submit;
 }
+
 </style>

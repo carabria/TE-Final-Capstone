@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Xml;
 using Capstone.Exceptions;
@@ -336,7 +337,31 @@ namespace Capstone.DAO
             string id = "";
             try
             {
-                using (response = await rcsbClient.GetAsync("%7B%0A%20%20%22query%22%3A%20%7B%0A%20%20%20%20%22type%22%3A%20%22terminal%22%2C%0A%20%20%20%20%22service%22%3A%20%22full_text%22%2C%0A%20%20%20%20%22parameters%22%3A%20%7B%0A%20%20%20%20%20%20%22value%22%3A%20%22thymidine%20kinase%22%0A%20%20%20%20%7D%0A%20%20%7D%2C%0A%20%20%22return_type%22%3A%20%22entry%22%0A%7D"))
+
+                // Construct the search request JSON payload
+                var searchRequest = new
+                {
+                    query = new
+                    {
+                        type = "terminal",
+                        service = "text",
+                        parameters = new
+                        {
+                            value = name,
+                            searchTool = "pdb_protein_name_search"
+                        }
+                    },
+                    return_type = "polymer_entity"
+                };
+
+                // Convert the search request object to a JSON string
+                var jsonPayload = JsonSerializer.Serialize(searchRequest);
+
+                // URL encode the JSON payload
+                var encodedJsonPayload = Uri.EscapeDataString(jsonPayload);
+
+
+                using (response = await rcsbClient.GetAsync($"{encodedJsonPayload}"))
                 {
 
                     response.EnsureSuccessStatusCode();

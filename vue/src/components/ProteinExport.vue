@@ -10,11 +10,14 @@
             <li>{{ seq3 }}</li>
             <input type="checkbox" v-model="seqThree">
         </ul>
+
+        <button onclick="copyText()">Copy Selected to Clipboard</button>
+
         <label for="formatType">Choose Format</label>
         <input type="text" id="formatType" name="formatType" v-model="format">
+
         <button v-on:click="exportSequences()">Export Selected To File</button>
     </div>
-    
 </template>
 <script>
 import ExportService from '../services/ExportService';
@@ -29,28 +32,36 @@ export default {
         }
     },
     methods: {
-        exportSequences() {
+        myFunction() {
+            var copyText = this.buildCopiedText().join('\n\n');
+            copyText.select();
+            navigator.clipboard.writeText(copyText.value);
+        },
+        buildSeqArray(){
             let sequenceList = [];
-            if(this.seqOne){
-                sequenceList.push(this.seq1)
-            }
-            
-            if(this.seqTwo){
-                sequenceList.push(this.seq2)
-            }
-            
-            if(this.seqThree){
-                sequenceList.push(this.seq3)
-            }
-            
-            if(this.format == 0){
-                this.format = 1;
-            }
+                if (this.seqOne) {
+                    sequenceList.push(this.seq1)
+                }
 
-            ExportService.export(sequenceList);
+                if (this.seqTwo) {
+                    sequenceList.push(this.seq2)
+                }
+
+                if (this.seqThree) {
+                    sequenceList.push(this.seq3)
+                }
+                return sequenceList
+        },
+            exportSequences() {
+                let sequenceList = this.buildSeqArray();
+                if (this.format == 0) {
+                    this.format = 1;
+                }
+
+                ExportService.export(sequenceList);
+            }
         }
     }
-}
 </script>
 <style>
 .modal {

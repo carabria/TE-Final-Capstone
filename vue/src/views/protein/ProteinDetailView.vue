@@ -191,7 +191,6 @@ body {
   align-items: center;
   width: 70vw;
   color: black;
-  background-color: aliceblue;
 }
 
 .card-labels {
@@ -279,6 +278,7 @@ body {
   padding-left: .4%;
   padding-bottom: 10px;
   padding-right: 10px;
+  background-color: rgba(0, 0, 0, 0);
 }
 .sequence3 {
   word-wrap: break-word;

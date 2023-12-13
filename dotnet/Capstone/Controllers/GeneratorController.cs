@@ -69,7 +69,7 @@ namespace Capstone.Controllers
             {
                 Protein protein_base = proteinDao.GetProteinById(id);
 
-                string letters = protein.ProteinSequence;
+                string letters = protein_base.ProteinSequence;
                 List<Cell> cellList = cellDao.getFastestCells(letters);
                 
 
@@ -88,25 +88,16 @@ namespace Capstone.Controllers
                 Cell yellow_cell_2 = cellList[4];
                 Cell yellow_cell_3 = cellList[5];
 
-                protein_base.Sequence1 = cell_name(protein.ProteinSequence, blue_cell_1, blue_cell_2, blue_cell_3);
-                protein_base.Sequence2 = cell_name(protein.ProteinSequence, green_cell_1, green_cell_2, green_cell_3);
-                protein_base.Sequence3 = cell_name(protein.ProteinSequence, yellow_cell_1, yellow_cell_2, yellow_cell_3);
+                protein_base.Sequence1 = cell_name(protein_base.ProteinSequence, blue_cell_1, blue_cell_2, blue_cell_3);
+                protein_base.Sequence2 = cell_name(protein_base.ProteinSequence, green_cell_1, green_cell_2, green_cell_3);
+                protein_base.Sequence3 = cell_name(protein_base.ProteinSequence, yellow_cell_1, yellow_cell_2, yellow_cell_3);
                 
                 
                 
 
-                proteinDao.OptimizeProtein(protein_base);
+               protein = proteinDao.OptimizeProtein(protein_base);
                 
                 
-                protein.ProteinId = protein_base.ProteinId;
-                protein.SequenceName = protein_base.SequenceName;
-                protein.ProteinSequence = protein_base.ProteinSequence;
-                protein.Description = protein_base.Description;
-                protein.UserId = protein_base.UserId;
-                protein.FormatType = protein_base.FormatType;
-                protein.BlueSequence = new List<string>(protein_base.Sequence1.Split(','));
-                protein.GreenSequence = new List<string>(protein_base.Sequence2.Split(','));
-                protein.YellowSequence = new List<string>(protein_base.Sequence3.Split(','));
             }
             catch (DaoException ex)
             {

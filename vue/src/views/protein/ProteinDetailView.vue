@@ -11,37 +11,43 @@
     <div class="p-sequence">
       <h2>{{ protein.proteinSequence }}</h2>
     </div>
-    <div class="generatedCard" v-show="protein.sequence1 !== null">
+    <form class="p-generate" @submit.prevent="generateSequences()" v-show="protein.blueSequence[0] == ''">
+      <button id="submit" type="submit">Generate Sequences</button>
+    </form>
+    <div class="generatedCard" v-show="protein.blueSequence[0] !== ''">
       <div class="card-labels">
-        <h3><a class="fast">Fast</a></h3>
-        <h3><a class="medium">Medium</a></h3>
-        <h3><a class="slow">Slow</a></h3>
       </div>
       <div class="sequences">
-        <div class="sequence1" v-for="(protein, index) in protein.blueSequence" v-bind:key="index">
-          <h2 class="protein-display" v-on:click="moveToExport('blue')">{{ protein.substring(0, 2) }}...</h2>
-          <div class="showSequence">
-            {{ protein }}
+        <div class="blue-div">
+          <h3><a class="fast">Fast</a></h3>
+          <div class="sequence1" v-for="(protein, index) in protein.blueSequence" v-bind:key="index">
+            <h2 class="protein-display" v-on:click="moveToExport(blue)">{{ protein.substring(0, 6) }}...</h2>
+            <span class="speed-details">
+              Very rapid cleaving (possible losses during wash steps)
+            </span>
           </div>
         </div>
-        <div class="sequence2" v-for="(protein, index) in protein.greenSequence" v-bind:key="index">
-          <h2 class="protein-display" v-on:click="moveToExport('green')">{{ protein.substring(0, 2) }}...</h2>
-          <div class="showSequence">
-            {{ protein }}
+        <div class="green-div">
+          <h3><a class="medium">Medium</a></h3>
+          <div class="sequence2" v-for="(protein, index) in protein.greenSequence" v-bind:key="index">
+            <h2 class="protein-display" v-on:click="moveToExport(green)">{{ protein.substring(0, 6) }}...</h2>
+            <span class="speed-details">
+              80-90% cleaved in 5 hours at room temperature
+            </span>
           </div>
-        </div>
-        <div class="sequence3" v-for="(protein, index) in protein.yellowSequence" v-bind:key="index">
-          <h2 class="protein-display" v-on:click="moveToExport('yellow')">{{ protein.substring(0, 2) }}...</h2>
-          <div class="showSequence">
-            {{ protein }}
+        </div>        
+        <div class="yellow-div">
+          <h3><a class="slow">Slow</a></h3>
+          <div class="sequence3" v-for="(protein, index) in protein.yellowSequence" v-bind:key="index">
+            <span class="speed-details">
+              80-90% cleaved overnight at room temperature
+            </span>
+            <h2 class="protein-display" v-on:click="moveToExport(yellow)">{{ protein.substring(0, 6) }}...</h2>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <form class="p-generate" @submit.prevent="generateSequences()">
-    <button id="submit" type="submit">Generate Sequences</button>
-  </form>
 </template>
 
 <script>
@@ -73,9 +79,8 @@ export default {
       ProteinService.getProtein(token, protein_id)
         .then(response => {
           console.log(response.data);
-          // var new_data = response.data.proteinSequence.replace(/[0-9]/g, '');
           this.protein = response.data;
-          // this.protein.proteinSequence = new_data;
+          console.log(this.protein.blueSequence);
         })
         .catch(error => {
           console.log(error);
@@ -99,19 +104,6 @@ export default {
     }
   },
   computed: {
-    hoverSequences() {
-      const hover_targets = document.querySelectorAll('.protein-display');
-
-      for (let i = 0; i < hover_targets.length; i++) {
-        hover_targets[i].addEventListener('mouseover', function () {
-          document.querySelector('.showSequence').style.display = 'block';
-        });
-        hover_targets[i].addEventListener('mouseout', function () {
-          document.querySelector('.showSequence').style.display = 'none';
-        });
-      }
-      return "";
-    }
   },
 
 }
@@ -177,6 +169,7 @@ body {
   border-right: 0px;
   border-style: solid;
   margin-bottom: 20px;
+  font-size: 11px;
 }
 
 #submit {
@@ -186,13 +179,19 @@ body {
   justify-self: right;
 }
 
+.p-generate {
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  width: 70vw;
+}
+
 .generatedCard {
   display: grid;
   justify-content: center;
   align-items: center;
   width: 70vw;
   color: black;
-  background-color: aliceblue;
 }
 
 .card-labels {
@@ -225,30 +224,25 @@ body {
 }
 
 .sequences {
-  display: inline-flex;
-  border: black 2px;
-  border-right: 0px;
-  border-left: 0px;
-  border-bottom: 0px;
-  border-style: solid;
+  display: flex;
   width: 100%;
 }
 
-.sequences a {
-  color:black;
+.blue-div {
+  width: 33%;
+  padding-left: 10px;
 }
-
 .sequence1 {
   word-wrap: break-word;
   margin-right: auto;
-  border: black 3px;
-  border-bottom: 0px;
-  border-left: 0px;
-  border-top: 0px;
+  border: black 2px;
+  border-radius: 2.5vw;
   border-style: solid;
   background-color: rgba(0, 0, 255, .5);
-  width: 33.33%;
+  width: 100%;
   overflow: hidden;
+  align-content: stretch;
+  margin-bottom: 10px;
 }
 
 .sequence1:hover {
@@ -256,15 +250,23 @@ body {
   cursor: pointer;
 }
 
+.green-div {
+  padding-left: 10px;
+  width: 33%;
+  padding-right: 10px;
+}
 .sequence2 {
   word-wrap: break-word;
-  background-color: rgba(0, 128, 0, .5);
-  border: black 3px;
-  border-bottom: 0px;
-  border-left: 0px;
-  border-top: 0px;
+  margin-right: auto;
+  border: black 2px;
+  border-radius: 2.5vw;
   border-style: solid;
-  width: 33.33%;
+  background-color: rgba(0, 128, 0, .5);
+  width: 100%;
+  overflow: hidden;
+  align-content: stretch;
+  margin-bottom: 10px;
+
 }
 
 .sequence2:hover {
@@ -272,16 +274,25 @@ body {
   cursor: pointer;
 }
 
+.yellow-div {
+  width: 33%;
+  padding-left: .4%;
+  padding-bottom: 10px;
+  padding-right: 10px;
+  background-color: rgba(0, 0, 0, 0);
+}
 .sequence3 {
   word-wrap: break-word;
-  margin-left: auto;
-  border: black 3px;
-  border-bottom: 0px;
-  border-left: 0px;
-  border-top: 0px;
+  margin-right: auto;
+  border: black 2px;
+  border-radius: 2.5vw;
   border-style: solid;
   background-color: rgba(255, 255, 0, .5);
-  width: 33.33%;
+  width: 100%;
+  overflow: hidden;
+  align-content: stretch;
+  margin-bottom: 10px;
+
 }
 
 .sequence3:hover {
@@ -289,7 +300,54 @@ body {
   cursor: pointer;
 }
 
-.showSequence {
+span.showSequence {
+  position: absolute;
   display: none;
+  padding: 3px;
+  padding-left: 5px;
+  background: #c0c0c0;
+  border: 2px solid #000000;
+  color: #000000;
+  text-align: center;
+  width: 105px;
+  height: auto;
+  white-space: break-spaces;
+  word-wrap: break-word;
+  top: 107px;
+}
+
+.protein-display {
+  border: none;
+}
+
+div.sequence1:hover {
+  background-color: rgba(0,0,255,.2);
+}
+div.sequence2:hover {
+  background-color: rgba(0,255,0,.2);
+}
+
+div.sequence3:hover {
+  background-color: rgba(255, 255, 0, .2);
+}
+
+span.speed-details {
+  position: absolute;
+  display: none;
+  padding: 5px;
+  background: #c0c0c0;
+  border: 2px solid #000000;
+  color: #000000;
+  text-align: center;
+  width: 24vw;
+  height: auto;
+  white-space: break-spaces;
+  word-wrap: break-word;
+  top:51vh;
+}
+
+div.sequence1:hover span.speed-details, div.sequence2:hover span.speed-details, div.sequence3:hover span.speed-details {
+  display: block;
+  transform: scale(1);
 }
 </style>

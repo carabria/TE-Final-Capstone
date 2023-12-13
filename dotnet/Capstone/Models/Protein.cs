@@ -34,9 +34,9 @@ namespace Capstone.Models
         public string ProteinSequence { get; set; }
         public string Description { get; set; }
         public int FormatType { get; set; }
-        public List<string> BlueSequence { get; set; }
-        public List<string> GreenSequence { get; set; }
-        public List<string> YellowSequence { get; set; }
+        public List<string> BlueSequence { get; set; } = null;
+        public List<string> GreenSequence { get; set; } = null;
+        public List<string> YellowSequence { get; set; } = null;
         public int UserId { get; set; }
     }
 }

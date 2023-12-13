@@ -18,16 +18,9 @@ namespace Capstone.DAO
 
         Protein UpdateProtein(int proteinId, string sequenceName, string proteinSequence, string description, int userId);
 
-        Protein OptimizeProtein(Protein protein);
+        ProteinResponse OptimizeProtein(Protein protein);
 
         bool DeleteProteinById(int proteinId);
 
-        public Task<Protein> NCBIApiGetProteinSequence(string id);
-
-        public Task<string> NCBIApiGetProteinID(string name);
-
-        public Task<Protein> RCSBApiGetProteinSequence(string id);
-
-        public Task<string> RCSBApiGetProteinID(string name);
     }
 }

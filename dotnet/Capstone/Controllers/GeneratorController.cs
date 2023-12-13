@@ -72,13 +72,24 @@ namespace Capstone.Controllers
                 string letters = protein.ProteinSequence;
                 List<Cell> cellList = cellDao.getFastestCells(letters);
 
-                Cell cell_1 = cellList[0];
-                Cell cell_2 = cellList[1];
-                Cell cell_3 = cellList[2];
+                //Blue
+                Cell blue_cell_1 = cellList[0];
+                Cell blue_cell_2 = cellList[1];
+                Cell blue_cell_3 = cellList[2];
 
-                protein.Sequence1 = cell_name(protein.ProteinSequence, cell_1);
-                protein.Sequence2 = cell_name(protein.ProteinSequence, cell_2);
-                protein.Sequence3 = cell_name(protein.ProteinSequence, cell_3);
+                //Green
+                Cell green_cell_1 = cellList[3];
+                Cell green_cell_2 = cellList[4];
+                Cell green_cell_3 = cellList[5];
+
+                //Yellow
+                Cell yellow_cell_1 = cellList[3];
+                Cell yellow_cell_2 = cellList[4];
+                Cell yellow_cell_3 = cellList[5];
+
+                protein.Sequence1 = cell_name(protein.ProteinSequence, blue_cell_1, blue_cell_2, blue_cell_3);
+                protein.Sequence2 = cell_name(protein.ProteinSequence, green_cell_1, green_cell_2, green_cell_3);
+                protein.Sequence3 = cell_name(protein.ProteinSequence, yellow_cell_1, yellow_cell_2, yellow_cell_3);
 
                 proteinDao.OptimizeProtein(protein);
             }
@@ -91,13 +102,14 @@ namespace Capstone.Controllers
             return protein;
         }
 
-        private string cell_name(String sequince, Cell cell)
+        private string cell_name(String sequince, Cell cell_1, Cell cell_2, Cell cell_3)
         {
-          string first = cell.LetterY;
-          string second = cell.LetterX;
-          string sub_str = sequince.Substring(2);
+          string cell_1_prefix = cell_1.LetterY + cell_1.LetterX;
+          string cell_2_prefix = cell_2.LetterY + cell_2.LetterX;
+          string cell_3_prefix = cell_3.LetterY + cell_3.LetterX;
 
-          return first + second + sub_str;
+          string sub_str = sequince.Substring(2);
+          return $"{cell_1_prefix}{sub_str},{cell_2_prefix}{sub_str},{cell_3_prefix}{sub_str}";
         }
     }
 }

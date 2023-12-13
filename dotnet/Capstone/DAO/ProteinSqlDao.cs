@@ -5,13 +5,8 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using System.Xml;
 using Capstone.Exceptions;
 using Capstone.Models;
-using Capstone.Security;
-using Capstone.Security.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Capstone.DAO
 {
@@ -23,17 +18,7 @@ namespace Capstone.DAO
         {
             connectionString = dbConnectionString;
         }
-
-        private static HttpClient ncbiClient = new()
-        {
-            BaseAddress = new Uri("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/"),
-        };
-
-        private static HttpClient rcsbClient = new()
-        {
-            BaseAddress = new Uri("https://search.rcsb.org/rcsbsearch/v2/query?json="),
-        };
-
+        
         public IList<Protein> GetProteins()
         {
             IList<Protein> proteins = new List<Protein>();
@@ -226,12 +211,13 @@ namespace Capstone.DAO
             return updatedProtein;
         }
 
-        public Protein OptimizeProtein(Protein protein)
+        public ProteinResponse OptimizeProtein(Protein protein)
         {
-            string sql = "UPDATE proteins " +
-            "SET sequence_1 = @sequence_1, sequence_2 = @sequence_2, sequence_3 = @sequence_3 " +
-            "WHERE protein_id = @protein_id";
+            string sql = "UPDATE proteins " + 
+                         "SET sequence_1 = @sequence_1, sequence_2 = @sequence_2, sequence_3 = @sequence_3 " + 
+                         "WHERE protein_id = @protein_id";
 
+            ProteinResponse protein_response;
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -244,14 +230,30 @@ namespace Capstone.DAO
                     cmd.Parameters.AddWithValue("@sequence_3", protein.Sequence3);
                     cmd.Parameters.AddWithValue("@protein_id", protein.ProteinId);
                     cmd.ExecuteNonQuery();
+
+
+                    protein_response = new ProteinResponse();
+                    protein_response.ProteinId = protein.ProteinId;
+                    protein_response.SequenceName = protein.SequenceName;
+                    protein_response.ProteinSequence = protein.ProteinSequence;
+                    protein_response.Description = protein.Description;
+                    protein_response.FormatType = protein.FormatType;
+                    protein_response.UserId = protein.UserId;
+                    string[] blues = protein.Sequence1.Split(",");
+                    string[] greens = protein.Sequence2.Split(",");
+                    string[] yellow = protein.Sequence3.Split(",");
+                    protein_response.BlueSequence = new List<string>(blues);
+                    protein_response.GreenSequence = new List<string>(greens);
+                    protein_response.YellowSequence = new List<string>(yellow);
                 }
             }
             catch (SqlException ex)
             {
                 throw new DaoException("SQL exception occurred", ex);
             }
+            
 
-            return protein;
+            return protein_response;
         }
 
 
@@ -303,147 +305,7 @@ namespace Capstone.DAO
             }
             return result;
         }
-
-        //"esearch.fcgi?db=protein&term=Human_Insulin"
-        public async Task<string> NCBIApiGetProteinID(string name)
-        {
-            HttpResponseMessage response = new HttpResponseMessage();
-            string id = "";
-            try
-            {
-                using (response = await ncbiClient.GetAsync($"esearch.fcgi?db=protein&term={name}"))
-                {
-
-                    response.EnsureSuccessStatusCode();
-                    string list = await response.Content.ReadAsStringAsync();
-                    id = ParseNCBIProteinId(list);
-
-                }
-            }
-            //2629715147
-            catch (HttpRequestException ex)
-            {
-                throw new DaoException("HTTP exception occurred", ex);
-            }
-            return id;
-        }
-
-        public async Task<Protein> NCBIApiGetProteinSequence(string id)
-        {
-            Protein protein = new Protein();
-            try
-            {
-                using (HttpResponseMessage response = await ncbiClient.GetAsync($"efetch.fcgi?db=protein&id={id}&rettype=fasta&retmode=text"))
-                {
-                    response.EnsureSuccessStatusCode();
-                    string fasta = await response.Content.ReadAsStringAsync();
-                    protein = ParseFasta(fasta);
-                }
-            }
-            catch (HttpRequestException ex)
-            {
-                throw new DaoException("HTTP exception occurred", ex);
-            }
-            return protein;
-        }
-
-        public async Task<Protein> RCSBApiGetProteinSequence(string id)
-        {
-            Protein protein = new Protein();
-            try
-            {
-                using (HttpResponseMessage response = await rcsbClient.GetAsync($"efetch.fcgi?db=protein&id={id}&rettype=fasta&retmode=text"))
-                {
-                    response.EnsureSuccessStatusCode();
-                    string fasta = await response.Content.ReadAsStringAsync();
-                    protein = ParseFasta(fasta);
-                }
-            }
-            catch (HttpRequestException ex)
-            {
-                throw new DaoException("HTTP exception occurred", ex);
-            }
-            return protein;
-        }
-
-        public async Task<string> RCSBApiGetProteinID(string name)
-        {
-            HttpResponseMessage response = new HttpResponseMessage();
-            string id = "";
-            try
-            {
-
-                // Construct the search request JSON payload
-                var searchRequest = new
-                {
-                    query = new
-                    {
-                        type = "terminal",
-                        service = "text",
-                        parameters = new
-                        {
-                            value = name,
-                            searchTool = "pdb_protein_name_search"
-                        }
-                    },
-                    return_type = "polymer_entity"
-                };
-
-                // Convert the search request object to a JSON string
-                var jsonPayload = JsonSerializer.Serialize(searchRequest);
-
-                // URL encode the JSON payload
-                var encodedJsonPayload = Uri.EscapeDataString(jsonPayload);
-
-
-                using (response = await rcsbClient.GetAsync($"{encodedJsonPayload}"))
-                {
-
-                    response.EnsureSuccessStatusCode();
-                    string list = await response.Content.ReadAsStringAsync();
-                    id = ParseNCBIProteinId(list);
-
-                }
-            }
-
-            //2629715147
-            catch (HttpRequestException ex)
-            {
-                throw new DaoException("HTTP exception occurred", ex);
-            }
-            return id;
-        }
-
-        public static string ParseNCBIProteinId(string xmlData)
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(xmlData);
-
-            string idListContent = xmlDoc.SelectSingleNode("//Id")?.InnerXml;
-
-            return idListContent;
-        }
-
-        public Protein ParseFasta(string fastaData)
-        {
-            string[] lines = fastaData.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-            string proteinId = lines[0].Trim().Substring(1); // Exclude the '>' character
-
-            StringBuilder sequenceBuilder = new StringBuilder();
-            for (int i = 1; i < lines.Length; i++)
-            {
-                sequenceBuilder.Append(lines[i].Trim());
-            }
-
-            string proteinSequence = sequenceBuilder.ToString();
-
-            return new Protein
-            {
-                Description = proteinId,
-                ProteinSequence = proteinSequence
-            };
-        }
-
+        
         public Protein NullPropertyToEmpty(string sequenceName, string proteinSequence, string description, int userId)
         {
             Protein protein = new Protein();

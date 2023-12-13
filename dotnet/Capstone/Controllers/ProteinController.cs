@@ -12,13 +12,14 @@ using System.Text.Json.Nodes;
 namespace Capstone.Controllers
 {
     [Route("[controller]")]
+    [ApiController]
     [Authorize]
-    public class ProteinsController : ControllerBase
+    public class ProteinController : ControllerBase
     {
         private readonly IUserDao userDao;
         private readonly IProteinDao proteinDao;
         private readonly ICellDao cellDao;
-        public ProteinsController(IProteinDao proteinDao, IUserDao userDao, ICellDao cellDao)
+        public ProteinController(IProteinDao proteinDao, IUserDao userDao, ICellDao cellDao)
         {
             this.userDao = userDao;
             this.proteinDao = proteinDao;

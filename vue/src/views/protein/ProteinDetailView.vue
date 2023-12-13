@@ -1,11 +1,12 @@
 <template>
   <div class = "card">
-    <div class="card-header">
-      <h1>Protein Details</h1>
-    </div>
-    <!--TODO(neil) change this to show description on hover-->
-    <div class = "p-name">
-      <h2>{{ protein.sequenceName }}</h2>
+    <div class="top-bar">
+      <div class="card-header">
+        <h2>Protein Details</h2>
+      </div>
+      <div class = "p-name">
+        <h2>{{ protein.sequenceName }}</h2>
+      </div>
     </div>
     <div class = "p-description">
       <h2>{{ protein.description }}</h2>
@@ -13,10 +14,10 @@
     <div class = "p-sequence">
       <h2>{{ protein.proteinSequence }}</h2>
     </div>
-      <form class = "p-generate" v-show="protein.sequence1 === null" @submit.prevent="generateSequences()">
+      <form class = "p-generate" @submit.prevent="generateSequences()">
         <button id="submit" type="submit" >Generate Sequences</button>
       </form>
-    <div class="generatedCard" v-show="protein.sequence1 !== null">
+    <div class="generatedCard" v-show="newProtein.sequence1 !== null">
       <div class = "sequence1">
         <h2><a class= "blue">{{ newProtein.sequence1 }}</a>{{ protein.proteinSequence.substring(2, 6) }}...</h2>
       </div>
@@ -93,55 +94,66 @@ export default {
 </script>
 
 <style scoped>
-
 body {
-  display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
+  width: 100vw;
   margin: 0;
 }
 
 .card {
-  width: 70%;
-  text-align: center;
-  background-color: white;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  margin-top: 20px;
-  margin-right: auto;
+  height: fit-content;
   margin-left: auto;
-  border: 1px solid black;
-  border-radius: 5px;
+  margin-right: auto;
+  width: 70%;
+  height: 90%;
+  color: black;
+  border-radius: 2.5vh;
+  background-color: aliceblue;
+  border-color: black;
+  border-style: solid;
+  text-align: center;
+  grid-area: card;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  grid-template-areas: 
+  "top-bar top-bar"
+  "p-description p-description"
+  "p-sequence p-sequence";
 }
 
+.top-bar {
+  margin: auto;
+  grid-area: top-bar;
+  grid-template-columns: 1fr;
+  grid-template-areas: 
+  "card-header p-name";
+}
 .card-header {
-  background-color: black;
-  color: white;
+  margin-right: 10px;
+  grid-area: card-header;
+  display: inline-block;  
 }
 
 .p-name {
-  color: white;
-  background-color: black;
+  margin-left: 10px;
+  grid-area: p-name;
+  display: inline-block;
 }
 
 .p-description {
-  background-color: black;
-  color: white;
-  margin: 0;
+  margin: auto;
+  grid-area: p-description;
 }
 
 .p-sequence {
-  text-align: center;
-  font-family: monospace;
-  color: black;
-  background-color: white;
-  white-space: break-spaces;
-  word-wrap: break-word;
-}
-
-.p-sequence h2 {
-  margin: 0;
-  padding: 10px;
+  margin: auto;
+  grid-area: p-sequence;
+  word-break: break-all;
+  margin-left: 25px;
+  margin-right: 25px;
 }
 
 #submit {

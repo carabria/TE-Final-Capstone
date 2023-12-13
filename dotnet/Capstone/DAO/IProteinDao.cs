@@ -22,12 +22,5 @@ namespace Capstone.DAO
 
         bool DeleteProteinById(int proteinId);
 
-        public Task<Protein> NCBIApiGetProteinSequence(string id);
-
-        public Task<string> NCBIApiGetProteinID(string name);
-
-        public Task<Protein> RCSBApiGetProteinSequence(string id);
-
-        public Task<string> RCSBApiGetProteinID(string name);
     }
 }

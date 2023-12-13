@@ -12,15 +12,13 @@ using System.Text.Json.Nodes;
 namespace Capstone.Controllers
 {
     [Route("[controller]")]
-    [ApiController]
     [Authorize]
-    public class ProteinController : ControllerBase
+    public class ProteinsController : ControllerBase
     {
         private readonly IUserDao userDao;
         private readonly IProteinDao proteinDao;
         private readonly ICellDao cellDao;
-
-        public ProteinController(IProteinDao proteinDao, IUserDao userDao, ICellDao cellDao)
+        public ProteinsController(IProteinDao proteinDao, IUserDao userDao, ICellDao cellDao)
         {
             this.userDao = userDao;
             this.proteinDao = proteinDao;
@@ -45,7 +43,7 @@ namespace Capstone.Controllers
             return Ok(proteins);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("proteinId={id}")]
         public ActionResult GetProteinById(int id)
         {
             Protein protein = new Protein();
@@ -60,7 +58,7 @@ namespace Capstone.Controllers
             return Ok(protein);
         }
 
-        [HttpGet("name/{name}")]
+        [HttpGet("proteinName={name}")]
         public ActionResult<IList<Protein>> GetProteinsBySequenceName(string name)
         {
             IList<Protein> proteins = new List<Protein>();
@@ -79,7 +77,7 @@ namespace Capstone.Controllers
             return Ok(proteins);
         }
 
-        [HttpGet("user/{username}")]
+        [HttpGet("user={username}")]
         public ActionResult<IList<Protein>> GetProteinsByUsername(string username)
         {
             IList<Protein> proteins = new List<Protein>();
@@ -100,7 +98,6 @@ namespace Capstone.Controllers
         [HttpPost]
         public ActionResult CreateProtein(RegisterProtein proteinParam)
         {
-            int test = 7;
             ReturnUser user = userDao.GetUserByUsername(User.Identity.Name);
             Protein protein = null;
             try
@@ -111,7 +108,7 @@ namespace Capstone.Controllers
             {
                 return StatusCode(500, "An internal server error occurred.");
             }
-            return Created($"/protein/{protein.ProteinId}", protein);
+            return Created($"/proteins/{protein.ProteinId}", protein);
         }
 
         [HttpPut]
@@ -132,7 +129,7 @@ namespace Capstone.Controllers
             return Ok(protein);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
         public ActionResult DeleteProtein(int id)
         {
             bool result = false;
@@ -149,40 +146,6 @@ namespace Capstone.Controllers
                 return NoContent();
             }
             return NotFound();
-        }
-        [HttpGet("api/ncbi/{name}")]
-        public ActionResult<Protein> GetNCBIApiProtein(string name)
-        {
-            Protein protein = new Protein();
-            try
-            {
-                string id = proteinDao.NCBIApiGetProteinID(name).Result;
-                protein = proteinDao.NCBIApiGetProteinSequence(id).Result;
-                protein.SequenceName = name;
-            }
-            catch (DaoException)
-            {
-                return StatusCode(500, "An internal server error occurred.");
-            }
-            return Ok(protein);
-        }
-        [HttpGet("api/rcsb/{name}")]
-        public ActionResult<Protein> GetRCSBApiProtein(string name)
-        {
-            string id = "";
-            Protein protein = new Protein();
-            try
-            {
-                id = proteinDao.RCSBApiGetProteinID(name).Result;
-                protein = proteinDao.RCSBApiGetProteinSequence(id).Result;
-                protein.SequenceName = name;
-            }
-            catch (DaoException)
-            {
-                return StatusCode(500, "An internal server error occurred.");
-            }
-            
-            return Ok(protein);
         }
     }
 }

@@ -25,12 +25,9 @@ export default {
     return axios.delete(`/protein/${proteinId}`, {headers: {Authorization: `Bearer ${sessionToken}`}});
   },
   ncbiAPI(sessionToken, name){
-    return axios.get(`/protein/api/ncbi/${name}`, {headers: {Authorization: `Bearer ${sessionToken}`}});
+    return axios.get(`/api/ncbi/${name}`, {headers: {Authorization: `Bearer ${sessionToken}`}});
   },
   rcsbAPI(sessionToken, name){
-    return axios.get(`/protein/api/rcsb/${name}`, {headers: {Authorization: `Bearer ${sessionToken}`}});
-  },
-  getApiList(sessionToken, jsonQuery){
-    return axios.get(`https://search.rcsb.org/rcsbsearch/v2/query?json=${jsonQuery}`);
+    return axios.get(`/api/rcsb/${name}`, {headers: {Authorization: `Bearer ${sessionToken}`}});
   },
 }

@@ -80,7 +80,6 @@ export default {
     },
     importTextArea() {
       const token = this.$store.state.token;
-
       const protein_data = {
         SequenceName: this.protein.name,
         ProteinSequence: this.protein.data,
@@ -88,12 +87,15 @@ export default {
         FormatType: 0,
         UserId: 0
       };
-      console.log(protein_data);
-      ProteinService.createProtein(token, protein_data)
+      if (!this.validateEntries()) {
+        alert("Fields cannot be blank.")
+      } else if (!this.validateLength()){
+        alert("Please enter a valid protein.") 
+      } else {
+        ProteinService.createProtein(token, protein_data)
         .then(response => {
           if (response.status === 201) {
             alert("Protein created successfully");
-            console.log(this.protein.id)
             this.$router.push(`/protein/${response.data.proteinId}`);
           }
         })
@@ -101,9 +103,9 @@ export default {
           const response = error.response;
           if (response.status === 401) {
             alert("Invalid password");
-            console.log('reached 401 error');
           }
         });
+      }
     },
     importFile(evt) {
       const file = evt.target.files[0];
@@ -118,6 +120,18 @@ export default {
       else {
         alert("Your file must be uploaded in .txt format.");
       }
+    },
+    validateEntries() {
+      if(this.protein.name === "" || this.protein.description === "" || this.protein.data === "") {
+        return false;
+      }
+      return true;
+    },
+    validateLength() {
+      if (this.protein.data.length < 20) {
+        return false;
+      }
+      return true;
     }
   }
 };

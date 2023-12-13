@@ -3,16 +3,18 @@
 
     <div class="search">
       <input class="search_box" type="text" v-model="search.name" placeholder="Search by name">
-      <table class="p-table">
-        <thead>
-          <tr id="header">
-            <th>Name</th>
-            <th>Note</th>
-          </tr>
-        </thead>
-        <tbody v-for="(p, idx) in filteredProteins" :key="p.proteinId" :class="{'hightlight': idx % 2 === 1}">
+    </div>
+      <div class="table-container">
+        <table class="p-table">
+          <thead>
+            <tr id="header">
+              <th id="name">Name</th>
+              <th>Note</th>
+            </tr>
+          </thead>
+          <tbody v-for="(p, idx) in filteredProteins" :key="p.proteinId" :class="{'highlight': idx % 2 === 0}">
           <tr>
-            <th>
+            <th id="nameRows">
               <router-link :to="{ name: 'protein_detail', params: { id: p.proteinId } }"> {{ p.sequenceName }}</router-link>
             </th>
             <td clase="dec-column">{{ p.description }}</td>
@@ -79,32 +81,65 @@ export default {
 
 <style scoped>
 .protein-list-view {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding-top: 25px;
+  height: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70vw;
+  color: black;
+  border-radius: 2.5vh;
+  background-color: aliceblue;
+  border-color: black;
+  border-style: solid;
+  text-align: center;
+  grid-area: protein-list-view;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   justify-content: center;
+  align-items: center;
+  grid-template-areas:
+    "search search"
+    "table-container table-container"
 }
 
 .search {
+  margin: auto;
   margin-bottom: 20px; /* Optional margin between search box and table */
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  grid-area: search;
+  justify-content: center;
+  align-items: center;
+  transform:scale(1.5);
 }
 
 .table-container {
   display: flex;
-  justify-content: center;
+  grid-area: table-container;
+  padding-bottom: 4%;
 }
+
 
 .p-table {
-
   border-collapse: collapse;
-}
-
-table {
-  border-collapse: collapse;
-  border: 3px solid black;
-  background-color: white;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  border-radius: 2.5vw;
+  margin: auto;
   color: black;
+  width: 100%;
+  font-size: 25px;
 }
 
+.highlight {
+  background-color: rgb(223, 222, 222);
+}
 
+tr#header {
+  border-bottom: 2px solid black;
+}
+th#name, th#nameRows {
+  border-right: 2px solid black;
+}
 </style>

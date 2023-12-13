@@ -119,11 +119,7 @@ export default {
   display: block;
 }
 
-#nav a {
-  color: white;
-}
-
-div#nav {
+#nav {
   font-family: "Playfair Display";
   display: flex;
   font-weight: 400;
@@ -131,7 +127,7 @@ div#nav {
   top: 0px;
   margin-top: 0px;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   width: 100vw;
   background-color: #080404;

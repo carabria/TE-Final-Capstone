@@ -4,21 +4,19 @@ using Capstone.DAO;
 using Capstone.Exceptions;
 using Capstone.Models;
 using Microsoft.AspNetCore.Authorization;
-using System.Web;
-using System.Net.Http;
-using System;
-using System.Text.Json.Nodes;
 
 namespace Capstone.Controllers
 {
     [Route("[controller]")]
+    [ApiController]
     [Authorize]
-    public class ProteinsController : ControllerBase
+    public class ProteinController : ControllerBase
     {
         private readonly IUserDao userDao;
         private readonly IProteinDao proteinDao;
         private readonly ICellDao cellDao;
-        public ProteinsController(IProteinDao proteinDao, IUserDao userDao, ICellDao cellDao)
+
+        public ProteinController(IProteinDao proteinDao, IUserDao userDao, ICellDao cellDao)
         {
             this.userDao = userDao;
             this.proteinDao = proteinDao;
@@ -43,7 +41,7 @@ namespace Capstone.Controllers
             return Ok(proteins);
         }
 
-        [HttpGet("proteinId={id}")]
+        [HttpGet("{id}")]
         public ActionResult GetProteinById(int id)
         {
             Protein protein = new Protein();
@@ -58,7 +56,7 @@ namespace Capstone.Controllers
             return Ok(protein);
         }
 
-        [HttpGet("proteinName={name}")]
+        [HttpGet("name/{name}")]
         public ActionResult<IList<Protein>> GetProteinsBySequenceName(string name)
         {
             IList<Protein> proteins = new List<Protein>();
@@ -77,7 +75,7 @@ namespace Capstone.Controllers
             return Ok(proteins);
         }
 
-        [HttpGet("user={username}")]
+        [HttpGet("user/{username}")]
         public ActionResult<IList<Protein>> GetProteinsByUsername(string username)
         {
             IList<Protein> proteins = new List<Protein>();
@@ -98,6 +96,7 @@ namespace Capstone.Controllers
         [HttpPost]
         public ActionResult CreateProtein(RegisterProtein proteinParam)
         {
+            int test = 7;
             ReturnUser user = userDao.GetUserByUsername(User.Identity.Name);
             Protein protein = null;
             try
@@ -108,7 +107,7 @@ namespace Capstone.Controllers
             {
                 return StatusCode(500, "An internal server error occurred.");
             }
-            return Created($"/proteins/{protein.ProteinId}", protein);
+            return Created($"/protein/{protein.ProteinId}", protein);
         }
 
         [HttpPut]
@@ -129,7 +128,7 @@ namespace Capstone.Controllers
             return Ok(protein);
         }
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("{id}")]
         public ActionResult DeleteProtein(int id)
         {
             bool result = false;

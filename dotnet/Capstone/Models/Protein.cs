@@ -1,4 +1,6 @@
-﻿namespace Capstone.Models
+﻿using System.Collections.Generic;
+
+namespace Capstone.Models
 {
     public class Protein
     {
@@ -22,6 +24,19 @@
         public string ProteinSequence { get; set; }
         public string Description { get; set; }
         public int FormatType { get; set; }
+        public int UserId { get; set; }
+    }
+
+    public class ProteinResponse
+    {
+        public int ProteinId { get; set; }
+        public string SequenceName { get; set; }
+        public string ProteinSequence { get; set; }
+        public string Description { get; set; }
+        public int FormatType { get; set; }
+        public List<string> BlueSequence { get; set; }
+        public List<string> GreenSequence { get; set; }
+        public List<string> YellowSequence { get; set; }
         public int UserId { get; set; }
     }
 }

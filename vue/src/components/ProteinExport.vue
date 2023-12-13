@@ -20,6 +20,7 @@
     </div>
 </template>
 <script>
+import FormateService from '../services/FormateService'
 import ExportService from '../services/ExportService';
 export default {
     props: ['proteinName', 'seq1', 'seq2', 'seq3'],
@@ -57,7 +58,7 @@ export default {
                 if (this.format == 0) {
                     this.format = 1;
                 }
-
+                sequenceList.forEach((seq) => FormateService.convert_fromat(this.format, seq))
                 ExportService.export(sequenceList);
             }
         }

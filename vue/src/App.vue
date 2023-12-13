@@ -3,7 +3,6 @@
     <div id="nav">
       &nbsp;
       <router-link class="log" v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">SIGN OUT</router-link>
-      <router-link class="log" v-bind:to="{ name: 'login' }" v-if="$store.state.token == ''">SIGN IN</router-link>
 
       <div class="dropdown">
         <button class="dropbtn">USER</button>
@@ -120,7 +119,7 @@ export default {
 #nav a {
   color: white;
 }
-
+  
 div#nav {
   font-family: "Playfair Display";
   font-weight: 400;
@@ -131,10 +130,10 @@ div#nav {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  width: 100vw;
   gap: 4vw;
   background-color: #080404;
   border-radius: 0%;
-  width: 100vw;
   height: 13.5vh;
   color: white;
   padding-top: 10px;

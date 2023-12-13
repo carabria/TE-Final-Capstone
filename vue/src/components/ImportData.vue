@@ -22,7 +22,7 @@
         <input type="text" id="apiText" v-model="apiDataNCBI" />
         <button type="submit" id="apiSubmit">Import Data</button>
       </form>
-      <form id="RCSB-form" @submit.prevent="getProteinAPIfromRCSB()">
+      <form id="RCSB-form" hidden @submit.prevent="getProteinAPIfromRCSB()">
         <label for="apiText" id="apiLabel">Get Info From RCSB</label>
         <input type="text" id="apiText" v-model="apiDataRCSB" />
         <button type="submit" id="apiSubmit">Import Data</button>

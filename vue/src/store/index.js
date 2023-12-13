@@ -6,6 +6,15 @@ export function createStore(currentToken, currentUser) {
     state: {
       token: currentToken || '',
       user: currentUser || {}, 
+      protein: {
+        sequenceName: '',
+        description: '',
+        proteinSequence: '',
+        blueSequence: [],
+        greenSequence: [],
+        yellowSequence: []
+      },
+      color: '',
     },
     mutations: {
       SET_AUTH_TOKEN(state, token) {
@@ -24,6 +33,17 @@ export function createStore(currentToken, currentUser) {
         state.user = {};
         axios.defaults.headers.common = {};
       },
+      PASSPROTEIN(state, protein){
+        state.protein = protein;
+        localStorage.setItem('protein', JSON.stringify(protein));
+      },
+      CLEARPROTEIN(state){
+        state.protein = {};
+        state.color = {};
+      },
+      GETPROTEIN(state){
+        state.protein = JSON.parse(localStorage.getItem('protein'));
+      }
     },
   });
   return store;

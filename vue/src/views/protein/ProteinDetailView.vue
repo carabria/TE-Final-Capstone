@@ -11,7 +11,7 @@
     <div class="p-sequence">
       <h2>{{ protein.proteinSequence }}</h2>
     </div>
-    <div class="generatedCard" v-show="newProtein.sequence1 !== null">
+    <div class="generatedCard" v-show="protein.sequence1 !== null">
       <div class="card-labels">
         <h3><a class="fast">Fast</a></h3>
         <h3><a class="medium">Medium</a></h3>
@@ -19,19 +19,19 @@
       </div>
       <div class="sequences">
         <div class="sequence1" v-for="(protein, index) in protein.blueSequence" v-bind:key="index">
-          <h2><a class="protein-display">{{ protein.substring(0, 6) }}...</a></h2>
+          <h2 class="protein-display" v-on:click="moveToExport(blue)">{{ protein.substring(0, 2) }}...</h2>
           <div class="showSequence">
             {{ protein }}
           </div>
         </div>
         <div class="sequence2" v-for="(protein, index) in protein.greenSequence" v-bind:key="index">
-          <h2><a class="protein-display">{{ protein.substring(0, 6) }}...</a></h2>
+          <h2 class="protein-display" v-on:click="moveToExport(green)">{{ protein.substring(0, 2) }}...</h2>
           <div class="showSequence">
             {{ protein }}
           </div>
         </div>
         <div class="sequence3" v-for="(protein, index) in protein.yellowSequence" v-bind:key="index">
-          <h2><a class="protein-display">{{ protein.substring(0, 6) }}...</a></h2>
+          <h2 class="protein-display" v-on:click="moveToExport(yellow)">{{ protein.substring(0, 2) }}...</h2>
           <div class="showSequence">
             {{ protein }}
           </div>
@@ -60,11 +60,7 @@ export default {
         greenSequence: [],
         yellowSequence: []
       },
-      newProtein: {
-        blueSequence: [],
-        greenSequence: [],
-        yellowSequence: []
-      }
+      color: ""
     };
   },
   created() {
@@ -95,6 +91,10 @@ export default {
         .catch(error => {
           console.log(error);
         })
+    },
+    moveToExport(sequenceColor) {
+      this.color = sequenceColor;
+      this.$router.push({name: 'protein_export', params: {color: this.color, protein: this.protein}})
     }
   },
   computed: {

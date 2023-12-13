@@ -20,21 +20,23 @@
       <div class="sequences">
         <div class="sequence1" v-for="(protein, index) in protein.blueSequence" v-bind:key="index">
           <h2 class="protein-display" v-on:click="moveToExport(blue)">{{ protein.substring(0, 2) }}...</h2>
-          <div class="showSequence">
+
+          <span class="showSequence">
             {{ protein }}
-          </div>
+          </span>
+
         </div>
         <div class="sequence2" v-for="(protein, index) in protein.greenSequence" v-bind:key="index">
           <h2 class="protein-display" v-on:click="moveToExport(green)">{{ protein.substring(0, 2) }}...</h2>
-          <div class="showSequence">
+          <span class="showSequence">
             {{ protein }}
-          </div>
+          </span>
         </div>
         <div class="sequence3" v-for="(protein, index) in protein.yellowSequence" v-bind:key="index">
           <h2 class="protein-display" v-on:click="moveToExport(yellow)">{{ protein.substring(0, 2) }}...</h2>
-          <div class="showSequence">
+          <span class="showSequence">
             {{ protein }}
-          </div>
+          </span>
         </div>
       </div>
     </div>
@@ -283,7 +285,23 @@ body {
   cursor: pointer;
 }
 
-.showSequence {
+span.showSequence {
+  position: absolute;
   display: none;
+  padding: 5px;
+  background: #c0c0c0;
+  border: 2px solid #000000;
+  color: #000000;
+  text-align: center;
+  width: 105px;
+  height: auto;
+  white-space: break-spaces;
+  word-wrap: break-word;
+  top:107px;
+}
+
+div.sequence1:hover span.showSequence, div.sequence2:hover span.showSequence, div.sequence3:hover span.showSequence {
+  display: block;
+  transform: scale(1);
 }
 </style>

@@ -145,7 +145,7 @@ namespace Capstone.DAO
                 -- Select the closest blue, green, and yellow cells
                 SELECT cell_id, x_cord, y_cord, letter_x, letter_y, color, acid
                 FROM DistanceCalculation
-                WHERE rnk = 1;";
+                WHERE rnk <= 3;";
 
             try
             {

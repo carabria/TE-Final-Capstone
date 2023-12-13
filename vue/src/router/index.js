@@ -151,14 +151,6 @@ const routes = [
       requiresAuth: true
     }
   },
-  {
-    path: '/protein/export',
-    name: 'protein_import',
-    component: ProteinExView,
-    meta: {
-      requiresAuth: true
-    }
-  },
 ];
 
 // Create the router

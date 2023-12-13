@@ -1,7 +1,6 @@
 <template>
   <h1>Import data</h1>
   <div id="data-input">
-    <!--- Todo(anderson): Import data from URL --->
     <form id="text-form">
       <div class="name">
         <label for="nameText" id="nameLabel">Name</label>
@@ -22,7 +21,7 @@
         <input type="text" id="apiText" v-model="apiDataNCBI" />
         <button type="submit" id="apiSubmit">Import Data</button>
       </form>
-      <form id="RCSB-form" hidden @submit.prevent="getProteinAPIfromRCSB()">
+      <form id="RCSB-form" @submit.prevent="getProteinAPIfromRCSB()">
         <label for="apiText" id="apiLabel">Get Info From RCSB</label>
         <input type="text" id="apiText" v-model="apiDataRCSB" />
         <button type="submit" id="apiSubmit">Import Data</button>
@@ -30,7 +29,6 @@
       <form class="file">
         <label for="fileInput" id="fileLabel">Upload From File</label>
         <input type="file" id="fileInput" v-on:change="importFile" />
-        <button id="submit" type="submit">Submit Data</button> 
       </form>
       <form class="finished" @submit.prevent="importTextArea">
         <button id="clearForm" v-on:click="clearForm()">Clear Form</button>
@@ -271,6 +269,7 @@ h1 {
   justify-content: center;
   margin: auto;
   margin-top: 15px;
+  margin-bottom: 10px;
 }
 #submit {
   align-items: right;

@@ -4,20 +4,22 @@
       &nbsp;
       <router-link class="log" v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">SIGN OUT</router-link>
 
-      <div class="dropdown">
-        <button class="dropbtn">USER</button>
-        <div class="dropdown-content">
-          <router-link class="navItem" v-bind:to="{ name: 'change_password' }">Change Password</router-link>
-          <router-link class="navItem" v-bind:to="{ name: 'view_proteins' }">Proteins</router-link>
-        </div>
-      </div>
+      <div class="middle">
 
-      <div class="dropdown">
-        <button class="homeButton" />
-        <router-link class="navItem" v-bind:to="{ name: 'home' }"><img src="./img/Logo.png" alt="Protein Capture Science"
-          height="75.0" width="75.0" /></router-link>
+        <div class="dropdown">
+          <button class="dropbtn">USER</button>
+          <div class="dropdown-content">
+            <router-link class="navItem" v-bind:to="{ name: 'change_password' }">Change Password</router-link>
+            <router-link class="navItem" v-bind:to="{ name: 'view_proteins' }">Proteins</router-link>
+          </div>
         </div>
-        
+
+        <div class="dropdown">
+          <button class="homeButton" />
+          <router-link class="navItem" v-bind:to="{ name: 'home' }"><img src="./img/Logo.png"
+              alt="Protein Capture Science" height="75.0" width="75.0" /></router-link>
+        </div>
+
         <div class="dropdown">
           <button class="dropbtn">PROTEIN</button>
           <div class="dropdown-content">
@@ -25,7 +27,8 @@
             <router-link class="navItem" v-bind:to="{ name: 'protein_import' }">Import</router-link>
           </div>
         </div>
-        
+      </div>
+
       <div id="adminNav" class="dropdown" v-if="$store.state.user.role == 'admin'">
         <button id="adminNavBtn" class="dropbtn">ADMIN</button>
         <div id="adminNavContent" class="dropdown-content">
@@ -110,7 +113,7 @@ export default {
   text-decoration: underline;
   text-underline-offset: .3rem;
   text-decoration-thickness: 1.5px;
-  }
+}
 
 .dropdown:hover .dropdown-content {
   display: block;
@@ -119,19 +122,18 @@ export default {
 #nav a {
   color: white;
 }
-  
+
 div#nav {
   font-family: "Playfair Display";
+  display: flex;
   font-weight: 400;
   position: sticky;
   top: 0px;
   margin-top: 0px;
-  display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   width: 100vw;
-  gap: 4vw;
   background-color: #080404;
   border-radius: 0%;
   height: 13.5vh;
@@ -139,10 +141,18 @@ div#nav {
   padding-top: 10px;
   margin-bottom: 10px;
   text-align: center;
-  font-size: 14px;  
+  font-size: 14px;
 }
 
-.log {  
+.middle {
+  margin:auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.log {
   text-decoration: none;
   margin-right: auto;
 }
@@ -158,6 +168,5 @@ div#nav {
 #adminNav .dropdown-content a {
   color: orange;
   margin-left: auto;
-  margin-right: 2vw;
 }
 </style>

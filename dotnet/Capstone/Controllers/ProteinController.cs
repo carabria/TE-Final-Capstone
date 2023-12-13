@@ -44,10 +44,25 @@ namespace Capstone.Controllers
         [HttpGet("{id}")]
         public ActionResult GetProteinById(int id)
         {
-            Protein protein = new Protein();
+            ProteinResponse protein = new ProteinResponse();
             try
             {
-                protein = proteinDao.GetProteinById(id);
+                Protein protein_base = proteinDao.GetProteinById(id);
+                protein.ProteinId = protein_base.ProteinId;
+                protein.SequenceName = protein_base.SequenceName;
+                protein.ProteinSequence = protein_base.ProteinSequence;
+                protein.Description = protein_base.Description;
+                protein.UserId = protein_base.UserId;
+                protein.FormatType = protein_base.FormatType;
+                
+                string[] blues = protein_base.Sequence1.Split(',');
+                string[] greens = protein_base.Sequence1.Split(',');
+                string[] yellows = protein_base.Sequence1.Split(',');
+
+                protein.BlueSequence = new List<string>(blues);
+                protein.GreenSequence = new List<string>(greens);
+                protein.YellowSequence = new List<string>(yellows);
+
             }
             catch (DaoException)
             {

@@ -18,14 +18,23 @@
         <h3><a class="slow">Slow</a></h3>
       </div>
       <div class="sequences">
-        <div class="sequence1">
-          <h2><a class="blue">{{ newProtein.sequence1 }}</a>{{ protein.proteinSequence.substring(2, 6) }}...</h2>
+        <div class="sequence1" v-for="(protein, index) in protein.blueSequence" v-bind:key="index">
+          <h2><a class="protein-display">{{ protein.substring(0, 6) }}...</a></h2>
+          <div class="showSequence">
+            {{ protein }}
+          </div>
         </div>
-        <div class="sequence2">
-          <h2><a class="green">{{ newProtein.sequence2 }}</a>{{ protein.proteinSequence.substring(2, 6) }}...</h2>
+        <div class="sequence2" v-for="(protein, index) in protein.greenSequence" v-bind:key="index">
+          <h2><a class="protein-display">{{ protein.substring(0, 6) }}...</a></h2>
+          <div class="showSequence">
+            {{ protein }}
+          </div>
         </div>
-        <div class="sequence3">
-          <h2><a class="yellow">{{ newProtein.sequence3 }}</a>{{ protein.proteinSequence.substring(2, 6) }}...</h2>
+        <div class="sequence3" v-for="(protein, index) in protein.yellowSequence" v-bind:key="index">
+          <h2><a class="protein-display">{{ protein.substring(0, 6) }}...</a></h2>
+          <div class="showSequence">
+            {{ protein }}
+          </div>
         </div>
       </div>
     </div>
@@ -47,14 +56,14 @@ export default {
         sequenceName: '',
         description: '',
         proteinSequence: '',
-        sequence1: '',
-        sequence2: '',
-        sequence3: ''
+        blueSequence: [],
+        greenSequence: [],
+        yellowSequence: []
       },
       newProtein: {
-        blue: [],
-        green: [],
-        yellow: []
+        blueSequence: [],
+        greenSequence: [],
+        yellowSequence: []
       }
     };
   },
@@ -70,9 +79,6 @@ export default {
           console.log(response.data);
           // var new_data = response.data.proteinSequence.replace(/[0-9]/g, '');
           this.protein = response.data;
-          this.newProtein.sequence1 = this.protein.sequence1.substring(0, 2);
-          this.newProtein.sequence2 = this.protein.sequence2.substring(0, 2);
-          this.newProtein.sequence3 = this.protein.sequence3.substring(0, 2);
           // this.protein.proteinSequence = new_data;
         })
         .catch(error => {
@@ -86,9 +92,25 @@ export default {
         .then(response => {
           this.protein = response.data;
         })
+        .catch(error => {
+          console.log(error);
+        })
     }
   },
   computed: {
+    hoverSequences() {
+      const hover_targets = document.querySelectorAll('.protein-display');
+
+      for (let i = 0; i < hover_targets.length; i++) {
+        hover_targets[i].addEventListener('mouseover', function () {
+          document.querySelector('.showSequence').style.display = 'block';
+        });
+        hover_targets[i].addEventListener('mouseout', function () {
+          document.querySelector('.showSequence').style.display = 'none';
+        });
+      }
+      return "";
+    }
   },
 
 }
@@ -211,6 +233,10 @@ body {
   width: 100%;
 }
 
+.sequences a {
+  color:black;
+}
+
 .sequence1 {
   word-wrap: break-word;
   margin-right: auto;
@@ -224,6 +250,11 @@ body {
   overflow: hidden;
 }
 
+.sequence1:hover {
+  display: block;
+  cursor: pointer;
+}
+
 .sequence2 {
   word-wrap: break-word;
   background-color: rgba(0, 128, 0, .5);
@@ -235,22 +266,29 @@ body {
   width: 33.33%;
 }
 
+.sequence2:hover {
+  display: block;
+  cursor: pointer;
+}
+
 .sequence3 {
   word-wrap: break-word;
   margin-left: auto;
+  border: black 3px;
+  border-bottom: 0px;
+  border-left: 0px;
+  border-top: 0px;
+  border-style: solid;
   background-color: rgba(255, 255, 0, .5);
   width: 33.33%;
 }
 
-.blue {
-  color: black;
+.sequence3:hover {
+  display: block;
+  cursor: pointer;
 }
 
-.green {
-  color: black;
-}
-
-.yellow {
-  color: black;
+.showSequence {
+  display: none;
 }
 </style>

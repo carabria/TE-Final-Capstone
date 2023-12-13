@@ -56,8 +56,8 @@ namespace Capstone.Controllers
                 protein.FormatType = protein_base.FormatType;
                 
                 string[] blues = protein_base.Sequence1.Split(',');
-                string[] greens = protein_base.Sequence1.Split(',');
-                string[] yellows = protein_base.Sequence1.Split(',');
+                string[] greens = protein_base.Sequence2.Split(',');
+                string[] yellows = protein_base.Sequence3.Split(',');
 
                 protein.BlueSequence = new List<string>(blues);
                 protein.GreenSequence = new List<string>(greens);

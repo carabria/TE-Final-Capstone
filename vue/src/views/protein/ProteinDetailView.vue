@@ -11,7 +11,7 @@
     <div class="p-sequence">
       <h2>{{ protein.proteinSequence }}</h2>
     </div>
-    <div class="generatedCard" v-show="protein.sequence1 !== null">
+    <div class="generatedCard" v-show="protein.blueSequence !== null">
       <div class="card-labels">
         <h3><a class="fast">Fast</a></h3>
         <h3><a class="medium">Medium</a></h3>
@@ -39,7 +39,7 @@
       </div>
     </div>
   </div>
-  <form class="p-generate" @submit.prevent="generateSequences()">
+  <form class="p-generate" @submit.prevent="generateSequences()" v-show="protein.blueSequence === null">
     <button id="submit" type="submit">Generate Sequences</button>
   </form>
 </template>
@@ -73,9 +73,8 @@ export default {
       ProteinService.getProtein(token, protein_id)
         .then(response => {
           console.log(response.data);
-          // var new_data = response.data.proteinSequence.replace(/[0-9]/g, '');
           this.protein = response.data;
-          // this.protein.proteinSequence = new_data;
+          console.log(this.protein);
         })
         .catch(error => {
           console.log(error);
@@ -231,10 +230,6 @@ body {
   border-bottom: 0px;
   border-style: solid;
   width: 100%;
-}
-
-.sequences a {
-  color:black;
 }
 
 .sequence1 {

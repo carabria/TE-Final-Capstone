@@ -208,7 +208,7 @@ export default {
     },
 
     change_display(data) {
-      this.display_sequence = data;
+      this.display_sequence = FormatService.format(this.format_type, data);
       this.copyToClipboard();
       this.show_copy_message();
     },
@@ -225,7 +225,7 @@ export default {
       this.show_copy = true;
       this.timer = setTimeout(() => {
         this.show_copy = false;
-      }, 1500);
+      }, 3000);
     },
 
   },
@@ -476,7 +476,7 @@ span.speed-details {
   height: auto;
   white-space: break-spaces;
   word-wrap: break-word;
-  top: 40vh;
+  top: 50vh;
 }
 
 div.sequence1:hover span.speed-details,

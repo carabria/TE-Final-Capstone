@@ -30,7 +30,8 @@ export default {
    * @return {string}
    */
   ___convert_to_space_format: function(data) {
-    return data.replace(/(.{10})/g, '$1 ').replace(/(.{60})/g, '$1\n');
+    const new_data = this.___convert_to_common_format(data)
+    return new_data.replace(/(.{10})/g, '$1 ').replace(/(.{66})/g, '$1\n');
   },
 
   /**

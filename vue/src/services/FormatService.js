@@ -1,11 +1,11 @@
 export default {
 
-  convert_fromat: function (format_type, data) {
-    if (format_type === 1) {
+  format: function (format_type, data) {
+    if (format_type == 1) {
       return this.___convert_to_common_format(data);
-    } else if (format_type === 2) {
+    } else if (format_type == 2) {
       return this.___convert_to_space_format(data);
-    } else if (format_type === 3) {
+    } else if (format_type == 3) {
       return this.___convert_to_number_format(data);
     } else {
       return 'Invalid format type';

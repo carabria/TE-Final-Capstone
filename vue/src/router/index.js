@@ -17,7 +17,6 @@ import ProteinView from '../views/protein/ProteinView.vue'
 import ProteinListView from '../views/protein/ProteinListView.vue'
 import ProteinImportView from '../views/protein/ProteinImportView.vue'
 import ProteinDetailView from '../views/protein/ProteinDetailView.vue'
-import ProteinExportView from '../views/protein/ProteinExportView.vue'
 
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
@@ -152,15 +151,6 @@ const routes = [
       requiresAuth: true
     }
   },
-  {
-    path: '/export/:id',
-    name: 'export',
-    component: ProteinExportView,
-    props: true,
-    meta: {
-      requiresAuth: true,
-    }
-  }
 ];
 
 // Create the router

@@ -21,7 +21,8 @@
         <div class="blue-div">
           <h3><a class="fast">Fast</a></h3>
           <div class="sequence1" v-for="(protein, index) in protein.blueSequence" v-bind:key="index">
-            <h2 class="protein-display" v-on:click="moveToExport('blue')">{{ protein.substring(0, 6) }}...</h2>
+            <h2 class="protein-display" v-on:click="change_display(protein)">{{ protein.substring(0, 6) }}...</h2>
+
             <span class="speed-details">
               Very rapid cleaving (possible losses during wash steps)
             </span>
@@ -30,7 +31,7 @@
         <div class="green-div">
           <h3><a class="medium">Medium</a></h3>
           <div class="sequence2" v-for="(protein, index) in protein.greenSequence" v-bind:key="index">
-            <h2 class="protein-display" v-on:click="moveToExport('green')">{{ protein.substring(0, 6) }}...</h2>
+            <h2 class="protein-display" v-on:click="change_display(protein)">{{ protein.substring(0, 6) }}...</h2>
             <span class="speed-details">
               80-90% cleaved in 5 hours at room temperature
             </span>
@@ -42,16 +43,24 @@
             <span class="speed-details">
               80-90% cleaved overnight at room temperature
             </span>
-            <h2 class="protein-display" v-on:click="moveToExport('yellow')">{{ protein.substring(0, 6) }}...</h2>
+            <h2 class="protein-display" v-on:click="change_display(protein)">{{ protein.substring(0, 6) }}...</h2>
           </div>
           <div>
-            <!---make a drip done for data format 1 2 3 --->
             <label for="data-format">Data Format:</label>
-            <select v-model="format_type" id="data-format" name="data-format">
+            <select v-model="format_type" id="data-format" name="data-format" @change="update_display_format">
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3" selected>3</option>
             </select>
+
+            <button @click="download_blue">Download Blue</button>
+            <button @click="download_green">Download Green</button>
+            <button @click="download_yellow">Download Yellow</button>
+
+            <button @click="copy_blue">Copy Blue</button>
+            <button @click="copy_green">Copy Green</button>
+            <button @click="copy_yellow">Copy Yellow</button>
+
 
             <button @click="copyToClipboard">Copy To Clipboard</button>
             <button @click="download">Download</button>
@@ -66,6 +75,7 @@
 <script>
 import ProteinService from '../../services/ProteinService.js';
 import GenerateService from '../../services/GenerateService.js'
+import FormatService from '../../services/FormatService.js';
 export default {
   props: ['id'],
 
@@ -124,6 +134,35 @@ export default {
       link.click();
       document.body.removeChild(link);
     },
+
+    download_blue() {
+      this.download_array(this.protein.blueSequence, '_blue');
+    },
+
+    download_green() {
+      this.download_array(this.protein.greenSequence, '_green');
+    },
+
+    download_yellow() {
+      this.download_array(this.protein.yellowSequence, '_yellow');
+    },
+
+    download_array(arry, file_name) {
+      let buffer = ''
+
+      for (let i = 0; i < arry.length; i++) {
+        buffer += FormatService.format(this.format_type, arry[i])
+        buffer += '\n----------------------------------------\n'
+      }
+
+      const link = document.createElement('a');
+      link.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(buffer);
+      link.download = this.protein.sequenceName + file_name + '.txt';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    },
+
     copyToClipboard() {
       const el = document.createElement('textarea');
       el.value = this.display_sequence;
@@ -132,11 +171,47 @@ export default {
       document.execCommand('copy');
       document.body.removeChild(el);
     },
+
+    copy_blue() {
+      this.copy_array_to_clipboard(this.protein.blueSequence);
+    },
+
+    copy_green() {
+      this.copy_array_to_clipboard(this.protein.greenSequence);
+    },
+
+    copy_yellow() {
+      this.copy_array_to_clipboard(this.protein.yellowSequence);
+    },
+
+    copy_array_to_clipboard(arry) {
+      let buffer = ''
+
+      for (let i = 0; i < arry.length; i++) {
+        buffer += FormatService.format(this.format_type, arry[i])
+        buffer += '\n----------------------------------------\n'
+      }
+
+      const el = document.createElement('textarea');
+      el.value = buffer;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+    },
+
+    change_display(data) {
+      this.display_sequence = data;
+    },
+
+    update_display_format() {
+      this.display_sequence = FormatService.format(this.format_type, this.display_sequence);
+    },
+
     reset() {
       this.display_sequence = this.protein.proteinSequence;
+      this.format_type = 1;
     },
-  },
-  computed: {
   },
 
 }

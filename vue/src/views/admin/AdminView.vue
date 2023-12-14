@@ -10,16 +10,14 @@
 </template>
 
 <script>
-import ProteinExport from '../../components/ProteinExport.vue';
 export default {
     data() {
         return {
             components: {
-                ProteinExport
             }
         };
     },
-    components: { ProteinExport }
+    components: {  }
 }
 </script>
 

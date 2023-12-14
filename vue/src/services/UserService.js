@@ -5,7 +5,7 @@ export default {
     return axios.put('user/changepassword', user)
   },
   viewProteins(username, sessionToken) {
-    return axios.get(`proteins/user=${username}`, {headers: {Authorization: `Bearer ${sessionToken}`}})
+    return axios.get(`protein/user/${username}`, {headers: {Authorization: `Bearer ${sessionToken}`}})
   }
 
 }

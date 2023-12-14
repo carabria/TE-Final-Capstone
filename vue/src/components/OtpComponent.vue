@@ -1,6 +1,6 @@
 <template>
+  <h1>One time Password</h1>
     <div id="otp">
-    <h1>One time Password</h1>
       <table>
         <thead>
           <tr>
@@ -147,5 +147,22 @@ export default {
 
 .tr.selected {
   color: #4CAF50;
+}
+#otp {
+  height: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70vw;
+  color: black;
+  border-radius: 2.5vh;
+  background-color: aliceblue;
+  border-color: black;
+  border-style: solid;
+  text-align: center;
+  grid-area: card;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  justify-items: center;
 }
 </style>

@@ -10,7 +10,7 @@
           <button class="dropbtn">USER</button>
           <div class="dropdown-content">
             <router-link class="navItem" v-bind:to="{ name: 'change_password' }">Change Password</router-link>
-            <router-link class="navItem" v-bind:to="{ name: 'view_proteins' }">Proteins</router-link>
+            <router-link class="navItem" v-bind:to="{ name: 'view_proteins' }">Your Proteins</router-link>
           </div>
         </div>
 

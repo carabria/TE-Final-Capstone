@@ -1,12 +1,9 @@
 <template>
   <div class="protein-list-view">
 
-    <div class="search">
-      <input class="search_box" type="text" v-model="search.name" placeholder="Search by name">
-    </div>
-      <div class="table-container">
-        <table class="p-table">
-          <thead>
+    <div class="table-container">
+      <table class="p-table">
+        <thead>
             <tr id="header">
               <th id="name">Name</th>
               <th>Note</th>
@@ -17,12 +14,14 @@
             <th id="nameRows">
               <router-link :to="{ name: 'protein_detail', params: { id: p.proteinId } }"> {{ p.sequenceName }}</router-link>
             </th>
-            <td clase="dec-column">{{ p.description }}</td>
+            <td class="dec-column">{{ p.description }}</td>
           </tr>
         </tbody>
       </table>
     </div>
-
+    <div class="search">
+      <input class="search_box" type="text" v-model="search.name" placeholder="Search by name">
+    </div>
   </div>
 </template>
 
@@ -82,6 +81,7 @@ export default {
 <style scoped>
 .protein-list-view {
   padding-top: 25px;
+  margin-top: 40px;
   height: fit-content;
   margin-left: auto;
   margin-right: auto;
@@ -98,15 +98,14 @@ export default {
   justify-content: center;
   align-items: center;
   grid-template-areas:
-    "search search"
     "table-container table-container"
+    "search search"
 }
 
 .search {
   margin: auto;
-  margin-bottom: 20px; /* Optional margin between search box and table */
+  margin-bottom: 10px; /* Optional margin between search box and table */
   width: 100%;
-  padding-top: 10px;
   padding-bottom: 10px;
   grid-area: search;
   justify-content: center;
@@ -117,7 +116,7 @@ export default {
 .table-container {
   display: flex;
   grid-area: table-container;
-  padding-bottom: 4%;
+  padding-bottom: 2%;
 }
 
 

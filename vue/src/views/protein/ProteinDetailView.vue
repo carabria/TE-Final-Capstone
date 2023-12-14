@@ -58,21 +58,22 @@
       </div>
       <div id="singleSelect">
         <div>
-          <label for="data-format">Data Format:</label>
-          <select v-model="format_type" id="data-format" name="data-format" @change="update_display_format">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3" selected>3</option>
-          </select>
           <button @click="copyToClipboard">Copy To Clipboard</button>
           <button @click="download">Download</button>
           <button @click="reset">Reset</button>
         </div>
-        
-            <div class="p-sequence">
-              <h2>Generated Sequence</h2>
-                <h2>{{ display_sequence }}</h2>
-    </div>
+        <div class="p-sequence">
+          <h2>Generated Sequence</h2>
+          <h2>{{ display_sequence }}</h2>
+        </div>
+        <div id="formatType">
+        <label for="data-format">Data Format:</label>
+        <select v-model="format_type" id="data-format" name="data-format" @change="update_display_format">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3" selected>3</option>
+        </select>
+        </div>
       </div>
     </div>
   </div>
@@ -97,7 +98,7 @@ export default {
       },
       color: "",
       display_sequence: "",
-      original_sequence:"",
+      original_sequence: "",
       format_type: 1,
       show_copy: false,
       timer: 0,
@@ -228,8 +229,8 @@ export default {
     },
 
   },
-  computed:{
-  
+  computed: {
+
   }
 
 }
@@ -243,9 +244,11 @@ body {
   width: 100vw;
   margin: 0;
 }
-#singleSelect{
-  margin:auto;
+
+#singleSelect {
+  margin: auto;
 }
+
 .card {
   height: fit-content;
   margin-left: auto;
@@ -360,6 +363,7 @@ body {
   width: 33%;
   padding-left: 10px;
 }
+
 .sequence1 {
   word-wrap: break-word;
   margin-right: auto;
@@ -383,6 +387,7 @@ body {
   width: 33%;
   padding-right: 10px;
 }
+
 .sequence2 {
   word-wrap: break-word;
   margin-right: auto;
@@ -409,6 +414,7 @@ body {
   padding-right: 10px;
   background-color: rgba(0, 0, 0, 0);
 }
+
 .sequence3 {
   word-wrap: break-word;
   margin-right: auto;
@@ -449,16 +455,19 @@ span.showSequence {
 }
 
 div.sequence1:hover {
-  background-color: rgba(0,0,255,.2);
+  background-color: rgba(0, 0, 255, .2);
 }
+
 div.sequence2:hover {
-  background-color: rgba(0,255,0,.2);
+  background-color: rgba(0, 255, 0, .2);
 }
 
 div.sequence3:hover {
   background-color: rgba(255, 255, 0, .2);
 }
-
+#formatType{
+  margin-bottom: 16px;
+}
 span.speed-details {
   position: absolute;
   display: none;
@@ -471,11 +480,12 @@ span.speed-details {
   height: auto;
   white-space: break-spaces;
   word-wrap: break-word;
-  top:40vh;
+  top: 40vh;
 }
 
-div.sequence1:hover span.speed-details, div.sequence2:hover span.speed-details, div.sequence3:hover span.speed-details {
+div.sequence1:hover span.speed-details,
+div.sequence2:hover span.speed-details,
+div.sequence3:hover span.speed-details {
   display: block;
   transform: scale(1);
-}
-</style>
+}</style>

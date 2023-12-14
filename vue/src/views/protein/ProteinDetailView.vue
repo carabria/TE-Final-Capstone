@@ -15,6 +15,8 @@
       <button id="submit" type="submit">Generate Sequences</button>
     </form>
     <div class="generatedCard" v-show="protein.blueSequence[0] !== ''">
+      <span v-if="show_copy" class="copied">Copied!</span>
+
       <div class="card-labels">
       </div>
       <div class="sequences">
@@ -66,7 +68,7 @@
           <button @click="reset">Reset</button>
         </div>
         
-            <div class="p-sequence">
+            <div class="p-sequence" v-if="display_sequence != original_sequence">
                 <h2>{{ display_sequence }}</h2>
     </div>
       </div>
@@ -95,6 +97,8 @@ export default {
       display_sequence: "",
       original_sequence:"",
       format_type: 1,
+      show_copy: false,
+      timer: 0,
     };
   },
   created() {
@@ -125,10 +129,6 @@ export default {
         .catch(error => {
           console.log(error);
         })
-    },
-    moveToExport(sequenceColor) {
-      const page_id = this.$route.params.id;
-      this.$router.push({ name: 'export', params: { id: page_id} });
     },
     download() {
       const link = document.createElement('a');
@@ -206,6 +206,8 @@ export default {
 
     change_display(data) {
       this.display_sequence = data;
+      this.copyToClipboard();
+      this.show_copy_message();
     },
 
     update_display_format() {
@@ -216,7 +218,34 @@ export default {
       this.display_sequence = this.protein.proteinSequence;
       this.format_type = 1;
     },
+    show_copy_message() {
+      this.show_copy = true;
+      this.timer = setTimeout(() => {
+        this.show_copy = false;
+      }, 1500);
+    }
   },
+  computed:{
+    displaySeq(){
+      let result = false
+    this.protein.blueSequence.forEach(element => {
+        if(element == this.original_sequence){
+          result = true;
+        } 
+      });
+      
+    this.protein.greenSequence.forEach(element => {
+        if(element == this.original_sequence){
+          result = true;
+        } });
+         
+    this.protein.yellowSequence.forEach(element => {
+        if(element == this.original_sequence){
+          result = true;
+        } });
+      return result;
+    },
+  }
 
 }
 </script>

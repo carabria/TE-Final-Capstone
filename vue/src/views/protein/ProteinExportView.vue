@@ -1,35 +1,47 @@
 <template>
-    <div id="exports">
-<h1></h1>
-<ProteinExport v-bind:seq1="protein.blueSequence[0]"></ProteinExport>
-<div v-on:click="test">{{ color }} </div>
-    </div>
+  <h2> {{ id }} </h2>
+  <h2> {{ protein.sequenceName }} </h2>
+
 </template>
 <script>
+
 import ProteinExport from '../../components/ProteinExport.vue';
+import ProteinService from '../../services/ProteinService.js';
+
 export default {
-    created(){
-        this.$store.commit("GETPROTEIN")
-    },
-    data(){
-        return {
-        protein: this.$store.state.protein,
-      color: '',
+  props: ['id', 'color'],
+  data() {
+    return {
+      protein: {
+        sequenceName: '',
+        description: '',
+        proteinSequence: '',
+        blueSequence: [],
+        greenSequence: [],
+        yellowSequence: []
+      },
     }
+  },
+
+  created() {
+    this.loadProtein();
+  },
+
+  methods: {
+    loadProtein() {
+      const token = this.$store.state.token;
+      const protein_id = this.$route.params.id;
+      ProteinService.getProtein(token, protein_id)
+        .then(response => {
+          console.log(response.data);
+          this.protein = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
-    methods:{
-test(){
-    this.$store.commit("PASSPROTEIN", this.$store.blueSequence)
+  },
 }
-    },
-    components: { 
-        ProteinExport 
-    },
-   }
 </script>
 <style>
-#exports{
-    color: black;
-    text-overflow:ellipsis;
-}
 </style>

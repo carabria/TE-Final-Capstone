@@ -9,7 +9,7 @@
       <h2>{{ protein.description }}</h2>
     </div>
     <div class="p-sequence">
-      <h2>{{ protein.proteinSequence }}</h2>
+      <h2>{{ display_sequence }}</h2>
     </div>
     <form class="p-generate" @submit.prevent="generateSequences()" v-show="protein.blueSequence[0] == ''">
       <button id="submit" type="submit">Generate Sequences</button>
@@ -21,7 +21,7 @@
         <div class="blue-div">
           <h3><a class="fast">Fast</a></h3>
           <div class="sequence1" v-for="(protein, index) in protein.blueSequence" v-bind:key="index">
-            <h2 class="protein-display" v-on:click="moveToExport(blue)">{{ protein.substring(0, 6) }}...</h2>
+            <h2 class="protein-display" v-on:click="moveToExport('blue')">{{ protein.substring(0, 6) }}...</h2>
             <span class="speed-details">
               Very rapid cleaving (possible losses during wash steps)
             </span>
@@ -30,19 +30,32 @@
         <div class="green-div">
           <h3><a class="medium">Medium</a></h3>
           <div class="sequence2" v-for="(protein, index) in protein.greenSequence" v-bind:key="index">
-            <h2 class="protein-display" v-on:click="moveToExport(green)">{{ protein.substring(0, 6) }}...</h2>
+            <h2 class="protein-display" v-on:click="moveToExport('green')">{{ protein.substring(0, 6) }}...</h2>
             <span class="speed-details">
               80-90% cleaved in 5 hours at room temperature
             </span>
           </div>
-        </div>        
+        </div>
         <div class="yellow-div">
           <h3><a class="slow">Slow</a></h3>
           <div class="sequence3" v-for="(protein, index) in protein.yellowSequence" v-bind:key="index">
             <span class="speed-details">
               80-90% cleaved overnight at room temperature
             </span>
-            <h2 class="protein-display" v-on:click="moveToExport(yellow)">{{ protein.substring(0, 6) }}...</h2>
+            <h2 class="protein-display" v-on:click="moveToExport('yellow')">{{ protein.substring(0, 6) }}...</h2>
+          </div>
+          <div>
+            <!---make a drip done for data format 1 2 3 --->
+            <label for="data-format">Data Format:</label>
+            <select v-model="format_type" id="data-format" name="data-format">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3" selected>3</option>
+            </select>
+
+            <button @click="copyToClipboard">Copy To Clipboard</button>
+            <button @click="download">Download</button>
+            <button @click="reset">Reset</button>
           </div>
         </div>
       </div>
@@ -66,7 +79,9 @@ export default {
         greenSequence: [],
         yellowSequence: []
       },
-      color: ""
+      color: "",
+      display_sequence: "",
+      format_type: 1,
     };
   },
   created() {
@@ -78,9 +93,8 @@ export default {
       const protein_id = this.$route.params.id;
       ProteinService.getProtein(token, protein_id)
         .then(response => {
-          console.log(response.data);
           this.protein = response.data;
-          console.log(this.protein.blueSequence);
+          this.display_sequence = this.protein.proteinSequence;
         })
         .catch(error => {
           console.log(error);
@@ -92,16 +106,35 @@ export default {
       GenerateService.generateSequences(token, protein_id)
         .then(response => {
           this.protein = response.data;
+          this.display_sequence = this.protein.proteinSequence;
         })
         .catch(error => {
           console.log(error);
         })
     },
     moveToExport(sequenceColor) {
-      this.color = sequenceColor;
-      this.$store.commit("PASSPROTEIN", this.protein)
-      this.$router.push(`/export/${this.color}`, this.protein)
-    }
+      const page_id = this.$route.params.id;
+      this.$router.push({ name: 'export', params: { id: page_id} });
+    },
+    download() {
+      const link = document.createElement('a');
+      link.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(this.display_sequence);
+      link.download = this.protein.sequenceName + '.txt';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    },
+    copyToClipboard() {
+      const el = document.createElement('textarea');
+      el.value = this.display_sequence;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+    },
+    reset() {
+      this.display_sequence = this.protein.proteinSequence;
+    },
   },
   computed: {
   },

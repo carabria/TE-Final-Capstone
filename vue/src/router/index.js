@@ -153,11 +153,12 @@ const routes = [
     }
   },
   {
-    path: '/export/:color',
-    name: 'protein_export',
+    path: '/export/:id',
+    name: 'export',
     component: ProteinExportView,
+    props: true,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
     }
   }
 ];

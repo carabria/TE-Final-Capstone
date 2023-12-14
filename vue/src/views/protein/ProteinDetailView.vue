@@ -287,6 +287,7 @@ body {
 
 .p-sequence {
   margin: auto;
+  margin-top: 10px;
   grid-area: p-sequence;
   word-break: break-all;
   margin-left: 25px;

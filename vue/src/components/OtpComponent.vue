@@ -34,8 +34,8 @@
           <p>Username: {{ selected_user.username }}</p>
           <button @click="confirmUser">Confirm User</button>
           <button @click="cancelUserSelection">Cancel</button>
+          
         </div>
-
         <p v-show="one_time_password">One time password: {{ one_time_password }}</p>
         <button v-show="one_time_password" @click="clearOneTimePass">Clear</button>
 
@@ -144,6 +144,7 @@ export default {
 .hide {
   display: none;
 }
+
 
 .tr.selected {
   color: #4CAF50;

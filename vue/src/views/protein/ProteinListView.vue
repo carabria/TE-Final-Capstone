@@ -1,6 +1,5 @@
 <template>
   <div class="protein-list-view">
-
     <div class="table-container">
       <table class="p-table">
         <thead>

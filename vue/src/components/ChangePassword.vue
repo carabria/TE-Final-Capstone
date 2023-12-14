@@ -36,8 +36,6 @@ export default {
         alert("Passwords do not match");
         return;
       }
-      //Note(anderson): There is a logical error in the backend api that needs to be fixed this won't work
-      //Note(neil): works now? double check that bug please
       const login_data = {
         username: this.$store.state.user.username,
         password: this.password,

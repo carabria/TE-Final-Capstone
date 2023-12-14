@@ -165,4 +165,9 @@ export default {
   color: orange;
   width: 10vw;
 }
+button {
+  border-radius: 2.5vh;
+  background-color: aliceblue;
+  border-color: rgb(71,95,123);
+}
 </style>

@@ -1,29 +1,29 @@
 <template>
-    <div class="user-protein-list">
-      <h2>Your Proteins</h2>
-  
-      <div class="search">
-        <input type="text" v-model="search.name" placeholder="Search by name">
-        <table class="p-table">
-          <thead>
-            <tr id="header">
-              <th>Name</th>
-              <th>Note</th>
-            </tr>
-          </thead>
-          <tbody v-for="p in filteredProteins" :key="p.proteinId">
-            <tr>
-              <th>
-                <router-link :to="{ name: 'protein_detail', params: { id: p.proteinId } }"> {{ p.sequenceName }}</router-link>
-              </th>
-              <td clase="dec-column">{{ p.description }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-  
+  <h2>Your Proteins</h2>
+  <div class="protein-list-view">
+    <div class="table-container">
+      <table class="p-table">
+        <thead>
+          <tr id="header">
+            <th id="name">Name</th>
+            <th>Note</th>
+          </tr>
+        </thead>
+        <tbody v-for="(p, idx) in filteredProteins" :key="p.proteinId" :class="{'highlight': idx % 2 === 0}" >
+          <tr>
+            <th id="nameRows">
+              <router-link :to="{ name: 'protein_detail', params: { id: p.proteinId } }"> {{ p.sequenceName }}</router-link>
+            </th>
+            <td class="dec-column">{{ p.description }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-  </template>
+      <div class="search">
+      <input type="text" v-model="search.name" placeholder="Search by name">
+    </div>
+  </div>
+</template>
   
 <script>
 import UserService from '../services/UserService.js';
@@ -47,7 +47,7 @@ export default {
     this.loadProteins();
   },
 
-  methods:  {
+  methods: {
     loadProteins() {
       let username = this.$store.state.user;
       let token = this.$store.state.token;
@@ -84,42 +84,66 @@ export default {
 
 <style scoped>
 .protein-list-view {
-  display: flex;
-  align-items: center;
+  padding-top: 25px;
+  height: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70vw;
+  color: black;
+  border-radius: 2.5vh;
+  background-color: aliceblue;
+  border-color: black;
+  border-style: solid;
+  text-align: center;
+  grid-area: protein-list-view;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   justify-content: center;
-  height: 100vh;
-  margin: 0;
-
+  align-items: center;
+  grid-template-areas:
+    "table-container table-container"
+    "search search"
 }
 
 .search {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-}
-
-table {
-  border-collapse: collapse;
+  margin: auto;
+  margin-bottom: 10px;
+  /* Optional margin between search box and table */
   width: 100%;
-  border: 1px solid #ddd;
-  font-size: 18px;
-  color:black;
+  padding-bottom: 10px;
+  grid-area: search;
+  justify-content: center;
+  align-items: center;
+  transform: scale(1.5);
 }
 
-table th, table td {
-  text-align: left;
-  padding: 16px;
+.table-container {
+  display: flex;
+  grid-area: table-container;
+  padding-bottom: 2%;
+}
+
+
+.p-table {
+  border-collapse: collapse;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  border-radius: 2.5vw;
+  margin: auto;
+  color: black;
+  width: 100%;
+  font-size: 25px;
+}
+
+.highlight {
+  background-color: rgb(223, 222, 222);
 }
 
 tr#header {
-  background-color: black;
-  color: white;
+  border-bottom: 2px solid black;
 }
 
-tbody tr:nth-child(even) {
-  background-color: grey;
-}
-
-</style>
+th#name,
+th#nameRows {
+  border-right: 2px solid black;
+}</style>

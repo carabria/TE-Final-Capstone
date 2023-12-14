@@ -68,11 +68,10 @@
           <button @click="download">Download</button>
           <button @click="reset">Reset</button>
         </div>
-        
-            <div class="p-sequence">
-              <h2>Generated Sequence</h2>
-                <h2>{{ display_sequence }}</h2>
-    </div>
+          <div class="p-sequence">
+            <h2>Generated Sequence</h2>
+            <h2><a class="gen_display">{{ display_sequence }}</a></h2>
+          </div>
       </div>
     </div>
   </div>
@@ -229,7 +228,7 @@ export default {
 
   },
   computed:{
-  
+
   }
 
 }
@@ -477,5 +476,14 @@ span.speed-details {
 div.sequence1:hover span.speed-details, div.sequence2:hover span.speed-details, div.sequence3:hover span.speed-details {
   display: block;
   transform: scale(1);
+}
+
+.gen_display {
+  word-wrap: break-word;
+  white-space: pre-line;
+  text-align: left;
+  color: #000;
+  display: block;
+  font-size: 98%;
 }
 </style>

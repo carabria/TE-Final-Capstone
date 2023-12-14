@@ -9,7 +9,7 @@
       <h2>{{ protein.description }}</h2>
     </div>
     <div class="p-sequence">
-      <h2>{{ display_sequence }}</h2>
+      <h2>{{ original_sequence }}</h2>
     </div>
     <form class="p-generate" @submit.prevent="generateSequences()" v-show="protein.blueSequence[0] == ''">
       <button id="submit" type="submit">Generate Sequences</button>
@@ -27,6 +27,8 @@
               Very rapid cleaving (possible losses during wash steps)
             </span>
           </div>
+          <button @click="copy_blue">Copy Blue</button>
+          <button @click="download_blue">Download Blue</button>
         </div>
         <div class="green-div">
           <h3><a class="medium">Medium</a></h3>
@@ -36,6 +38,8 @@
               80-90% cleaved in 5 hours at room temperature
             </span>
           </div>
+          <button @click="copy_green">Copy Green</button>
+          <button @click="download_green">Download Green</button>
         </div>
         <div class="yellow-div">
           <h3><a class="slow">Slow</a></h3>
@@ -45,28 +49,26 @@
             </span>
             <h2 class="protein-display" v-on:click="change_display(protein)">{{ protein.substring(0, 6) }}...</h2>
           </div>
-          <div>
-            <label for="data-format">Data Format:</label>
-            <select v-model="format_type" id="data-format" name="data-format" @change="update_display_format">
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3" selected>3</option>
-            </select>
-
-            <button @click="download_blue">Download Blue</button>
-            <button @click="download_green">Download Green</button>
-            <button @click="download_yellow">Download Yellow</button>
-
-            <button @click="copy_blue">Copy Blue</button>
-            <button @click="copy_green">Copy Green</button>
-            <button @click="copy_yellow">Copy Yellow</button>
-
-
-            <button @click="copyToClipboard">Copy To Clipboard</button>
-            <button @click="download">Download</button>
-            <button @click="reset">Reset</button>
-          </div>
+          <button @click="copy_yellow">Copy Yellow</button>
+          <button @click="download_yellow">Download Yellow</button>
         </div>
+      </div>
+      <div id="singleSelect">
+        <div>
+          <label for="data-format">Data Format:</label>
+          <select v-model="format_type" id="data-format" name="data-format" @change="update_display_format">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3" selected>3</option>
+          </select>
+          <button @click="copyToClipboard">Copy To Clipboard</button>
+          <button @click="download">Download</button>
+          <button @click="reset">Reset</button>
+        </div>
+        
+            <div class="p-sequence">
+                <h2>{{ display_sequence }}</h2>
+    </div>
       </div>
     </div>
   </div>
@@ -91,6 +93,7 @@ export default {
       },
       color: "",
       display_sequence: "",
+      original_sequence:"",
       format_type: 1,
     };
   },
@@ -105,6 +108,7 @@ export default {
         .then(response => {
           this.protein = response.data;
           this.display_sequence = this.protein.proteinSequence;
+          this.original_sequence = this.protein.proteinSequence;
         })
         .catch(error => {
           console.log(error);
@@ -225,7 +229,9 @@ body {
   width: 100vw;
   margin: 0;
 }
-
+#singleSelect{
+  margin:auto;
+}
 .card {
   height: fit-content;
   margin-left: auto;
@@ -451,7 +457,7 @@ span.speed-details {
   height: auto;
   white-space: break-spaces;
   word-wrap: break-word;
-  top:51vh;
+  top:40vh;
 }
 
 div.sequence1:hover span.speed-details, div.sequence2:hover span.speed-details, div.sequence3:hover span.speed-details {

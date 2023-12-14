@@ -142,15 +142,15 @@ export default {
 
 .middle {
   margin:auto;
-  width: 100%;
-  display: flex;
+  width: 80vw;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
 }
 
 .log {
   text-decoration: none;
-  margin-right: auto;
+  width: 10vw;
 }
 
 .log:hover {
@@ -163,6 +163,6 @@ export default {
 #adminNavBtn,
 #adminNav .dropdown-content a {
   color: orange;
-  margin-left: auto;
+  width: 10vw;
 }
 </style>

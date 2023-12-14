@@ -9,6 +9,7 @@
       <h2>{{ protein.description }}</h2>
     </div>
     <div class="p-sequence">
+      <h2>Original Sequence</h2>
       <h2>{{ original_sequence }}</h2>
     </div>
     <form class="p-generate" @submit.prevent="generateSequences()" v-show="protein.blueSequence[0] == ''">
@@ -68,7 +69,8 @@
           <button @click="reset">Reset</button>
         </div>
         
-            <div class="p-sequence" v-if="display_sequence != original_sequence">
+            <div class="p-sequence">
+              <h2>Generated Sequence</h2>
                 <h2>{{ display_sequence }}</h2>
     </div>
       </div>
@@ -223,28 +225,11 @@ export default {
       this.timer = setTimeout(() => {
         this.show_copy = false;
       }, 1500);
-    }
+    },
+
   },
   computed:{
-    displaySeq(){
-      let result = false
-    this.protein.blueSequence.forEach(element => {
-        if(element == this.original_sequence){
-          result = true;
-        } 
-      });
-      
-    this.protein.greenSequence.forEach(element => {
-        if(element == this.original_sequence){
-          result = true;
-        } });
-         
-    this.protein.yellowSequence.forEach(element => {
-        if(element == this.original_sequence){
-          result = true;
-        } });
-      return result;
-    },
+  
   }
 
 }
